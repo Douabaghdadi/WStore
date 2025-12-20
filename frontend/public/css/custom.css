@@ -1,0 +1,35 @@
+:root {
+  --bs-primary: #81c408 !important;
+  --bs-secondary: #ffb524 !important;
+  --bs-primary-rgb: 129, 196, 8 !important;
+  --bs-secondary-rgb: 255, 181, 36 !important;
+}
+
+.bg-primary {
+  background-color: #81c408 !important;
+}
+
+.text-primary {
+  color: #81c408 !important;
+}
+
+.btn-primary {
+  background-color: #81c408 !important;
+  border-color: #81c408 !important;
+}
+
+.bg-secondary {
+  background-color: #ffb524 !important;
+}
+
+.text-secondary {
+  color: #ffb524 !important;
+}
+
+.border-secondary {
+  border-color: #ffb524 !important;
+}
+
+.topbar {
+  background-color: #81c408 !important;
+}
