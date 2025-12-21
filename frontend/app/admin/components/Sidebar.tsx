@@ -16,20 +16,7 @@ export default function Sidebar() {
 
   return (
     <nav className="sidebar sidebar-offcanvas" id="sidebar" style={{zIndex: 1000}}>
-      <ul className="nav">
-        <li className="nav-item nav-profile">
-          <a href="#" className="nav-link">
-            <div className="nav-profile-image">
-              <img src="/admin/images/faces/face1.jpg" alt="profile" />
-              <span className="login-status online"></span>
-            </div>
-            <div className="nav-profile-text d-flex flex-column">
-              <span className="font-weight-bold mb-2">{user?.name || 'Utilisateur'}</span>
-              <span className="text-secondary text-small">{user?.role === 'admin' ? 'Administrateur' : 'Client'}</span>
-            </div>
-            <i className="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
-          </a>
-        </li>
+      <ul className="nav" style={{marginTop: '30px'}}>
         <li className={`nav-item ${pathname === '/admin' ? 'active' : ''}`}>
           <Link className="nav-link" href="/admin">
             <span className="menu-title">Dashboard</span>
@@ -58,6 +45,12 @@ export default function Sidebar() {
           <Link className="nav-link" href="/admin/subcategories">
             <span className="menu-title">Sous-catégories</span>
             <i className="mdi mdi-tag-multiple menu-icon"></i>
+          </Link>
+        </li>
+        <li className={`nav-item ${pathname.startsWith('/admin/brands') ? 'active' : ''}`}>
+          <Link className="nav-link" href="/admin/brands">
+            <span className="menu-title">Marques</span>
+            <i className="mdi mdi-certificate menu-icon"></i>
           </Link>
         </li>
       </ul>

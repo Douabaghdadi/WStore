@@ -8,12 +8,14 @@ import Link from "next/link";
 export default function NewProductPage() {
   const router = useRouter();
   const [subcategories, setSubcategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
     stock: "",
     subcategory: "",
+    brand: "",
     image: ""
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -23,6 +25,9 @@ export default function NewProductPage() {
     fetch("http://localhost:5000/api/subcategories")
       .then(r => r.json())
       .then(data => setSubcategories(data));
+    fetch("http://localhost:5000/api/brands")
+      .then(r => r.json())
+      .then(data => setBrands(data));
   }, []);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +50,7 @@ export default function NewProductPage() {
     formDataToSend.append("price", formData.price);
     formDataToSend.append("stock", formData.stock);
     formDataToSend.append("subcategory", formData.subcategory);
+    if (formData.brand) formDataToSend.append("brand", formData.brand);
     if (imageFile) {
       formDataToSend.append("image", imageFile);
     }
@@ -91,6 +97,15 @@ export default function NewProductPage() {
                           <option value="">Sélectionner une sous-catégorie</option>
                           {subcategories.map((sub: any) => (
                             <option key={sub._id} value={sub._id}>{sub.category?.name} - {sub.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label>Marque</label>
+                        <select className="form-control" value={formData.brand} onChange={e => setFormData({...formData, brand: e.target.value})}>
+                          <option value="">Sélectionner une marque (optionnel)</option>
+                          {brands.map((brand: any) => (
+                            <option key={brand._id} value={brand._id}>{brand.name}</option>
                           ))}
                         </select>
                       </div>

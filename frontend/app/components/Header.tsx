@@ -6,12 +6,25 @@ import { useEffect, useState } from 'react';
 export default function Header() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [subcategories, setSubcategories] = useState<any[]>([]);
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (userData && userData !== 'undefined') {
       setUser(JSON.parse(userData));
     }
+    
+    fetch('http://localhost:5000/api/categories')
+      .then(res => res.json())
+      .then(data => setCategories(data))
+      .catch(err => console.error('Erreur chargement catégories:', err));
+
+    fetch('http://localhost:5000/api/subcategories')
+      .then(res => res.json())
+      .then(data => setSubcategories(data))
+      .catch(err => console.error('Erreur chargement sous-catégories:', err));
   }, []);
 
   const handleLogout = () => {
@@ -79,10 +92,75 @@ export default function Header() {
       </div>
       <div className="container-fluid bg-light py-3">
         <div className="container">
-          <div className="d-flex justify-content-start align-items-center" style={{flexWrap: 'nowrap', overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none'}}>
-            {['BÉBÉ & MAMAN', 'CAPILLAIRE', 'COMPLÉMENTS ALIMENTAIRES', 'CORPS', 'ECRAN SOLAIRE', 'HYGIÈNE', 'BIO & NATUREL', 'VISAGE', 'YEUX', 'VENTE FLASH'].map(cat => (
-              <a key={cat} href="#" className="nav-link px-3 py-2" style={{color: '#666', fontSize: '14px', fontWeight: '400', whiteSpace: 'nowrap'}}>{cat} <i className="fas fa-chevron-down ms-1" style={{fontSize: '10px'}}></i></a>
-            ))}
+          <div style={{display: 'flex', gap: '0'}}>
+            {categories.map(cat => {
+              const catSubcategories = subcategories.filter(sub => sub.category?._id === cat._id);
+              return (
+                <div 
+                  key={cat._id}
+                  style={{position: 'relative'}}
+                  onMouseEnter={() => setHoveredCategory(cat._id)}
+                  onMouseLeave={() => setHoveredCategory(null)}
+                >
+                  <a 
+                    href="#" 
+                    style={{
+                      display: 'block',
+                      padding: '8px 12px',
+                      color: '#666',
+                      fontSize: '14px',
+                      textDecoration: 'none',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {cat.name} {catSubcategories.length > 0 && <i className="fas fa-chevron-down ms-1" style={{fontSize: '10px'}}></i>}
+                  </a>
+                  {hoveredCategory === cat._id && catSubcategories.length > 0 && (
+                    <div 
+                      style={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: '0',
+                        minWidth: '220px',
+                        backgroundColor: 'white',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '4px',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                        zIndex: 99999,
+                        padding: '8px 0'
+                      }}
+                      onMouseEnter={() => setHoveredCategory(cat._id)}
+                      onMouseLeave={() => setHoveredCategory(null)}
+                    >
+                      {catSubcategories.map(sub => (
+                        <a
+                          key={sub._id}
+                          href="#"
+                          style={{
+                            display: 'block',
+                            padding: '8px 16px',
+                            color: '#666',
+                            fontSize: '13px',
+                            textDecoration: 'none',
+                            transition: 'all 0.2s'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#f8f9fa';
+                            e.currentTarget.style.color = '#81c408';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                            e.currentTarget.style.color = '#666';
+                          }}
+                        >
+                          {sub.name}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ const path = require('path');
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const subcategoryRoutes = require('./routes/subcategoryRoutes');
+const brandRoutes = require('./routes/brandRoutes');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 require('dotenv').config();
@@ -28,6 +29,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/subcategories', subcategoryRoutes);
+app.use('/api/brands', brandRoutes);
 
 // Lancer le serveur
 app.listen(PORT, () => {

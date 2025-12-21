@@ -48,7 +48,7 @@ export default function Navbar() {
           <li className="nav-item nav-profile dropdown">
             <a className="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
               <div className="nav-profile-img">
-                <img src="/admin/images/faces/face1.jpg" alt="image" />
+                <img src={user?.photo ? `http://localhost:5000${user.photo}` : "/admin/images/faces/face1.jpg"} alt="image" />
                 <span className="availability-status online"></span>
               </div>
               <div className="nav-profile-text">
@@ -56,9 +56,9 @@ export default function Navbar() {
               </div>
             </a>
             <div className="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-              <a className="dropdown-item" href="#">
+              <Link className="dropdown-item" href="/admin/profile">
                 <i className="mdi mdi-account me-2 text-success"></i> Profile
-              </a>
+              </Link>
               <div className="dropdown-divider"></div>
               <a className="dropdown-item" onClick={handleLogout} style={{ cursor: "pointer" }}>
                 <i className="mdi mdi-logout me-2 text-primary"></i> Déconnexion

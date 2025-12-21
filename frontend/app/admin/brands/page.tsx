@@ -4,36 +4,36 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Link from "next/link";
 
-export default function CategoriesPage() {
-  const [categories, setCategories] = useState([]);
+export default function BrandsPage() {
+  const [brands, setBrands] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [search, setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   useEffect(() => {
-    fetchCategories();
+    fetchBrands();
   }, []);
 
-  const fetchCategories = () => {
-    fetch("http://localhost:5000/api/categories")
+  const fetchBrands = () => {
+    fetch("http://localhost:5000/api/brands")
       .then(r => r.json())
-      .then(data => setCategories(data));
+      .then(data => setBrands(data));
   };
 
-  const filtered = categories.filter((cat: any) => {
-    return cat.name.toLowerCase().includes(search.toLowerCase()) ||
-      cat.description?.toLowerCase().includes(search.toLowerCase());
+  const filtered = brands.filter((brand: any) => {
+    return brand.name.toLowerCase().includes(search.toLowerCase()) ||
+      brand.description?.toLowerCase().includes(search.toLowerCase());
+  }).sort((a: any, b: any) => {
+    return sortOrder === "asc" 
+      ? a.name.localeCompare(b.name)
+      : b.name.localeCompare(a.name);
   });
 
-  const resetFilters = () => {
-    setSearch("");
-    setCurrentPage(1);
-  };
-
-  const deleteCategory = async (id: string) => {
-    if (confirm("Voulez-vous vraiment supprimer cette catégorie ?")) {
-      await fetch(`http://localhost:5000/api/categories/${id}`, { method: "DELETE" });
-      fetchCategories();
+  const deleteBrand = async (id: string) => {
+    if (confirm("Voulez-vous vraiment supprimer cette marque ?")) {
+      await fetch(`http://localhost:5000/api/brands/${id}`, { method: "DELETE" });
+      fetchBrands();
     }
   };
 
@@ -45,11 +45,11 @@ export default function CategoriesPage() {
         <div className="main-panel">
           <div className="content-wrapper">
             <div className="page-header">
-              <h3 className="page-title">Catégories</h3>
+              <h3 className="page-title">Marques</h3>
               <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item"><Link href="/admin">Dashboard</Link></li>
-                  <li className="breadcrumb-item active" aria-current="page">Catégories</li>
+                  <li className="breadcrumb-item active" aria-current="page">Marques</li>
                 </ol>
               </nav>
             </div>
@@ -58,19 +58,41 @@ export default function CategoriesPage() {
                 <div className="card">
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h4 className="card-title">Liste des catégories</h4>
-                      <Link href="/admin/categories/new" className="btn btn-primary btn-sm">
-                        <i className="mdi mdi-plus"></i> Ajouter une catégorie
+                      <h4 className="card-title">Liste des marques</h4>
+                      <Link href="/admin/brands/new" className="btn btn-primary btn-sm">
+                        <i className="mdi mdi-plus"></i> Ajouter une marque
                       </Link>
                     </div>
                     <div className="mb-3">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Rechercher par nom ou description..."
-                        value={search}
-                        onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
-                      />
+                      <div className="d-flex gap-2 align-items-center">
+                        <div style={{ flex: 1 }}>
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Rechercher par nom ou description..."
+                            value={search}
+                            onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
+                          />
+                        </div>
+                        <div className="btn-group" role="group">
+                          <button
+                            type="button"
+                            className={`btn ${sortOrder === "asc" ? "btn-primary" : "btn-outline-primary"}`}
+                            onClick={() => setSortOrder("asc")}
+                            title="Trier de A à Z"
+                          >
+                            <i className="mdi mdi-sort-alphabetical-ascending"></i> A-Z
+                          </button>
+                          <button
+                            type="button"
+                            className={`btn ${sortOrder === "desc" ? "btn-primary" : "btn-outline-primary"}`}
+                            onClick={() => setSortOrder("desc")}
+                            title="Trier de Z à A"
+                          >
+                            <i className="mdi mdi-sort-alphabetical-descending"></i> Z-A
+                          </button>
+                        </div>
+                      </div>
                     </div>
                     <div className="table-responsive">
                       <table className="table table-hover">
@@ -82,22 +104,22 @@ export default function CategoriesPage() {
                           </tr>
                         </thead>
                         <tbody>
-                          {filtered.length > 0 ? filtered.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((category: any) => (
-                            <tr key={category._id}>
-                              <td>{category.name}</td>
-                              <td>{category.description}</td>
+                          {filtered.length > 0 ? filtered.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((brand: any) => (
+                            <tr key={brand._id}>
+                              <td>{brand.name}</td>
+                              <td>{brand.description}</td>
                               <td>
-                                <Link href={`/admin/categories/${category._id}`} className="btn btn-sm btn-warning me-2">
+                                <Link href={`/admin/brands/${brand._id}`} className="btn btn-sm btn-warning me-2">
                                   <i className="mdi mdi-pencil"></i>
                                 </Link>
-                                <button onClick={() => deleteCategory(category._id)} className="btn btn-sm btn-danger">
+                                <button onClick={() => deleteBrand(brand._id)} className="btn btn-sm btn-danger">
                                   <i className="mdi mdi-delete"></i>
                                 </button>
                               </td>
                             </tr>
                           )) : (
                             <tr>
-                              <td colSpan={3} className="text-center">Aucune catégorie</td>
+                              <td colSpan={3} className="text-center">Aucune marque</td>
                             </tr>
                           )}
                         </tbody>

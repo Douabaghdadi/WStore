@@ -49,8 +49,14 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const { name, email, role } = req.body;
-    await User.findByIdAndUpdate(req.params.id, { name, email, role });
-    res.json({ message: 'Utilisateur modifié' });
+    const updateData = { name, email, role };
+    
+    if (req.file) {
+      updateData.photo = `/uploads/users/${req.file.filename}`;
+    }
+    
+    const user = await User.findByIdAndUpdate(req.params.id, updateData, { new: true }).select('-password');
+    res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

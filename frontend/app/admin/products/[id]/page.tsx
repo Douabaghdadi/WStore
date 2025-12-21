@@ -9,12 +9,14 @@ export default function EditProductPage() {
   const router = useRouter();
   const params = useParams();
   const [subcategories, setSubcategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
     stock: "",
     subcategory: "",
+    brand: "",
     image: ""
   });
 
@@ -22,6 +24,9 @@ export default function EditProductPage() {
     fetch("http://localhost:5000/api/subcategories")
       .then(r => r.json())
       .then(data => setSubcategories(data));
+    fetch("http://localhost:5000/api/brands")
+      .then(r => r.json())
+      .then(data => setBrands(data));
 
     fetch(`http://localhost:5000/api/products/${params.id}`)
       .then(r => r.json())
@@ -31,6 +36,7 @@ export default function EditProductPage() {
         price: data.price,
         stock: data.stock,
         subcategory: data.subcategory?._id || "",
+        brand: data.brand?._id || "",
         image: data.image
       }));
   }, [params.id]);
@@ -81,6 +87,15 @@ export default function EditProductPage() {
                           <option value="">Sélectionner une sous-catégorie</option>
                           {subcategories.map((sub: any) => (
                             <option key={sub._id} value={sub._id}>{sub.category?.name} - {sub.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label>Marque</label>
+                        <select className="form-control" value={formData.brand} onChange={e => setFormData({...formData, brand: e.target.value})}>
+                          <option value="">Sélectionner une marque (optionnel)</option>
+                          {brands.map((brand: any) => (
+                            <option key={brand._id} value={brand._id}>{brand.name}</option>
                           ))}
                         </select>
                       </div>
