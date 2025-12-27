@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { fetchProducts } from '../../lib/api';
 
 interface Product {
-  id: number;
+  _id: string;
   name: string;
   price: number;
 }
@@ -141,12 +141,12 @@ export default function Home() {
                   <div className="col-lg-12">
                     {loading ? (
                       <div className="text-center">
-                        <div className="spinner-grow text-primary" role="status"></div>
+                        <div className="spinner-grow text-primary" role="status" key="loading-spinner"></div>
                       </div>
                     ) : (
                       <div className="row g-4">
-                        {products.map(product => (
-                          <div key={product.id} className="col-md-6 col-lg-4 col-xl-3">
+                        {products.map((product, index) => (
+                          <div key={product._id || `product-${index}`} className="col-md-6 col-lg-4 col-xl-3">
                             <div className="rounded position-relative fruite-item">
                               <div className="fruite-img">
                                 <img src="/img/fruite-item-5.jpg" className="img-fluid w-100 rounded-top" alt="" />

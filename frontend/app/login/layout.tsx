@@ -1,7 +1,13 @@
+"use client";
 import Header from "../components/Header";
 import Script from "next/script";
+import { CartProvider } from "../context/CartContext";
+import CartSidebar from "../components/CartSidebar";
+import { useCart } from "../context/CartContext";
 
-export default function LoginLayout({ children }: { children: React.ReactNode }) {
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  const { showCartSidebar, setShowCartSidebar } = useCart();
+  
   return (
     <>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -11,8 +17,17 @@ export default function LoginLayout({ children }: { children: React.ReactNode })
       <link rel="stylesheet" href="/css/custom.css" />
       <Header />
       {children}
+      <CartSidebar isOpen={showCartSidebar} onClose={() => setShowCartSidebar(false)} />
       <Script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" />
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" />
     </>
+  );
+}
+
+export default function LoginLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <CartProvider>
+      <LayoutContent>{children}</LayoutContent>
+    </CartProvider>
   );
 }

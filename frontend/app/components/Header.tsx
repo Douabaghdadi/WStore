@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useCart } from '../context/CartContext';
 
 export default function Header() {
   const router = useRouter();
@@ -9,6 +10,7 @@ export default function Header() {
   const [categories, setCategories] = useState<any[]>([]);
   const [subcategories, setSubcategories] = useState<any[]>([]);
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+  const { getCartCount } = useCart();
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
@@ -64,10 +66,12 @@ export default function Header() {
               <button className="btn-search btn btn-md-square rounded-circle me-4" style={{border: '2px solid #ffb524', backgroundColor: 'white'}}>
                 <i className="fas fa-search" style={{color: '#81c408'}}></i>
               </button>
-              <a href="#" className="position-relative me-4 my-auto">
+              <Link href="/cart" className="position-relative me-4 my-auto">
                 <i className="fa fa-shopping-bag fa-2x" style={{color: '#81c408'}}></i>
-                <span className="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style={{top: '-5px', left: '15px', height: '20px', minWidth: '20px'}}>3</span>
-              </a>
+                {getCartCount() > 0 && (
+                  <span className="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style={{top: '-5px', left: '15px', height: '20px', minWidth: '20px'}}>{getCartCount()}</span>
+                )}
+              </Link>
               {user ? (
                 <div className="dropdown">
                   <a href="#" className="my-auto dropdown-toggle" data-bs-toggle="dropdown" style={{textDecoration: 'none'}}>

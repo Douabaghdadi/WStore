@@ -1,9 +1,15 @@
+"use client";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Script from "next/script";
 import "../globals.css";
+import { CartProvider } from "../context/CartContext";
+import CartSidebar from "../components/CartSidebar";
+import { useCart } from "../context/CartContext";
 
-export default function PublicLayout({ children }: { children: React.ReactNode }) {
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  const { showCartSidebar, setShowCartSidebar } = useCart();
+  
   return (
     <>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -14,8 +20,17 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <Header />
       <main>{children}</main>
       <Footer />
+      <CartSidebar isOpen={showCartSidebar} onClose={() => setShowCartSidebar(false)} />
       <Script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" />
       <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" />
     </>
+  );
+}
+
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <CartProvider>
+      <LayoutContent>{children}</LayoutContent>
+    </CartProvider>
   );
 }

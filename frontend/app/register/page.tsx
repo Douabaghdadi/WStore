@@ -1,11 +1,36 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Header from "../components/Header";
+import dynamic from "next/dynamic";
+
+const FacebookLogin = dynamic(() => import("../components/FacebookLogin"), {
+  ssr: false,
+  loading: () => (
+    <button
+      disabled
+      style={{
+        width: "100%",
+        padding: "15px",
+        backgroundColor: "#ccc",
+        color: "white",
+        border: "none",
+        borderRadius: "8px",
+        fontSize: "16px",
+        fontWeight: "600",
+        cursor: "not-allowed",
+        marginBottom: "15px"
+      }}
+    >
+      Chargement...
+    </button>
+  )
+});
 
 export default function RegisterPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,6 +38,34 @@ export default function RegisterPage() {
     confirmPassword: ""
   });
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    // Vérifier si on revient de Facebook avec un code
+    const code = searchParams.get('code');
+    if (code) {
+      handleFacebookCallback(code);
+    }
+  }, [searchParams]);
+
+  const handleFacebookCallback = async (code: string) => {
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/facebook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        router.push(data.user.role === 'admin' ? '/admin' : '/');
+      } else {
+        setError(data.error);
+      }
+    } catch (err) {
+      setError("Erreur de connexion Facebook");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,6 +112,14 @@ export default function RegisterPage() {
             <div style={{ flex: 1, minWidth: "300px" }}>
               <h2 style={{ fontSize: "36px", fontWeight: "bold", marginBottom: "40px", color: "#333" }}>Inscription</h2>
               {error && <div style={{ padding: "10px", backgroundColor: "#fee", color: "#c33", borderRadius: "5px", marginBottom: "20px" }}>{error}</div>}
+              
+              <FacebookLogin 
+                onSuccess={() => {}}
+                onError={() => {}}
+              />
+              
+              <div style={{ textAlign: "center", margin: "20px 0", color: "#666" }}>ou</div>
+              
               <form onSubmit={handleSubmit}>
                 <div style={{ marginBottom: "20px" }}>
                   <div style={{ position: "relative" }}>
