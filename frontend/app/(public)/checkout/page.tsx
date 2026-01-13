@@ -19,10 +19,8 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
-    // Vérifier l'authentification au chargement
     const token = localStorage.getItem('token');
     if (!token) {
-      // Sauvegarder l'URL actuelle pour rediriger après connexion
       localStorage.setItem('redirectAfterLogin', '/checkout');
       router.push('/login');
       return;
@@ -31,7 +29,6 @@ export default function CheckoutPage() {
   }, [router]);
 
   useEffect(() => {
-    // Rediriger vers le panier si vide
     if (cart.length === 0 && !loading && isAuthenticated) {
       router.push('/cart');
     }
@@ -55,7 +52,7 @@ export default function CheckoutPage() {
           quantity: item.quantity,
           price: item.discount > 0 ? item.price * (1 - item.discount / 100) : item.price
         })),
-        totalAmount: getCartTotal() + 7,
+        totalAmount: getCartTotal() + (getCartTotal() >= 200 ? 0 : 7),
         shippingAddress: formData,
         paymentMethod: formData.paymentMethod
       };
@@ -71,6 +68,33 @@ export default function CheckoutPage() {
 
       if (res.ok) {
         const order = await res.json();
+        
+        // Si paiement par carte, initier Paymee
+        if (formData.paymentMethod === 'card') {
+          const paymentRes = await fetch('http://localhost:5000/api/payments/initiate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ orderId: order._id })
+          });
+
+          const paymentData = await paymentRes.json();
+
+          if (paymentData.success && paymentData.paymentUrl) {
+            clearCart();
+            // Rediriger vers Paymee
+            window.location.href = paymentData.paymentUrl;
+            return;
+          } else {
+            setError(paymentData.error || 'Erreur lors de l\'initialisation du paiement');
+            setLoading(false);
+            return;
+          }
+        }
+
+        // Paiement à la livraison
         const orderRef = order._id.slice(-8).toUpperCase();
         clearCart();
         setTimeout(() => {
@@ -96,93 +120,93 @@ export default function CheckoutPage() {
     <div style={{marginTop: '160px', backgroundColor: '#fafbfc', minHeight: '100vh', paddingBottom: '80px'}}>
       <div className="container py-5">
         <div style={{textAlign: 'center', marginBottom: '50px'}}>
-          <div style={{display: 'inline-block', padding: '8px 20px', backgroundColor: '#e8f5e9', borderRadius: '20px', marginBottom: '20px'}}>
-            <span style={{fontSize: '13px', fontWeight: '600', color: '#66BB6A', letterSpacing: '0.5px'}}>ÉTAPE FINALE</span>
+          <div style={{width: '50px', height: '50px', borderRadius: '12px', background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px', boxShadow: '0 4px 15px rgba(197,48,48,0.3)'}}>
+            <i className="fas fa-credit-card" style={{color: 'white', fontSize: '22px'}}></i>
           </div>
-          <h1 style={{fontSize: '48px', fontWeight: '800', color: '#1a1a1a', marginBottom: '12px', letterSpacing: '-0.5px'}}>Finaliser votre commande</h1>
-          <p style={{color: '#6b7280', fontSize: '17px', maxWidth: '600px', margin: '0 auto 40px'}}>Complétez vos informations de livraison pour recevoir vos produits en toute sécurité</p>
+          <h1 style={{fontSize: '32px', fontWeight: '700', color: '#1a365d', marginBottom: '10px'}}>Finaliser votre commande</h1>
+          <p style={{color: '#6b7280', fontSize: '15px', maxWidth: '500px', margin: '0 auto 30px'}}>Complétez vos informations de livraison</p>
           
-          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0', maxWidth: '700px', margin: '0 auto'}}>
-            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <div style={{width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(129,199,132,0.3)'}}>
-                <i className="fa fa-shopping-cart" style={{color: 'white', fontSize: '18px'}}></i>
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0', maxWidth: '600px', margin: '0 auto'}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+              <div style={{width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg, #1a365d 0%, #2c5282 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 10px rgba(26,54,93,0.3)'}}>
+                <i className="fas fa-shopping-cart" style={{color: 'white', fontSize: '14px'}}></i>
               </div>
-              <span style={{fontSize: '14px', fontWeight: '600', color: '#1a1a1a'}}>Panier</span>
+              <span style={{fontSize: '13px', fontWeight: '600', color: '#1a365d'}}>Panier</span>
             </div>
-            <div style={{width: '80px', height: '2px', background: 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)', margin: '0 8px'}}></div>
-            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <div style={{width: '44px', height: '44px', borderRadius: '50%', background: 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(129,199,132,0.3)'}}>
-                <i className="fa fa-shipping-fast" style={{color: 'white', fontSize: '18px'}}></i>
+            <div style={{width: '60px', height: '2px', background: 'linear-gradient(135deg, #1a365d 0%, #2c5282 100%)', margin: '0 8px'}}></div>
+            <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+              <div style={{width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 10px rgba(197,48,48,0.3)'}}>
+                <i className="fas fa-shipping-fast" style={{color: 'white', fontSize: '14px'}}></i>
               </div>
-              <span style={{fontSize: '14px', fontWeight: '600', color: '#1a1a1a'}}>Livraison</span>
+              <span style={{fontSize: '13px', fontWeight: '600', color: '#c53030'}}>Livraison</span>
             </div>
-            <div style={{width: '80px', height: '2px', backgroundColor: '#e5e7eb', margin: '0 8px'}}></div>
-            <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-              <div style={{width: '44px', height: '44px', borderRadius: '50%', backgroundColor: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #e5e7eb'}}>
-                <i className="fa fa-check-circle" style={{color: '#9ca3af', fontSize: '18px'}}></i>
+            <div style={{width: '60px', height: '2px', backgroundColor: '#e5e7eb', margin: '0 8px'}}></div>
+            <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+              <div style={{width: '38px', height: '38px', borderRadius: '50%', backgroundColor: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #e5e7eb'}}>
+                <i className="fas fa-check-circle" style={{color: '#9ca3af', fontSize: '14px'}}></i>
               </div>
-              <span style={{fontSize: '14px', fontWeight: '600', color: '#9ca3af'}}>Confirmation</span>
+              <span style={{fontSize: '13px', fontWeight: '600', color: '#9ca3af'}}>Confirmation</span>
             </div>
           </div>
         </div>
         
         {error && (
-          <div style={{maxWidth: '800px', margin: '0 auto 30px', padding: '16px 20px', backgroundColor: '#fff5f5', color: '#dc2626', borderRadius: '12px', border: '1px solid #fee2e2', display: 'flex', alignItems: 'center', gap: '12px'}}>
-            <i className="fa fa-exclamation-circle" style={{fontSize: '18px'}}></i>
+          <div style={{maxWidth: '800px', margin: '0 auto 30px', padding: '14px 18px', backgroundColor: '#fff5f5', color: '#c53030', borderRadius: '10px', border: '1px solid #fed7d7', display: 'flex', alignItems: 'center', gap: '10px'}}>
+            <i className="fas fa-exclamation-circle" style={{fontSize: '16px'}}></i>
             <span>{error}</span>
           </div>
         )}
 
         <div className="row g-4">
           <div className="col-lg-7">
-            <div style={{backgroundColor: 'white', borderRadius: '20px', padding: '40px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #e5e7eb'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '35px'}}>
-                <div style={{width: '40px', height: '40px', borderRadius: '10px', background: 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                  <i className="fa fa-shipping-fast" style={{color: 'white', fontSize: '18px'}}></i>
+            <div style={{backgroundColor: 'white', borderRadius: '16px', padding: '30px', boxShadow: '0 2px 15px rgba(0,0,0,0.04)', border: '1px solid #e5e7eb'}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '25px'}}>
+                <div style={{width: '36px', height: '36px', borderRadius: '8px', background: 'linear-gradient(135deg, #1a365d 0%, #2c5282 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <i className="fas fa-shipping-fast" style={{color: 'white', fontSize: '16px'}}></i>
                 </div>
-                <h3 style={{fontSize: '24px', fontWeight: '700', color: '#1a1a1a', margin: 0}}>Informations de livraison</h3>
+                <h3 style={{fontSize: '20px', fontWeight: '700', color: '#1a365d', margin: 0}}>Informations de livraison</h3>
               </div>
               <form onSubmit={handleSubmit}>
-                <div style={{marginBottom: '24px'}}>
-                  <label style={{display: 'block', marginBottom: '10px', fontWeight: '600', color: '#374151', fontSize: '14px', letterSpacing: '0.2px'}}>Nom complet *</label>
-                  <input type="text" required value={formData.fullName} onChange={(e) => setFormData({...formData, fullName: e.target.value})} placeholder="Entrez votre nom complet" style={{width: '100%', padding: '14px 18px', border: '1.5px solid #e5e7eb', borderRadius: '12px', fontSize: '15px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#81C784'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
+                <div style={{marginBottom: '20px'}}>
+                  <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Nom complet *</label>
+                  <input type="text" required value={formData.fullName} onChange={(e) => setFormData({...formData, fullName: e.target.value})} placeholder="Entrez votre nom complet" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#1a365d'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
                 </div>
-                <div style={{marginBottom: '24px'}}>
-                  <label style={{display: 'block', marginBottom: '10px', fontWeight: '600', color: '#374151', fontSize: '14px', letterSpacing: '0.2px'}}>Téléphone *</label>
-                  <input type="tel" required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="+216 XX XXX XXX" style={{width: '100%', padding: '14px 18px', border: '1.5px solid #e5e7eb', borderRadius: '12px', fontSize: '15px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#81C784'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
+                <div style={{marginBottom: '20px'}}>
+                  <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Téléphone *</label>
+                  <input type="tel" required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="+216 XX XXX XXX" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#1a365d'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
                 </div>
-                <div style={{marginBottom: '24px'}}>
-                  <label style={{display: 'block', marginBottom: '10px', fontWeight: '600', color: '#374151', fontSize: '14px', letterSpacing: '0.2px'}}>Adresse complète *</label>
-                  <input type="text" required value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} placeholder="Rue, numéro, bâtiment..." style={{width: '100%', padding: '14px 18px', border: '1.5px solid #e5e7eb', borderRadius: '12px', fontSize: '15px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#81C784'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
+                <div style={{marginBottom: '20px'}}>
+                  <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Adresse complète *</label>
+                  <input type="text" required value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} placeholder="Rue, numéro, bâtiment..." style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#1a365d'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
                 </div>
-                <div className="row g-3" style={{marginBottom: '24px'}}>
+                <div className="row g-3" style={{marginBottom: '20px'}}>
                   <div className="col-md-6">
-                    <label style={{display: 'block', marginBottom: '10px', fontWeight: '600', color: '#374151', fontSize: '14px', letterSpacing: '0.2px'}}>Ville *</label>
-                    <input type="text" required value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} placeholder="Tunis" style={{width: '100%', padding: '14px 18px', border: '1.5px solid #e5e7eb', borderRadius: '12px', fontSize: '15px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#81C784'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
+                    <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Ville *</label>
+                    <input type="text" required value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} placeholder="Tunis" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#1a365d'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
                   </div>
                   <div className="col-md-6">
-                    <label style={{display: 'block', marginBottom: '10px', fontWeight: '600', color: '#374151', fontSize: '14px', letterSpacing: '0.2px'}}>Code postal *</label>
-                    <input type="text" required value={formData.postalCode} onChange={(e) => setFormData({...formData, postalCode: e.target.value})} placeholder="1000" style={{width: '100%', padding: '14px 18px', border: '1.5px solid #e5e7eb', borderRadius: '12px', fontSize: '15px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#81C784'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
+                    <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Code postal *</label>
+                    <input type="text" required value={formData.postalCode} onChange={(e) => setFormData({...formData, postalCode: e.target.value})} placeholder="1000" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#1a365d'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
                   </div>
                 </div>
-                <div style={{marginBottom: '32px'}}>
-                  <label style={{display: 'block', marginBottom: '10px', fontWeight: '600', color: '#374151', fontSize: '14px', letterSpacing: '0.2px'}}>Mode de paiement *</label>
+                <div style={{marginBottom: '25px'}}>
+                  <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Mode de paiement *</label>
                   <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px'}}>
-                    <div onClick={() => setFormData({...formData, paymentMethod: 'cash'})} style={{padding: '16px', border: formData.paymentMethod === 'cash' ? '2px solid #81C784' : '1.5px solid #e5e7eb', borderRadius: '12px', cursor: 'pointer', transition: 'all 0.2s', backgroundColor: formData.paymentMethod === 'cash' ? '#f0f9f4' : 'white'}}>
+                    <div onClick={() => setFormData({...formData, paymentMethod: 'cash'})} style={{padding: '14px', border: formData.paymentMethod === 'cash' ? '2px solid #1a365d' : '1.5px solid #e5e7eb', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.2s', backgroundColor: formData.paymentMethod === 'cash' ? '#eef2f7' : 'white'}}>
                       <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                        <i className="fa fa-money-bill-wave" style={{fontSize: '20px', color: formData.paymentMethod === 'cash' ? '#81C784' : '#9ca3af'}}></i>
-                        <span style={{fontWeight: '600', fontSize: '14px', color: formData.paymentMethod === 'cash' ? '#1a1a1a' : '#6b7280'}}>À la livraison</span>
+                        <i className="fas fa-money-bill-wave" style={{fontSize: '18px', color: formData.paymentMethod === 'cash' ? '#1a365d' : '#9ca3af'}}></i>
+                        <span style={{fontWeight: '600', fontSize: '13px', color: formData.paymentMethod === 'cash' ? '#1a365d' : '#6b7280'}}>À la livraison</span>
                       </div>
                     </div>
-                    <div onClick={() => setFormData({...formData, paymentMethod: 'card'})} style={{padding: '16px', border: formData.paymentMethod === 'card' ? '2px solid #81C784' : '1.5px solid #e5e7eb', borderRadius: '12px', cursor: 'pointer', transition: 'all 0.2s', backgroundColor: formData.paymentMethod === 'card' ? '#f0f9f4' : 'white'}}>
+                    <div onClick={() => setFormData({...formData, paymentMethod: 'card'})} style={{padding: '14px', border: formData.paymentMethod === 'card' ? '2px solid #1a365d' : '1.5px solid #e5e7eb', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.2s', backgroundColor: formData.paymentMethod === 'card' ? '#eef2f7' : 'white'}}>
                       <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                        <i className="fa fa-credit-card" style={{fontSize: '20px', color: formData.paymentMethod === 'card' ? '#81C784' : '#9ca3af'}}></i>
-                        <span style={{fontWeight: '600', fontSize: '14px', color: formData.paymentMethod === 'card' ? '#1a1a1a' : '#6b7280'}}>Carte bancaire</span>
+                        <i className="fas fa-credit-card" style={{fontSize: '18px', color: formData.paymentMethod === 'card' ? '#1a365d' : '#9ca3af'}}></i>
+                        <span style={{fontWeight: '600', fontSize: '13px', color: formData.paymentMethod === 'card' ? '#1a365d' : '#6b7280'}}>Carte bancaire</span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <button type="submit" disabled={loading} style={{width: '100%', padding: '18px', background: loading ? '#d1d5db' : 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)', color: 'white', border: 'none', borderRadius: '14px', fontSize: '16px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer', boxShadow: loading ? 'none' : '0 10px 25px rgba(129,199,132,0.25)', transition: 'all 0.3s', letterSpacing: '0.3px'}} onMouseEnter={(e) => !loading && (e.currentTarget.style.transform = 'translateY(-2px)')} onMouseLeave={(e) => !loading && (e.currentTarget.style.transform = 'translateY(0)')}>
+                <button type="submit" disabled={loading} style={{width: '100%', padding: '14px', background: loading ? '#d1d5db' : 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', color: 'white', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer', boxShadow: loading ? 'none' : '0 6px 20px rgba(197,48,48,0.25)', transition: 'all 0.3s'}} onMouseEnter={(e) => !loading && (e.currentTarget.style.transform = 'translateY(-2px)')} onMouseLeave={(e) => !loading && (e.currentTarget.style.transform = 'translateY(0)')}>
                   {loading ? 'Traitement en cours...' : 'Confirmer la commande'}
                 </button>
               </form>
@@ -191,57 +215,58 @@ export default function CheckoutPage() {
 
           <div className="col-lg-5">
             <div style={{position: 'sticky', top: '180px'}}>
-              <div style={{backgroundColor: 'white', borderRadius: '20px', padding: '32px', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', border: '1px solid #e5e7eb', marginBottom: '20px'}}>
-                <h3 style={{fontSize: '20px', fontWeight: '700', color: '#1a1a1a', marginBottom: '24px'}}>Récapitulatif ({cart.length} article{cart.length > 1 ? 's' : ''})</h3>
-                <div style={{maxHeight: '280px', overflowY: 'auto', marginBottom: '24px', paddingRight: '8px'}}>
+              <div style={{backgroundColor: 'white', borderRadius: '16px', padding: '25px', boxShadow: '0 2px 15px rgba(0,0,0,0.04)', border: '1px solid #e5e7eb', marginBottom: '15px'}}>
+                <h3 style={{fontSize: '18px', fontWeight: '700', color: '#1a365d', marginBottom: '20px'}}>Récapitulatif ({cart.length} article{cart.length > 1 ? 's' : ''})</h3>
+                <div style={{maxHeight: '250px', overflowY: 'auto', marginBottom: '20px', paddingRight: '8px'}}>
                   {cart.map(item => {
                     const finalPrice = item.discount > 0 ? item.price * (1 - item.discount / 100) : item.price;
+                    const imgSrc = item.image?.startsWith('http') ? item.image : `http://localhost:5000${item.image}`;
                     return (
-                      <div key={item._id} style={{display: 'flex', gap: '14px', marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #f3f4f6'}}>
-                        <div style={{width: '70px', height: '70px', borderRadius: '12px', overflow: 'hidden', backgroundColor: '#f9fafb', flexShrink: 0, border: '1px solid #e5e7eb'}}>
-                          <img src={item.image} alt={item.name} style={{width: '100%', height: '100%', objectFit: 'contain', padding: '8px'}} />
+                      <div key={item._id} style={{display: 'flex', gap: '12px', marginBottom: '14px', paddingBottom: '14px', borderBottom: '1px solid #f3f4f6'}}>
+                        <div style={{width: '60px', height: '60px', borderRadius: '10px', overflow: 'hidden', backgroundColor: '#f9fafb', flexShrink: 0, border: '1px solid #e5e7eb'}}>
+                          <img src={imgSrc} alt={item.name} style={{width: '100%', height: '100%', objectFit: 'contain', padding: '6px'}} />
                         </div>
                         <div style={{flex: 1}}>
-                          <div style={{fontSize: '14px', fontWeight: '600', marginBottom: '6px', color: '#1a1a1a', lineHeight: '1.4'}}>{item.name}</div>
-                          <div style={{fontSize: '13px', color: '#6b7280', marginBottom: '4px'}}>Quantité: {item.quantity}</div>
-                          <div style={{fontSize: '15px', fontWeight: '700', color: '#81C784'}}>{(finalPrice * item.quantity).toFixed(2)} TND</div>
+                          <div style={{fontSize: '13px', fontWeight: '600', marginBottom: '4px', color: '#1a1a1a', lineHeight: '1.4'}}>{item.name}</div>
+                          <div style={{fontSize: '12px', color: '#6b7280', marginBottom: '3px'}}>Quantité: {item.quantity}</div>
+                          <div style={{fontSize: '14px', fontWeight: '700', color: '#c53030'}}>{(finalPrice * item.quantity).toFixed(3)} DT</div>
                         </div>
                       </div>
                     );
                   })}
                 </div>
-                <div style={{borderTop: '2px solid #f3f4f6', paddingTop: '20px', marginBottom: '20px'}}>
-                  <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '12px', fontSize: '15px'}}>
+                <div style={{borderTop: '2px solid #f3f4f6', paddingTop: '16px', marginBottom: '16px'}}>
+                  <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '14px'}}>
                     <span style={{color: '#6b7280'}}>Sous-total</span>
-                    <span style={{fontWeight: '600', color: '#1a1a1a'}}>{getCartTotal().toFixed(2)} TND</span>
+                    <span style={{fontWeight: '600', color: '#1a1a1a'}}>{getCartTotal().toFixed(3)} DT</span>
                   </div>
-                  <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '16px', fontSize: '15px'}}>
+                  <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '14px', fontSize: '14px'}}>
                     <span style={{color: '#6b7280'}}>Frais de livraison</span>
-                    <span style={{fontWeight: '600', color: '#1a1a1a'}}>7.00 TND</span>
+                    <span style={{fontWeight: '600', color: '#1a1a1a'}}>{getCartTotal() >= 200 ? 'Gratuit' : '7.000 DT'}</span>
                   </div>
-                  <div style={{borderTop: '2px solid #f3f4f6', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <span style={{fontSize: '16px', fontWeight: '600', color: '#6b7280'}}>Total à payer</span>
-                    <span style={{fontSize: '32px', fontWeight: '800', background: 'linear-gradient(135deg, #81C784 0%, #66BB6A 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>{(getCartTotal() + 7).toFixed(2)} TND</span>
+                  <div style={{borderTop: '2px solid #f3f4f6', paddingTop: '14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <span style={{fontSize: '14px', fontWeight: '600', color: '#6b7280'}}>Total à payer</span>
+                    <span style={{fontSize: '26px', fontWeight: '800', color: '#c53030'}}>{(getCartTotal() + (getCartTotal() >= 200 ? 0 : 7)).toFixed(3)} DT</span>
                   </div>
                 </div>
               </div>
-              <div style={{backgroundColor: '#f0f9f4', borderRadius: '16px', padding: '24px', border: '1px solid #d1f4dd'}}>
-                <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '16px'}}>
-                  <div style={{width: '36px', height: '36px', borderRadius: '8px', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
-                    <i className="fa fa-shield-alt" style={{fontSize: '16px', color: '#66BB6A'}}></i>
+              <div style={{background: 'linear-gradient(135deg, #1a365d 0%, #2c5282 100%)', borderRadius: '12px', padding: '20px'}}>
+                <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '14px'}}>
+                  <div style={{width: '32px', height: '32px', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
+                    <i className="fas fa-shield-alt" style={{fontSize: '14px', color: 'white'}}></i>
                   </div>
                   <div>
-                    <div style={{fontSize: '14px', fontWeight: '600', color: '#1a1a1a', marginBottom: '4px'}}>Paiement sécurisé</div>
-                    <div style={{fontSize: '13px', color: '#6b7280', lineHeight: '1.5'}}>Vos données sont protégées</div>
+                    <div style={{fontSize: '13px', fontWeight: '600', color: 'white', marginBottom: '2px'}}>Paiement sécurisé</div>
+                    <div style={{fontSize: '12px', color: 'rgba(255,255,255,0.7)', lineHeight: '1.4'}}>Vos données sont protégées</div>
                   </div>
                 </div>
                 <div style={{display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
-                  <div style={{width: '36px', height: '36px', borderRadius: '8px', backgroundColor: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
-                    <i className="fa fa-truck" style={{fontSize: '16px', color: '#66BB6A'}}></i>
+                  <div style={{width: '32px', height: '32px', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
+                    <i className="fas fa-truck" style={{fontSize: '14px', color: 'white'}}></i>
                   </div>
                   <div>
-                    <div style={{fontSize: '14px', fontWeight: '600', color: '#1a1a1a', marginBottom: '4px'}}>Livraison rapide</div>
-                    <div style={{fontSize: '13px', color: '#6b7280', lineHeight: '1.5'}}>Sous 2-4 jours ouvrables</div>
+                    <div style={{fontSize: '13px', fontWeight: '600', color: 'white', marginBottom: '2px'}}>Livraison rapide</div>
+                    <div style={{fontSize: '12px', color: 'rgba(255,255,255,0.7)', lineHeight: '1.4'}}>Sous 2-4 jours ouvrables</div>
                   </div>
                 </div>
               </div>

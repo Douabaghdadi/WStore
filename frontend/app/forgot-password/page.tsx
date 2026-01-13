@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import Header from "../components/Header";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -35,47 +36,136 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div style={{ marginTop: "150px" }}>
-      <div style={{ minHeight: "calc(100vh - 200px)", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f8f9fa", padding: "100px 20px 60px 20px" }}>
-        <div style={{ backgroundColor: "white", borderRadius: "20px", boxShadow: "0 10px 40px rgba(0,0,0,0.1)", padding: "60px", maxWidth: "500px", width: "100%", border: "1px solid #e2e8f0" }}>
-          <h2 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "16px", color: "#333", textAlign: "center" }}>Mot de passe oublié</h2>
-          <p style={{ color: "#666", textAlign: "center", marginBottom: "32px" }}>Entrez votre email pour recevoir un lien de récupération</p>
-          
-          {error && <div style={{ padding: "12px", backgroundColor: "#fee", color: "#c33", borderRadius: "8px", marginBottom: "20px", fontSize: "14px" }}>{error}</div>}
-          {message && <div style={{ padding: "12px", backgroundColor: "#f0f9ff", color: "#0369a1", borderRadius: "8px", marginBottom: "20px", fontSize: "14px" }}>{message}</div>}
-          {resetUrl && (
-            <div style={{ padding: "16px", backgroundColor: "#f0fdf4", border: "1px solid #81C784", borderRadius: "8px", marginBottom: "20px" }}>
-              <p style={{ margin: "0 0 12px 0", fontWeight: "600", color: "#166534" }}>Lien de récupération :</p>
-              <a href={resetUrl} style={{ color: "#81C784", textDecoration: "none", fontSize: "14px", wordBreak: "break-all" }}>{resetUrl}</a>
-            </div>
+    <>
+      <Header />
+      <div style={{ 
+        minHeight: "100vh", 
+        marginTop: "150px",
+        background: "#f8f9fa",
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center", 
+        padding: "40px 20px"
+      }}>
+        {/* Carte */}
+        <div style={{ 
+          maxWidth: "450px",
+          width: "100%",
+          background: "white",
+          borderRadius: "20px",
+          boxShadow: "0 15px 50px rgba(0,0,0,0.1)",
+          padding: "50px 45px"
+        }}>
+          {/* Titre */}
+          <h2 style={{ 
+            fontSize: "26px", 
+            fontWeight: "700", 
+            marginBottom: "10px", 
+            color: "#c53030",
+            textAlign: "center"
+          }}>
+            Mot de passe oublié
+          </h2>
+          <p style={{ 
+            color: "#718096", 
+            fontSize: "14px", 
+            marginBottom: "30px",
+            textAlign: "center"
+          }}>
+            Entrez votre email pour recevoir un lien de récupération
+          </p>
+        
+          {error && (
+            <div style={{ 
+              padding: "12px 16px", 
+              background: "#fff5f5", 
+              color: "#c53030", 
+              borderRadius: "10px", 
+              marginBottom: "20px",
+              border: "1px solid #fed7d7",
+              fontSize: "13px"
+            }}>{error}</div>
           )}
           
+          {message && (
+            <div style={{ 
+              padding: "12px 16px", 
+              background: "#f0f9ff", 
+              color: "#1a365d", 
+              borderRadius: "10px", 
+              marginBottom: "20px",
+              border: "1px solid #bee3f8",
+              fontSize: "13px"
+            }}>{message}</div>
+          )}
+          
+          {resetUrl && (
+            <div style={{ 
+              padding: "16px", 
+              backgroundColor: "#f0fdf4", 
+              border: "1px solid #38a169", 
+              borderRadius: "10px", 
+              marginBottom: "20px" 
+            }}>
+              <p style={{ margin: "0 0 12px 0", fontWeight: "600", color: "#166534", fontSize: "13px" }}>Lien de récupération :</p>
+              <a href={resetUrl} style={{ color: "#1a365d", textDecoration: "none", fontSize: "13px", wordBreak: "break-all" }}>{resetUrl}</a>
+            </div>
+          )}
+        
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: "24px" }}>
-              <label style={{ display: "block", marginBottom: "8px", color: "#374151", fontSize: "14px", fontWeight: "500" }}>Email</label>
+              <label style={{ display: "block", marginBottom: "8px", color: "#4a5568", fontWeight: "600", fontSize: "13px" }}>Email</label>
               <input
                 type="email"
                 placeholder="votre@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                style={{ width: "100%", padding: "16px", border: "2px solid #81C784", borderRadius: "8px", fontSize: "16px", boxSizing: "border-box", outline: "none" }}
+                style={{ 
+                  width: "100%", 
+                  padding: "14px 16px", 
+                  border: "2px solid #e2e8f0", 
+                  borderRadius: "10px", 
+                  fontSize: "14px", 
+                  boxSizing: "border-box", 
+                  outline: "none",
+                  transition: "all 0.3s ease",
+                  background: "#f8fafc"
+                }}
+                onFocus={(e) => { e.target.style.borderColor = "#1a365d"; e.target.style.background = "white"; }}
+                onBlur={(e) => { e.target.style.borderColor = "#e2e8f0"; e.target.style.background = "#f8fafc"; }}
                 required
               />
             </div>
-            
+          
             <button
               type="submit"
-              style={{ width: "100%", padding: "16px", backgroundColor: "#81C784", color: "white", border: "none", borderRadius: "8px", fontSize: "16px", fontWeight: "600", cursor: "pointer", marginBottom: "24px" }}
+              style={{ 
+                width: "100%", 
+                padding: "15px", 
+                background: "#c53030", 
+                color: "white", 
+                border: "none", 
+                borderRadius: "10px", 
+                fontSize: "15px", 
+                fontWeight: "700", 
+                cursor: "pointer", 
+                marginBottom: "24px",
+                transition: "background 0.3s ease"
+              }}
+              onMouseOver={(e) => (e.target as HTMLButtonElement).style.background = "#9b2c2c"}
+              onMouseOut={(e) => (e.target as HTMLButtonElement).style.background = "#c53030"}
             >
               Envoyer le lien de récupération
             </button>
-            
+          
             <div style={{ textAlign: "center" }}>
-              <Link href="/login" style={{ color: "#81C784", textDecoration: "none", fontSize: "14px" }}>← Retour à la connexion</Link>
+              <Link href="/login" style={{ color: "#1a365d", textDecoration: "none", fontSize: "14px", fontWeight: "600" }}>
+                ← Retour à la connexion
+              </Link>
             </div>
           </form>
         </div>
       </div>
-    </div>
+    </>
   );
 }

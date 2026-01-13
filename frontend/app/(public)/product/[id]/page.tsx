@@ -11,6 +11,7 @@ export default function ProductPage() {
   const params = useParams();
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
@@ -25,9 +26,9 @@ export default function ProductPage() {
 
   if (loading) {
     return (
-      <div className="container-fluid py-5" style={{marginTop: '160px'}}>
+      <div className="container-fluid py-5" style={{marginTop: '160px', background: '#f7fafc', minHeight: '100vh'}}>
         <div className="text-center py-5">
-          <div className="spinner-grow text-primary" role="status"></div>
+          <div className="spinner-border" style={{color: '#c53030'}} role="status"></div>
         </div>
       </div>
     );
@@ -36,7 +37,13 @@ export default function ProductPage() {
   if (!product) {
     return (
       <div className="container-fluid py-5" style={{marginTop: '160px'}}>
-        <div className="alert alert-danger">Produit non trouvé</div>
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(197, 48, 48, 0.1) 0%, rgba(197, 48, 48, 0.05) 100%)',
+          border: '1px solid rgba(197, 48, 48, 0.2)',
+          borderRadius: '12px',
+          padding: '20px',
+          color: '#c53030'
+        }}>Produit non trouvé</div>
       </div>
     );
   }
@@ -47,99 +54,284 @@ export default function ProductPage() {
 
   const handleAddToCart = () => {
     if (product.stock > 0) {
-      addToCart(product);
+      for (let i = 0; i < quantity; i++) {
+        addToCart(product);
+      }
     }
   };
 
   return (
-    <div style={{marginTop: '160px', backgroundColor: '#f8f9fa', minHeight: '100vh'}}>
+    <div style={{marginTop: '160px', backgroundColor: '#f7fafc', minHeight: '100vh'}}>
       <div className="container py-5">
+        {/* Breadcrumb */}
         <nav aria-label="breadcrumb" style={{marginBottom: '30px'}}>
-          <ol className="breadcrumb" style={{backgroundColor: 'transparent', padding: 0}}>
-            <li className="breadcrumb-item"><Link href="/" style={{color: '#81C784', textDecoration: 'none'}}>Accueil</Link></li>
-            <li className="breadcrumb-item"><span style={{color: '#666'}}>{product.category?.name}</span></li>
-            <li className="breadcrumb-item active" style={{color: '#333'}}>{product.name}</li>
+          <ol className="breadcrumb" style={{backgroundColor: 'transparent', padding: 0, margin: 0}}>
+            <li className="breadcrumb-item">
+              <Link href="/" style={{color: '#718096', textDecoration: 'none', fontWeight: '500'}}>Accueil</Link>
+            </li>
+            <li className="breadcrumb-item">
+              <Link href="/shop" style={{color: '#718096', textDecoration: 'none', fontWeight: '500'}}>Boutique</Link>
+            </li>
+            {product.category && (
+              <li className="breadcrumb-item">
+                <span style={{color: '#718096'}}>{product.category.name}</span>
+              </li>
+            )}
+            <li className="breadcrumb-item active" style={{color: '#1a202c', fontWeight: '600'}}>{product.name}</li>
           </ol>
         </nav>
 
-        <div style={{backgroundColor: 'white', borderRadius: '20px', boxShadow: '0 10px 40px rgba(0,0,0,0.08)', overflow: 'hidden'}}>
+        {/* Product Card */}
+        <div style={{
+          backgroundColor: 'white', 
+          borderRadius: '16px', 
+          boxShadow: '0 4px 20px rgba(0,0,0,0.06)', 
+          overflow: 'hidden',
+          border: '1px solid #e2e8f0'
+        }}>
           <div className="row g-0">
+            {/* Product Image */}
             <div className="col-lg-6">
-              <div style={{padding: '40px', backgroundColor: '#fafafa', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative'}}>
-                <img src={product.image} style={{maxWidth: '100%', maxHeight: '500px', objectFit: 'contain', borderRadius: '12px'}} alt={product.name} />
+              <div style={{
+                padding: '50px', 
+                background: 'linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%)', 
+                height: '100%', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                position: 'relative',
+                minHeight: '550px'
+              }}>
+                <img 
+                  src={product.image ? (product.image.startsWith('http') ? product.image : `http://localhost:5000${product.image}`) : '/img/product-placeholder.jpg'} 
+                  style={{maxWidth: '95%', maxHeight: '600px', objectFit: 'contain', borderRadius: '12px'}} 
+                  alt={product.name} 
+                />
                 {product.discount > 0 && (
-                  <div style={{position: 'absolute', top: '30px', right: '30px'}}>
-                    <span style={{backgroundColor: '#dc3545', color: 'white', padding: '12px 20px', borderRadius: '50px', fontSize: '18px', fontWeight: '700', boxShadow: '0 4px 15px rgba(220,53,69,0.3)'}}>-{product.discount}%</span>
+                  <div style={{
+                    position: 'absolute', 
+                    top: '20px', 
+                    left: '20px',
+                    background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)',
+                    color: 'white',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '700',
+                    boxShadow: '0 4px 15px rgba(197, 48, 48, 0.3)'
+                  }}>
+                    -{product.discount}%
+                  </div>
+                )}
+                {product.stock === 0 && (
+                  <div style={{
+                    position: 'absolute', 
+                    top: '20px', 
+                    right: '20px',
+                    background: '#718096',
+                    color: 'white',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '700',
+                    boxShadow: '0 4px 15px rgba(113, 128, 150, 0.3)'
+                  }}>
+                    Rupture de stock
                   </div>
                 )}
               </div>
             </div>
 
+            {/* Product Info */}
             <div className="col-lg-6">
-              <div style={{padding: '50px'}}>
+              <div style={{padding: '30px'}}>
                 {product.brand && (
-                  <p style={{color: '#999', fontSize: '13px', fontWeight: '500', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px'}}>
-                    Marque: <span style={{color: '#81C784', fontWeight: '700'}}>{product.brand.name}</span>
-                  </p>
+                  <div style={{
+                    display: 'inline-block',
+                    background: 'linear-gradient(135deg, rgba(26, 54, 93, 0.1) 0%, rgba(26, 54, 93, 0.05) 100%)',
+                    padding: '4px 12px',
+                    borderRadius: '15px',
+                    marginBottom: '10px'
+                  }}>
+                    <span style={{color: '#1a365d', fontSize: '11px', fontWeight: '700', letterSpacing: '0.5px', textTransform: 'uppercase'}}>
+                      {product.brand.name}
+                    </span>
+                  </div>
                 )}
                 
-                <h1 style={{fontSize: '32px', fontWeight: '700', color: '#1a1a1a', marginBottom: '20px', lineHeight: '1.3'}}>{product.name}</h1>
+                <h1 style={{
+                  fontSize: '24px', 
+                  fontWeight: '700', 
+                  color: '#1a202c', 
+                  marginBottom: '15px', 
+                  lineHeight: '1.3'
+                }}>{product.name}</h1>
                 
-                <div style={{marginBottom: '25px'}}>
-                  <div style={{display: 'flex', alignItems: 'center', gap: '15px'}}>
-                    <StarRating rating={product.rating || 0} readonly size={22} />
-                    <span style={{color: '#666', fontSize: '15px', fontWeight: '500'}}>
-                      ({product.ratingCount || 0} avis clients)
+                {/* Rating */}
+                <div style={{marginBottom: '15px'}}>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                    <StarRating rating={product.rating || 0} readonly size={16} />
+                    <span style={{color: '#718096', fontSize: '13px', fontWeight: '500'}}>
+                      ({product.ratingCount || 0} avis)
                     </span>
                   </div>
                 </div>
 
+                {/* Subcategories */}
                 {product.subcategories && product.subcategories.length > 0 && (
-                  <div style={{marginBottom: '30px'}}>
+                  <div style={{marginBottom: '15px'}}>
                     {product.subcategories.map((sub: any) => (
-                      <span key={sub._id} style={{display: 'inline-block', backgroundColor: '#f0f0f0', color: '#555', padding: '6px 16px', borderRadius: '20px', fontSize: '13px', fontWeight: '500', marginRight: '8px', marginBottom: '8px'}}>{sub.name}</span>
+                      <span key={sub._id} style={{
+                        display: 'inline-block', 
+                        backgroundColor: '#f7fafc', 
+                        color: '#4a5568', 
+                        padding: '4px 10px', 
+                        borderRadius: '6px', 
+                        fontSize: '12px', 
+                        fontWeight: '500', 
+                        marginRight: '6px', 
+                        marginBottom: '6px',
+                        border: '1px solid #e2e8f0'
+                      }}>{sub.name}</span>
                     ))}
                   </div>
                 )}
 
-                <div style={{backgroundColor: '#f8f9fa', padding: '30px', borderRadius: '12px', marginBottom: '30px'}}>
+                {/* Price */}
+                <div style={{
+                  background: 'linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%)', 
+                  padding: '18px', 
+                  borderRadius: '12px', 
+                  marginBottom: '20px',
+                  border: '1px solid #e2e8f0'
+                }}>
                   {product.discount > 0 ? (
                     <>
-                      <div style={{fontSize: '20px', color: '#999', textDecoration: 'line-through', marginBottom: '8px'}}>{product.price} TND</div>
-                      <div style={{fontSize: '42px', fontWeight: '700', color: '#81C784', marginBottom: '10px'}}>{finalPrice} TND</div>
-                      <div style={{color: '#81C784', fontSize: '15px', fontWeight: '600'}}>
-                        ✓ Économisez {(product.price - finalPrice).toFixed(2)} TND
+                      <div style={{fontSize: '14px', color: '#a0aec0', textDecoration: 'line-through', marginBottom: '3px'}}>
+                        {product.price.toFixed(3)} DT
+                      </div>
+                      <div style={{fontSize: '28px', fontWeight: '800', color: '#c53030', marginBottom: '6px'}}>
+                        {finalPrice} <span style={{fontSize: '16px', color: '#718096'}}>DT</span>
+                      </div>
+                      <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        background: 'linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, rgba(72, 187, 120, 0.05) 100%)',
+                        color: '#276749',
+                        padding: '5px 12px',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        fontWeight: '600'
+                      }}>
+                        <i className="fas fa-check-circle"></i>
+                        Économisez {(product.price - parseFloat(finalPrice)).toFixed(3)} DT
                       </div>
                     </>
                   ) : (
-                    <div style={{fontSize: '42px', fontWeight: '700', color: '#1a1a1a'}}>{product.price} TND</div>
+                    <div style={{fontSize: '28px', fontWeight: '800', color: '#1a365d'}}>
+                      {product.price.toFixed(3)} <span style={{fontSize: '16px', color: '#718096'}}>DT</span>
+                    </div>
                   )}
                 </div>
 
+                {/* Stock Status */}
+                {product.stock === 0 && (
+                  <div style={{
+                    marginBottom: '15px',
+                    padding: '12px 16px',
+                    background: 'linear-gradient(135deg, rgba(113, 128, 150, 0.1) 0%, rgba(113, 128, 150, 0.05) 100%)',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    border: '1px solid rgba(113, 128, 150, 0.2)'
+                  }}>
+                    <i className="fas fa-times-circle" style={{color: '#718096', fontSize: '18px'}}></i>
+                    <div>
+                      <span style={{color: '#4a5568', fontSize: '14px', fontWeight: '700', display: 'block'}}>
+                        Rupture de stock
+                      </span>
+                      <span style={{color: '#718096', fontSize: '12px'}}>
+                        Ce produit n'est plus disponible actuellement
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Quantity Selector */}
+                <div style={{marginBottom: '15px'}}>
+                  <label style={{display: 'block', marginBottom: '8px', color: '#4a5568', fontWeight: '600', fontSize: '13px'}}>
+                    Quantité
+                  </label>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0',
+                    background: '#f7fafc',
+                    borderRadius: '8px',
+                    border: '1px solid #e2e8f0',
+                    overflow: 'hidden'
+                  }}>
+                    <button 
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        border: 'none',
+                        background: 'transparent',
+                        color: '#1a365d',
+                        fontWeight: '700',
+                        fontSize: '16px',
+                        cursor: 'pointer'
+                      }}
+                    >-</button>
+                    <span style={{
+                      width: '40px',
+                      textAlign: 'center',
+                      fontWeight: '700',
+                      fontSize: '14px',
+                      color: '#1a202c'
+                    }}>{quantity}</span>
+                    <button 
+                      onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        border: 'none',
+                        background: 'transparent',
+                        color: '#1a365d',
+                        fontWeight: '700',
+                        fontSize: '16px',
+                        cursor: 'pointer'
+                      }}
+                    >+</button>
+                  </div>
+                </div>
+
+                {/* Add to Cart Button */}
                 <button 
                   onClick={handleAddToCart}
                   style={{
                     width: '100%',
-                    padding: '18px',
-                    backgroundColor: product.stock === 0 ? '#ccc' : '#81C784',
+                    padding: '14px',
+                    background: product.stock === 0 ? '#cbd5e0' : 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '12px',
-                    fontSize: '18px',
+                    borderRadius: '10px',
+                    fontSize: '14px',
                     fontWeight: '700',
                     cursor: product.stock === 0 ? 'not-allowed' : 'pointer',
                     transition: 'all 0.3s ease',
-                    boxShadow: product.stock === 0 ? 'none' : '0 4px 20px rgba(129,199,132,0.3)',
-                    letterSpacing: '0.5px'
+                    boxShadow: product.stock === 0 ? 'none' : '0 6px 20px rgba(197, 48, 48, 0.25)'
                   }}
                   disabled={product.stock === 0}
-                  onMouseEnter={(e) => product.stock > 0 && (e.currentTarget.style.transform = 'translateY(-2px)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
                 >
-                  <i className="fa fa-shopping-bag" style={{marginRight: '12px'}}></i>
+                  <i className="fa fa-shopping-cart" style={{marginRight: '10px'}}></i>
                   {product.stock > 0 ? 'Ajouter au panier' : 'Produit indisponible'}
                 </button>
 
+                {/* Wishlist Button */}
                 <button 
                   onClick={() => {
                     if (isFavorite(product._id)) {
@@ -150,53 +342,84 @@ export default function ProductPage() {
                   }}
                   style={{
                     width: '100%',
-                    padding: '18px',
-                    backgroundColor: isFavorite(product._id) ? '#fff0f0' : 'white',
-                    color: isFavorite(product._id) ? '#e74c3c' : '#666',
-                    border: isFavorite(product._id) ? '2px solid #e74c3c' : '2px solid #e0e0e0',
-                    borderRadius: '12px',
-                    fontSize: '18px',
+                    padding: '14px',
+                    backgroundColor: isFavorite(product._id) ? 'rgba(197, 48, 48, 0.05)' : 'white',
+                    color: isFavorite(product._id) ? '#c53030' : '#4a5568',
+                    border: isFavorite(product._id) ? '2px solid #c53030' : '2px solid #e2e8f0',
+                    borderRadius: '10px',
+                    fontSize: '14px',
                     fontWeight: '700',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    marginTop: '15px',
-                    letterSpacing: '0.5px'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    if (!isFavorite(product._id)) {
-                      e.currentTarget.style.borderColor = '#e74c3c';
-                      e.currentTarget.style.color = '#e74c3c';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    if (!isFavorite(product._id)) {
-                      e.currentTarget.style.borderColor = '#e0e0e0';
-                      e.currentTarget.style.color = '#666';
-                    }
+                    marginTop: '10px'
                   }}
                 >
-                  <i className={isFavorite(product._id) ? "fas fa-heart" : "far fa-heart"} style={{marginRight: '12px'}}></i>
+                  <i className={isFavorite(product._id) ? "fas fa-heart" : "far fa-heart"} style={{marginRight: '10px'}}></i>
                   {isFavorite(product._id) ? 'Retirer des favoris' : 'Ajouter aux favoris'}
                 </button>
 
-                {product.stock > 0 && product.stock < 10 && (
-                  <p style={{marginTop: '15px', color: '#ff6b6b', fontSize: '14px', fontWeight: '600', textAlign: 'center'}}>
-                    ⚠️ Plus que {product.stock} en stock
-                  </p>
-                )}
+                {/* Features */}
+                <div style={{marginTop: '20px', display: 'flex', gap: '15px', flexWrap: 'wrap'}}>
+                  {[
+                    { icon: 'fa-truck', text: 'Livraison rapide' },
+                    { icon: 'fa-shield-alt', text: 'Garantie officielle' },
+                    { icon: 'fa-undo', text: 'Retour 14 jours' }
+                  ].map((feature, index) => (
+                    <div key={index} style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+                      <i className={`fas ${feature.icon}`} style={{color: '#1a365d', fontSize: '12px'}}></i>
+                      <span style={{color: '#718096', fontSize: '12px', fontWeight: '500'}}>{feature.text}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div style={{backgroundColor: 'white', borderRadius: '20px', boxShadow: '0 10px 40px rgba(0,0,0,0.08)', padding: '50px', marginTop: '30px'}}>
-          <h3 style={{fontSize: '28px', fontWeight: '700', color: '#1a1a1a', marginBottom: '25px', borderBottom: '3px solid #81C784', paddingBottom: '15px', display: 'inline-block'}}>Description</h3>
-          <p style={{fontSize: '16px', lineHeight: '1.8', color: '#555', whiteSpace: 'pre-line', marginTop: '20px'}}>{product.description}</p>
+        {/* Description */}
+        <div style={{
+          backgroundColor: 'white', 
+          borderRadius: '14px', 
+          boxShadow: '0 4px 20px rgba(0,0,0,0.04)', 
+          padding: '25px', 
+          marginTop: '20px',
+          border: '1px solid #e2e8f0'
+        }}>
+          <h3 style={{
+            fontSize: '18px', 
+            fontWeight: '700', 
+            color: '#1a202c', 
+            marginBottom: '15px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+          }}>
+            <span style={{
+              width: '3px',
+              height: '18px',
+              background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)',
+              borderRadius: '2px'
+            }}></span>
+            Description du produit
+          </h3>
+          <p style={{
+            fontSize: '14px', 
+            lineHeight: '1.7', 
+            color: '#4a5568', 
+            whiteSpace: 'pre-line'
+          }}>{product.description}</p>
         </div>
 
-        <div style={{backgroundColor: 'white', borderRadius: '20px', boxShadow: '0 10px 40px rgba(0,0,0,0.08)', padding: '50px', marginTop: '30px', marginBottom: '50px'}}>
+        {/* Reviews */}
+        <div style={{
+          backgroundColor: 'white', 
+          borderRadius: '14px', 
+          boxShadow: '0 4px 20px rgba(0,0,0,0.04)', 
+          padding: '25px', 
+          marginTop: '20px', 
+          marginBottom: '40px',
+          border: '1px solid #e2e8f0'
+        }}>
           <ProductReviews productId={product._id} />
         </div>
       </div>

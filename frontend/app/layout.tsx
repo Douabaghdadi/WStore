@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Parapharmacie - Produits de santé et beauté",
-  description: "Votre parapharmacie en ligne pour tous vos produits de santé, beauté et bien-être",
+  title: "W.Store - Informatique, Smartphones & Accessoires",
+  description: "Votre boutique en ligne de téléphones mobiles et accessoires haut de gamme. Smartphones, coques, chargeurs et plus encore.",
+  icons: {
+    icon: '/img/logo.png',
+  },
 };
 
 export default function RootLayout({

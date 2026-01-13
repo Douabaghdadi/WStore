@@ -30,6 +30,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  previousStock: {
+    type: Number,
+    default: 0
+  },
   brand: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Brand'

@@ -5,5 +5,6 @@ const { protect } = require('../middleware/auth');
 
 router.post('/', protect, reviewController.addReview);
 router.get('/product/:productId', reviewController.getProductReviews);
+router.get('/can-review/:productId', protect, reviewController.canUserReview);
 
 module.exports = router;

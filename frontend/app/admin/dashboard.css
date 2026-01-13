@@ -1,23 +1,52 @@
-/* Styles personnalisés pour le Dashboard */
+/* ============================================
+   ADMIN DASHBOARD - DESIGN MODERNE 2024
+   ============================================ */
 
+:root {
+  --admin-primary: #6366f1;
+  --admin-primary-dark: #4f46e5;
+  --admin-secondary: #8b5cf6;
+  --admin-success: #10b981;
+  --admin-warning: #f59e0b;
+  --admin-danger: #ef4444;
+  --admin-info: #06b6d4;
+  --admin-dark: #1e293b;
+  --admin-light: #f8fafc;
+  --admin-border: #e2e8f0;
+  --admin-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --admin-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --admin-radius: 12px;
+  --admin-radius-lg: 16px;
+}
+
+/* Backgrounds légers */
 .bg-primary-light {
-  background-color: rgba(98, 89, 202, 0.1);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
 }
 
 .bg-info-light {
-  background-color: rgba(2, 182, 179, 0.1);
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);
 }
 
 .bg-warning-light {
-  background-color: rgba(255, 193, 7, 0.1);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.1) 100%);
+}
+
+.bg-success-light {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.1) 100%);
+}
+
+.bg-danger-light {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(248, 113, 113, 0.1) 100%);
 }
 
 .icon-lg {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: var(--admin-radius);
 }
 
 .card-img-absolute {
@@ -27,21 +56,62 @@
   opacity: 0.1;
 }
 
-/* Animation pour les cartes */
+/* ============================================
+   CARDS MODERNES
+   ============================================ */
 .card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: var(--admin-shadow-lg);
 }
 
-/* Amélioration des badges */
+/* ============================================
+   BADGES MODERNES
+   ============================================ */
 .badge {
-  padding: 0.5em 0.8em;
-  font-size: 0.875rem;
-  font-weight: 500;
+  padding: 0.5em 1em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 50px;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.badge-success {
+  background: linear-gradient(135deg, var(--admin-success) 0%, #059669 100%);
+  color: white;
+}
+
+.badge-warning {
+  background: linear-gradient(135deg, var(--admin-warning) 0%, #d97706 100%);
+  color: white;
+}
+
+.badge-danger {
+  background: linear-gradient(135deg, var(--admin-danger) 0%, #dc2626 100%);
+  color: white;
+}
+
+.badge-info {
+  background: linear-gradient(135deg, var(--admin-info) 0%, #0891b2 100%);
+  color: white;
+}
+
+.badge-primary {
+  background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-primary-dark) 100%);
+  color: white;
+}
+
+.badge-secondary {
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+  color: white;
 }
 
 /* Spinner de chargement */
@@ -50,52 +120,90 @@
   height: 3rem;
 }
 
-/* Cartes de revenus */
-.revenue-card {
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  height: 100%;
-}
-
-.revenue-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.revenue-card .icon-wrapper {
-  opacity: 0.3;
-}
-
-/* Barre de progression personnalisée */
-.progress-wrapper .progress {
-  border-radius: 10px;
+/* ============================================
+   STAT CARDS
+   ============================================ */
+.stat-card {
+  border-radius: var(--admin-radius-lg);
+  padding: 1.5rem;
+  position: relative;
   overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.progress-wrapper .progress-bar {
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(30%, -30%);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.stat-card .stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  transition: width 0.6s ease;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
 }
 
-.progress-wrapper .progress-bar small {
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+.stat-card .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
 }
 
-/* Cartes de gradient */
+.stat-card .stat-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.stat-card .stat-change {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Gradients modernes pour stat cards */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
 .bg-gradient-info {
-  background: linear-gradient(135deg, #02b6b3 0%, #0288d1 100%);
+  background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
 }
 
 .bg-gradient-success {
-  background: linear-gradient(135deg, #57b846 0%, #2e7d32 100%);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 }
 
-/* Animation d'entrée */
+.bg-gradient-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.bg-gradient-danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -107,12 +215,675 @@
   }
 }
 
-.revenue-card {
-  animation: fadeInUp 0.5s ease-out;
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.revenue-card:nth-child(1) { animation-delay: 0.1s; }
-.revenue-card:nth-child(2) { animation-delay: 0.2s; }
-.revenue-card:nth-child(3) { animation-delay: 0.3s; }
-.revenue-card:nth-child(4) { animation-delay: 0.4s; }
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
 
+.animate-fade-in {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+/* Staggered animations */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+
+/* ============================================
+   TABLES MODERNES
+   ============================================ */
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead th {
+  background: var(--admin-light);
+  border: none;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.table tbody td {
+  padding: 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+/* ============================================
+   BOUTONS MODERNES
+   ============================================ */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-primary-dark) 100%);
+  box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+  background: linear-gradient(135deg, var(--admin-primary-dark) 0%, #4338ca 100%);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--admin-success) 0%, #059669 100%);
+  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.39);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--admin-danger) 0%, #dc2626 100%);
+  box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.39);
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, var(--admin-warning) 0%, #d97706 100%);
+  box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.39);
+  color: white;
+}
+
+.btn-info {
+  background: linear-gradient(135deg, var(--admin-info) 0%, #0891b2 100%);
+  box-shadow: 0 4px 14px 0 rgba(6, 182, 212, 0.39);
+}
+
+.btn-outline-primary {
+  border: 2px solid var(--admin-primary);
+  color: var(--admin-primary);
+  background: transparent;
+}
+
+.btn-outline-primary:hover {
+  background: var(--admin-primary);
+  color: white;
+}
+
+/* ============================================
+   INPUTS MODERNES
+   ============================================ */
+.form-control, .form-select {
+  border-radius: 10px;
+  border: 2px solid var(--admin-border);
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.input-group-text {
+  border-radius: 10px 0 0 10px;
+  border: 2px solid var(--admin-border);
+  border-right: none;
+  background: white;
+}
+
+/* ============================================
+   PAGE HEADER
+   ============================================ */
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.page-header .page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--admin-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.page-title-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+/* ============================================
+   PAGINATION MODERNE
+   ============================================ */
+.pagination {
+  gap: 0.5rem;
+}
+
+.pagination .page-item .page-link {
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: #64748b;
+  background: var(--admin-light);
+  transition: all 0.2s ease;
+}
+
+.pagination .page-item.active .page-link {
+  background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-primary-dark) 100%);
+  color: white;
+}
+
+.pagination .page-item:not(.active) .page-link:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--admin-primary);
+}
+
+/* ============================================
+   MODAL MODERNE
+   ============================================ */
+.modal-content {
+  border: none;
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-lg);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--admin-border);
+  padding: 1.5rem;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--admin-border);
+  padding: 1rem 1.5rem;
+}
+
+/* ============================================
+   ALERTS MODERNES
+   ============================================ */
+.alert {
+  border: none;
+  border-radius: var(--admin-radius);
+  padding: 1rem 1.5rem;
+}
+
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.alert-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.alert-warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+}
+
+.alert-info {
+  background: rgba(6, 182, 212, 0.1);
+  color: #0891b2;
+}
+
+/* ============================================
+   SCROLLBAR PERSONNALISÉE
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--admin-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  color: #cbd5e1;
+  margin-bottom: 1rem;
+}
+
+.empty-state-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--admin-dark);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-text {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+
+/* Cacher le bouton chat/settings flottant du template */
+#chat-toggler,
+#settings-trigger,
+.nav-settings,
+#right-sidebar,
+#theme-settings,
+#layout-settings,
+.settings-panel,
+.chat-bubble,
+.chat-toggler,
+#proBanner,
+.pro-banner,
+.buy-now-btn,
+.buy-now-text,
+[class*="floating"],
+[class*="chat-widget"],
+[id*="chat"],
+[id*="settings"],
+.template-demo-btn,
+.purchase-popup,
+.demo-panel {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+
+/* ============================================
+   SIDEBAR OVERRIDE
+   ============================================ */
+.sidebar.sidebar-offcanvas {
+  display: none !important;
+}
+
+/* Force logo size */
+.navbar-brand img,
+.modern-navbar .navbar-brand img {
+  max-height: 40px !important;
+  width: auto !important;
+  max-width: 180px !important;
+  object-fit: contain !important;
+}
+
+/* ============================================
+   QUICK ACTIONS
+   ============================================ */
+.quick-action-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: white;
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.quick-action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--admin-shadow-lg);
+}
+
+.quick-action-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.quick-action-content h6 {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+  color: var(--admin-dark);
+}
+
+.quick-action-content p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+/* ============================================
+   ACTIVITY TIMELINE
+   ============================================ */
+.activity-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.activity-timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--admin-border);
+}
+
+.activity-item {
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.activity-item:last-child {
+  padding-bottom: 0;
+}
+
+.activity-item::before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--admin-primary);
+  border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--admin-primary);
+}
+
+.activity-item.success::before {
+  background: var(--admin-success);
+  box-shadow: 0 0 0 2px var(--admin-success);
+}
+
+.activity-item.warning::before {
+  background: var(--admin-warning);
+  box-shadow: 0 0 0 2px var(--admin-warning);
+}
+
+.activity-item.danger::before {
+  background: var(--admin-danger);
+  box-shadow: 0 0 0 2px var(--admin-danger);
+}
+
+.activity-content {
+  background: var(--admin-light);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.activity-time {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 0.5rem;
+}
+
+/* ============================================
+   PROGRESS BARS
+   ============================================ */
+.progress {
+  height: 8px;
+  border-radius: 4px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.progress-bar.bg-primary {
+  background: linear-gradient(90deg, var(--admin-primary) 0%, var(--admin-secondary) 100%);
+}
+
+.progress-bar.bg-success {
+  background: linear-gradient(90deg, var(--admin-success) 0%, #059669 100%);
+}
+
+.progress-bar.bg-warning {
+  background: linear-gradient(90deg, var(--admin-warning) 0%, #d97706 100%);
+}
+
+.progress-bar.bg-danger {
+  background: linear-gradient(90deg, var(--admin-danger) 0%, #dc2626 100%);
+}
+
+/* ============================================
+   AVATAR GROUP
+   ============================================ */
+.avatar-group {
+  display: flex;
+}
+
+.avatar-group .avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid white;
+  margin-left: -12px;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.avatar-group .avatar:first-child {
+  margin-left: 0;
+}
+
+.avatar-group .avatar:hover {
+  transform: translateY(-2px);
+  z-index: 1;
+}
+
+.avatar-group .avatar-more {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid white;
+  margin-left: -12px;
+  background: var(--admin-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ============================================
+   STATUS INDICATORS
+   ============================================ */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.status-dot.online {
+  background: var(--admin-success);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+.status-dot.offline {
+  background: #94a3b8;
+}
+
+.status-dot.busy {
+  background: var(--admin-danger);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+.status-dot.away {
+  background: var(--admin-warning);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+/* ============================================
+   LOADING SKELETON
+   ============================================ */
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-text {
+  height: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-title {
+  height: 1.5rem;
+  width: 60%;
+  margin-bottom: 1rem;
+}
+
+.skeleton-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.skeleton-card {
+  height: 120px;
+  border-radius: var(--admin-radius);
+}
+
+/* ============================================
+   TOOLTIPS
+   ============================================ */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  padding: 0.5rem 0.75rem;
+  background: var(--admin-dark);
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 992px) {
+  .main-panel {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  
+  .modern-sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .modern-sidebar.show {
+    transform: translateX(0);
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .modern-sidebar,
+  .modern-navbar,
+  .btn,
+  .pagination {
+    display: none !important;
+  }
+  
+  .main-panel {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+}

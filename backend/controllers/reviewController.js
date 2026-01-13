@@ -1,10 +1,22 @@
 const Review = require('../models/Review');
 const Product = require('../models/Product');
+const Order = require('../models/Order');
 
 exports.addReview = async (req, res) => {
   try {
     const { productId, rating, comment } = req.body;
     const userId = req.user.id;
+
+    // Vérifier si l'utilisateur a acheté ce produit
+    const hasPurchased = await Order.findOne({
+      user: userId,
+      'items.product': productId,
+      status: 'delivered' // Seulement les commandes livrées
+    });
+
+    if (!hasPurchased) {
+      return res.status(403).json({ error: 'Vous devez acheter ce produit avant de pouvoir laisser un avis' });
+    }
 
     // Vérifier si l'utilisateur a déjà noté ce produit
     const existingReview = await Review.findOne({ product: productId, user: userId });
@@ -37,6 +49,31 @@ exports.getProductReviews = async (req, res) => {
       .sort({ createdAt: -1 });
     
     res.json(reviews);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.canUserReview = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const userId = req.user.id;
+
+    // Vérifier si l'utilisateur a acheté ce produit
+    const hasPurchased = await Order.findOne({
+      user: userId,
+      'items.product': productId,
+      status: 'delivered'
+    });
+
+    // Vérifier si l'utilisateur a déjà laissé un avis
+    const existingReview = await Review.findOne({ product: productId, user: userId });
+
+    res.json({
+      canReview: hasPurchased && !existingReview,
+      hasPurchased: !!hasPurchased,
+      hasReviewed: !!existingReview
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

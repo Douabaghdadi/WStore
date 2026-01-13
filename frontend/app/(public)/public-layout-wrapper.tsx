@@ -11,7 +11,7 @@ export default function PublicLayoutWrapper({ children }: { children: React.Reac
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main style={{ paddingTop: '70px' }}>{children}</main>
       <Footer />
       <CartSidebar isOpen={showCartSidebar} onClose={() => setShowCartSidebar(false)} />
       <Script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" />

@@ -17,6 +17,9 @@ const orderSchema = new mongoose.Schema({
   },
   status: { type: String, enum: ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'], default: 'pending' },
   paymentMethod: { type: String, enum: ['cash', 'card'], default: 'cash' },
+  paymentStatus: { type: String, enum: ['not_initiated', 'pending', 'paid', 'failed'], default: 'not_initiated' },
+  paymeeToken: { type: String },
+  paymeeTransactionId: { type: String },
   createdAt: { type: Date, default: Date.now }
 });
 

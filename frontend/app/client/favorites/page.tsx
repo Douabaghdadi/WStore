@@ -43,91 +43,64 @@ export default function FavoritesPage() {
   if (loading) {
     return (
       <div style={{ padding: "40px", display: "flex", justifyContent: "center", alignItems: "center", minHeight: "400px" }}>
-        <div className="spinner-grow" style={{ color: "#81C784" }} role="status"></div>
+        <div className="spinner-grow" style={{ color: "#1a365d" }} role="status"></div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: "30px 40px" }}>
+    <div style={{ padding: "25px 30px" }}>
       {/* Header Section */}
       <div style={{ 
-        background: "linear-gradient(135deg, #81C784 0%, #66BB6A 100%)",
-        borderRadius: "24px",
-        padding: "50px",
-        marginBottom: "40px",
-        position: "relative",
-        overflow: "hidden"
+        textAlign: "center",
+        marginBottom: "30px",
+        paddingTop: "10px"
       }}>
         <div style={{
-          position: "absolute",
-          top: "-50px",
-          right: "-50px",
-          width: "200px",
-          height: "200px",
-          background: "rgba(255,255,255,0.1)",
-          borderRadius: "50%"
-        }}></div>
-        <div style={{
-          position: "absolute",
-          bottom: "-30px",
-          left: "30%",
-          width: "100px",
-          height: "100px",
-          background: "rgba(255,255,255,0.08)",
-          borderRadius: "50%"
-        }}></div>
-        
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "12px" }}>
-            <div style={{
-              width: "60px",
-              height: "60px",
-              background: "rgba(255,255,255,0.2)",
-              borderRadius: "16px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backdropFilter: "blur(10px)"
-            }}>
-              <i className="fas fa-heart" style={{ fontSize: "28px", color: "white" }}></i>
-            </div>
-            <div>
-              <h1 style={{ fontSize: "32px", fontWeight: "800", color: "white", margin: 0 }}>
-                Mes Favoris
-              </h1>
-              <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.8)", margin: "5px 0 0 0" }}>
-                {products.length} produit{products.length > 1 ? "s" : ""} sauvegardé{products.length > 1 ? "s" : ""}
-              </p>
-            </div>
-          </div>
+          width: "50px",
+          height: "50px",
+          background: "linear-gradient(135deg, #c53030 0%, #e53e3e 100%)",
+          borderRadius: "12px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "0 auto 12px",
+          boxShadow: "0 4px 15px rgba(197,48,48,0.25)"
+        }}>
+          <i className="fas fa-heart" style={{ fontSize: "22px", color: "white" }}></i>
         </div>
+        <h1 style={{ fontSize: "24px", fontWeight: "700", color: "#1a365d", margin: "0 0 5px 0" }}>
+          Mes Favoris
+        </h1>
+        <p style={{ fontSize: "14px", color: "#6b7280", margin: 0 }}>
+          {products.length} produit{products.length > 1 ? "s" : ""} sauvegardé{products.length > 1 ? "s" : ""}
+        </p>
       </div>
 
       {products.length === 0 ? (
         <div style={{
           textAlign: "center",
-          padding: "80px 40px",
+          padding: "60px 30px",
           background: "white",
-          borderRadius: "24px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.04)"
+          borderRadius: "16px",
+          boxShadow: "0 2px 15px rgba(0,0,0,0.04)"
         }}>
           <div style={{
-            width: "120px",
-            height: "120px",
+            width: "90px",
+            height: "90px",
             background: "linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%)",
             borderRadius: "50%",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            margin: "0 auto 30px"
+            margin: "0 auto 25px"
           }}>
-            <i className="far fa-heart" style={{ fontSize: "50px", color: "#ccc" }}></i>
+            <i className="far fa-heart" style={{ fontSize: "36px", color: "#ccc" }}></i>
           </div>
-          <h3 style={{ fontSize: "24px", fontWeight: "700", color: "#1a1a1a", marginBottom: "12px" }}>
+          <h3 style={{ fontSize: "20px", fontWeight: "700", color: "#1a365d", marginBottom: "10px" }}>
             Votre liste de favoris est vide
           </h3>
-          <p style={{ fontSize: "16px", color: "#666", marginBottom: "30px", maxWidth: "400px", margin: "0 auto 30px" }}>
+          <p style={{ fontSize: "14px", color: "#666", marginBottom: "25px", maxWidth: "350px", margin: "0 auto 25px" }}>
             Explorez notre catalogue et ajoutez vos produits préférés pour les retrouver facilement.
           </p>
           <Link 
@@ -135,16 +108,15 @@ export default function FavoritesPage() {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "10px",
-              padding: "16px 32px",
-              background: "linear-gradient(135deg, #81C784 0%, #66BB6A 100%)",
+              gap: "8px",
+              padding: "12px 25px",
+              background: "linear-gradient(135deg, #c53030 0%, #e53e3e 100%)",
               color: "white",
               textDecoration: "none",
-              borderRadius: "12px",
-              fontSize: "16px",
+              borderRadius: "10px",
+              fontSize: "14px",
               fontWeight: "600",
-              boxShadow: "0 8px 25px rgba(129,199,132,0.3)",
-              transition: "all 0.3s"
+              boxShadow: "0 6px 20px rgba(197,48,48,0.25)"
             }}
           >
             <i className="fas fa-shopping-bag"></i>
@@ -154,32 +126,33 @@ export default function FavoritesPage() {
       ) : (
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-          gap: "30px"
+          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+          gap: "20px"
         }}>
           {products.map((product) => {
             const finalPrice = product.discount > 0
-              ? (product.price * (1 - product.discount / 100)).toFixed(2)
-              : product.price;
+              ? (product.price * (1 - product.discount / 100)).toFixed(3)
+              : product.price.toFixed(3);
+            const imgSrc = product.image?.startsWith('http') ? product.image : `http://localhost:5000${product.image}`;
 
             return (
               <div 
                 key={product._id} 
                 style={{
                   background: "white",
-                  borderRadius: "20px",
+                  borderRadius: "14px",
                   overflow: "hidden",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
-                  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                  boxShadow: "0 2px 15px rgba(0,0,0,0.05)",
+                  transition: "all 0.3s ease",
                   position: "relative"
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-8px)";
-                  e.currentTarget.style.boxShadow = "0 20px 40px rgba(0,0,0,0.12)";
+                  e.currentTarget.style.transform = "translateY(-5px)";
+                  e.currentTarget.style.boxShadow = "0 12px 30px rgba(0,0,0,0.1)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.06)";
+                  e.currentTarget.style.boxShadow = "0 2px 15px rgba(0,0,0,0.05)";
                 }}
               >
                 {/* Remove Button */}
@@ -187,10 +160,10 @@ export default function FavoritesPage() {
                   onClick={() => handleRemoveFavorite(product._id)}
                   style={{
                     position: "absolute",
-                    top: "15px",
-                    right: "15px",
-                    width: "40px",
-                    height: "40px",
+                    top: "12px",
+                    right: "12px",
+                    width: "32px",
+                    height: "32px",
                     borderRadius: "50%",
                     background: "white",
                     border: "none",
@@ -199,38 +172,35 @@ export default function FavoritesPage() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+                    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
                     transition: "all 0.3s"
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "#ff4757";
+                    e.currentTarget.style.background = "#c53030";
                     e.currentTarget.style.color = "white";
-                    e.currentTarget.style.transform = "scale(1.1)";
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = "white";
                     e.currentTarget.style.color = "#666";
-                    e.currentTarget.style.transform = "scale(1)";
                   }}
                   title="Retirer des favoris"
                 >
-                  <i className="fas fa-times" style={{ fontSize: "14px" }}></i>
+                  <i className="fas fa-times" style={{ fontSize: "12px" }}></i>
                 </button>
 
                 {/* Discount Badge */}
                 {product.discount > 0 && (
                   <div style={{
                     position: "absolute",
-                    top: "15px",
-                    left: "15px",
-                    background: "linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%)",
+                    top: "12px",
+                    left: "12px",
+                    background: "linear-gradient(135deg, #c53030 0%, #e53e3e 100%)",
                     color: "white",
-                    padding: "8px 16px",
-                    borderRadius: "30px",
-                    fontSize: "13px",
+                    padding: "5px 12px",
+                    borderRadius: "20px",
+                    fontSize: "12px",
                     fontWeight: "700",
-                    zIndex: 10,
-                    boxShadow: "0 4px 15px rgba(255,107,107,0.4)"
+                    zIndex: 10
                   }}>
                     -{product.discount}%
                   </div>
@@ -239,43 +209,39 @@ export default function FavoritesPage() {
                 {/* Product Image */}
                 <Link href={`/product/${product._id}`}>
                   <div style={{
-                    background: "linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%)",
-                    padding: "30px",
+                    background: "#f8f9fa",
+                    padding: "20px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    height: "250px"
+                    height: "200px"
                   }}>
                     <img
-                      src={product.image}
+                      src={imgSrc}
                       alt={product.name}
                       style={{
                         maxWidth: "100%",
-                        maxHeight: "200px",
-                        objectFit: "contain",
-                        transition: "transform 0.4s"
+                        maxHeight: "160px",
+                        objectFit: "contain"
                       }}
-                      onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-                      onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
                     />
                   </div>
                 </Link>
 
                 {/* Product Info */}
-                <div style={{ padding: "25px" }}>
+                <div style={{ padding: "18px" }}>
                   {/* Brand */}
                   {product.brand?.name && (
                     <span style={{
                       display: "inline-block",
-                      background: "linear-gradient(135deg, #81C784 0%, #66BB6A 100%)",
+                      background: "linear-gradient(135deg, #1a365d 0%, #2c5282 100%)",
                       color: "white",
-                      padding: "5px 12px",
-                      borderRadius: "20px",
-                      fontSize: "11px",
+                      padding: "4px 10px",
+                      borderRadius: "15px",
+                      fontSize: "10px",
                       fontWeight: "600",
-                      marginBottom: "12px",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.5px"
+                      marginBottom: "10px",
+                      textTransform: "uppercase"
                     }}>
                       {product.brand.name}
                     </span>
@@ -284,19 +250,18 @@ export default function FavoritesPage() {
                   {/* Product Name */}
                   <Link href={`/product/${product._id}`} style={{ textDecoration: "none" }}>
                     <h4 style={{
-                      fontSize: "17px",
+                      fontSize: "14px",
                       fontWeight: "600",
                       color: "#1a1a1a",
-                      marginBottom: "15px",
-                      lineHeight: "1.5",
-                      height: "52px",
+                      marginBottom: "12px",
+                      lineHeight: "1.4",
+                      height: "40px",
                       overflow: "hidden",
                       display: "-webkit-box",
                       WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      transition: "color 0.3s"
+                      WebkitBoxOrient: "vertical"
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = "#81C784"}
+                    onMouseEnter={(e) => e.currentTarget.style.color = "#1a365d"}
                     onMouseLeave={(e) => e.currentTarget.style.color = "#1a1a1a"}
                     >
                       {product.name}
@@ -307,35 +272,33 @@ export default function FavoritesPage() {
                   <div style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "12px",
-                    marginBottom: "20px"
+                    gap: "10px",
+                    marginBottom: "15px"
                   }}>
                     {product.discount > 0 ? (
                       <>
                         <span style={{
-                          fontSize: "14px",
+                          fontSize: "12px",
                           color: "#999",
                           textDecoration: "line-through"
                         }}>
-                          {product.price} TND
+                          {product.price.toFixed(3)} DT
                         </span>
                         <span style={{
-                          fontSize: "24px",
-                          fontWeight: "800",
-                          background: "linear-gradient(135deg, #81C784 0%, #66BB6A 100%)",
-                          WebkitBackgroundClip: "text",
-                          WebkitTextFillColor: "transparent"
+                          fontSize: "18px",
+                          fontWeight: "700",
+                          color: "#c53030"
                         }}>
-                          {finalPrice} TND
+                          {finalPrice} DT
                         </span>
                       </>
                     ) : (
                       <span style={{
-                        fontSize: "24px",
-                        fontWeight: "800",
-                        color: "#1a1a1a"
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#1a365d"
                       }}>
-                        {product.price} TND
+                        {finalPrice} DT
                       </span>
                     )}
                   </div>
@@ -344,18 +307,18 @@ export default function FavoritesPage() {
                   <div style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "8px",
-                    marginBottom: "20px"
+                    gap: "6px",
+                    marginBottom: "15px"
                   }}>
                     <div style={{
-                      width: "8px",
-                      height: "8px",
+                      width: "6px",
+                      height: "6px",
                       borderRadius: "50%",
-                      background: product.stock > 0 ? "#2ed573" : "#ff4757"
+                      background: product.stock > 0 ? "#38a169" : "#c53030"
                     }}></div>
                     <span style={{
-                      fontSize: "13px",
-                      color: product.stock > 0 ? "#2ed573" : "#ff4757",
+                      fontSize: "12px",
+                      color: product.stock > 0 ? "#38a169" : "#c53030",
                       fontWeight: "500"
                     }}>
                       {product.stock > 0 ? `En stock (${product.stock})` : "Rupture de stock"}
@@ -368,32 +331,21 @@ export default function FavoritesPage() {
                     disabled={product.stock === 0}
                     style={{
                       width: "100%",
-                      padding: "14px",
+                      padding: "10px",
                       background: product.stock === 0 
                         ? "#e0e0e0" 
-                        : "linear-gradient(135deg, #81C784 0%, #66BB6A 100%)",
+                        : "linear-gradient(135deg, #c53030 0%, #e53e3e 100%)",
                       color: product.stock === 0 ? "#999" : "white",
                       border: "none",
-                      borderRadius: "12px",
-                      fontSize: "15px",
+                      borderRadius: "8px",
+                      fontSize: "13px",
                       fontWeight: "600",
                       cursor: product.stock === 0 ? "not-allowed" : "pointer",
-                      transition: "all 0.3s",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      gap: "10px",
-                      boxShadow: product.stock === 0 ? "none" : "0 8px 25px rgba(129,199,132,0.3)"
-                    }}
-                    onMouseEnter={(e) => {
-                      if (product.stock > 0) {
-                        e.currentTarget.style.transform = "translateY(-2px)";
-                        e.currentTarget.style.boxShadow = "0 12px 30px rgba(129,199,132,0.4)";
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.boxShadow = product.stock === 0 ? "none" : "0 8px 25px rgba(129,199,132,0.3)";
+                      gap: "8px",
+                      boxShadow: product.stock === 0 ? "none" : "0 4px 15px rgba(197,48,48,0.25)"
                     }}
                   >
                     <i className="fas fa-shopping-bag"></i>

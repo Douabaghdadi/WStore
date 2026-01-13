@@ -193,13 +193,6 @@ export default function AdminPage() {
                   <i className="mdi mdi-home"></i>
                 </span> Dashboard
               </h3>
-              <nav aria-label="breadcrumb">
-                <ul className="breadcrumb">
-                  <li className="breadcrumb-item active" aria-current="page">
-                    <span></span>Overview <i className="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
-                  </li>
-                </ul>
-              </nav>
             </div>
             {/* Statistiques principales */}
             <div className="row">
@@ -326,46 +319,6 @@ export default function AdminPage() {
                             </div>
                             <div className="icon-wrapper">
                               <i className="mdi mdi-cash-multiple text-success" style={{ fontSize: '32px' }}></i>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Graphique de comparaison */}
-                    <div className="row mt-4">
-                      <div className="col-12">
-                        <div className="progress-wrapper">
-                          <div className="d-flex justify-content-between mb-2">
-                            <span className="text-muted">Progression des revenus</span>
-                            <span className="text-muted">
-                              {stats.totalRevenue > 0 ? ((stats.monthlyRevenue / stats.totalRevenue) * 100).toFixed(1) : 0}% du total ce mois
-                            </span>
-                          </div>
-                          <div className="progress" style={{ height: '30px' }}>
-                            <div 
-                              className="progress-bar bg-info" 
-                              role="progressbar" 
-                              style={{ width: `${stats.totalRevenue > 0 ? (stats.dailyRevenue / stats.totalRevenue) * 100 : 0}%` }}
-                              title={`Aujourd'hui: ${stats.dailyRevenue.toFixed(2)} TND`}
-                            >
-                              <small>Jour</small>
-                            </div>
-                            <div 
-                              className="progress-bar bg-primary" 
-                              role="progressbar" 
-                              style={{ width: `${stats.totalRevenue > 0 ? ((stats.weeklyRevenue - stats.dailyRevenue) / stats.totalRevenue) * 100 : 0}%` }}
-                              title={`Cette semaine: ${stats.weeklyRevenue.toFixed(2)} TND`}
-                            >
-                              <small>Semaine</small>
-                            </div>
-                            <div 
-                              className="progress-bar bg-warning" 
-                              role="progressbar" 
-                              style={{ width: `${stats.totalRevenue > 0 ? ((stats.monthlyRevenue - stats.weeklyRevenue) / stats.totalRevenue) * 100 : 0}%` }}
-                              title={`Ce mois: ${stats.monthlyRevenue.toFixed(2)} TND`}
-                            >
-                              <small>Mois</small>
                             </div>
                           </div>
                         </div>

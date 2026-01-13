@@ -1,4 +1,5 @@
 "use client";
+import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import Link from 'next/link';
 
@@ -9,74 +10,497 @@ interface CartSidebarProps {
 
 export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
   const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
+  const [promoCode, setPromoCode] = useState('');
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoDiscount, setPromoDiscount] = useState(0);
+  const [promoError, setPromoError] = useState('');
+
+  const handleApplyPromo = () => {
+    setPromoError('');
+    
+    // Codes promo valides (à personnaliser)
+    const validCodes: { [key: string]: number } = {
+      'WSTORE10': 10,
+      'WSTORE20': 20,
+      'BIENVENUE': 15,
+      'PROMO5': 5
+    };
+
+    const code = promoCode.toUpperCase().trim();
+    
+    if (validCodes[code]) {
+      setPromoDiscount(validCodes[code]);
+      setPromoApplied(true);
+      setPromoError('');
+    } else {
+      setPromoError('Code promo invalide');
+      setPromoApplied(false);
+      setPromoDiscount(0);
+    }
+  };
+
+  const removePromo = () => {
+    setPromoCode('');
+    setPromoApplied(false);
+    setPromoDiscount(0);
+    setPromoError('');
+  };
+
+  const subtotal = getCartTotal();
+  const discountAmount = promoApplied ? (subtotal * promoDiscount / 100) : 0;
+  const shippingCost = 7;
+  const finalTotal = subtotal - discountAmount + shippingCost;
 
   return (
     <>
+      {/* Overlay */}
       {isOpen && (
-        <div onClick={onClose} style={{position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9998}} />
+        <div 
+          onClick={onClose} 
+          style={{
+            position: 'fixed', 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0, 
+            backgroundColor: 'rgba(0,0,0,0.6)', 
+            zIndex: 9998,
+            backdropFilter: 'blur(4px)'
+          }} 
+        />
       )}
+
+      {/* Sidebar */}
       <div style={{
         position: 'fixed',
         top: 0,
-        right: isOpen ? 0 : '-400px',
-        width: '400px',
+        right: isOpen ? 0 : '-380px',
+        width: '380px',
+        maxWidth: '90vw',
         height: '100vh',
-        backgroundColor: 'white',
-        boxShadow: '-5px 0 15px rgba(0,0,0,0.2)',
-        transition: 'right 0.3s ease',
+        backgroundColor: '#ffffff',
+        boxShadow: '-10px 0 40px rgba(0,0,0,0.15)',
+        transition: 'right 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
         zIndex: 9999,
         display: 'flex',
         flexDirection: 'column'
       }}>
-        <div style={{padding: '20px', borderBottom: '1px solid #f0f0f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <h3 style={{fontSize: '20px', fontWeight: '700', margin: 0}}>Mon Panier ({cart.length})</h3>
-          <button onClick={onClose} style={{background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#666'}}>×</button>
+        {/* Header */}
+        <div style={{
+          padding: '18px 20px',
+          background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{
+              width: '38px',
+              height: '38px',
+              borderRadius: '10px',
+              background: 'rgba(255,255,255,0.15)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <i className="fas fa-shopping-bag" style={{ color: 'white', fontSize: '16px' }}></i>
+            </div>
+            <div>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', margin: 0, color: 'white' }}>Mon Panier</h3>
+              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)' }}>
+                {cart.length} article{cart.length > 1 ? 's' : ''}
+              </span>
+            </div>
+          </div>
+          <button 
+            onClick={onClose} 
+            style={{
+              width: '34px',
+              height: '34px',
+              borderRadius: '8px',
+              background: 'rgba(255,255,255,0.1)',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s'
+            }}
+          >
+            <i className="fas fa-times" style={{ color: 'white', fontSize: '16px' }}></i>
+          </button>
         </div>
 
-        <div style={{flex: 1, overflowY: 'auto', padding: '20px'}}>
+        {/* Cart Items */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '16px', background: '#f8f9fa' }}>
           {cart.length === 0 ? (
-            <div style={{textAlign: 'center', padding: '40px 0', color: '#999'}}>
-              <i className="fa fa-shopping-bag" style={{fontSize: '48px', marginBottom: '15px', display: 'block'}}></i>
-              Votre panier est vide
+            <div style={{
+              textAlign: 'center',
+              padding: '50px 20px',
+              background: 'white',
+              borderRadius: '14px',
+              marginTop: '10px'
+            }}>
+              <div style={{
+                width: '70px',
+                height: '70px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 16px'
+              }}>
+                <i className="fas fa-shopping-bag" style={{ fontSize: '28px', color: '#a0aec0' }}></i>
+              </div>
+              <h4 style={{ color: '#2d3748', fontWeight: '700', marginBottom: '6px', fontSize: '15px' }}>Panier vide</h4>
+              <p style={{ color: '#718096', fontSize: '13px', marginBottom: '16px' }}>
+                Découvrez nos produits
+              </p>
+              <Link href="/shop" onClick={onClose} style={{
+                display: 'inline-block',
+                padding: '10px 20px',
+                background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)',
+                color: 'white',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: '600',
+                fontSize: '13px'
+              }}>
+                Voir la boutique
+              </Link>
             </div>
           ) : (
-            cart.map(item => {
-              const finalPrice = item.discount > 0 ? item.price * (1 - item.discount / 100) : item.price;
-              return (
-                <div key={item._id} style={{display: 'flex', gap: '15px', marginBottom: '20px', paddingBottom: '20px', borderBottom: '1px solid #f0f0f0'}}>
-                  <img src={item.image} alt={item.name} style={{width: '80px', height: '80px', objectFit: 'contain', borderRadius: '8px', backgroundColor: '#fafafa'}} />
-                  <div style={{flex: 1}}>
-                    <h4 style={{fontSize: '14px', fontWeight: '600', marginBottom: '5px'}}>{item.name}</h4>
-                    <div style={{fontSize: '14px', fontWeight: '700', color: '#81C784', marginBottom: '10px'}}>
-                      {finalPrice.toFixed(2)} TND
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {cart.map(item => {
+                const finalPrice = item.discount > 0 ? item.price * (1 - item.discount / 100) : item.price;
+                
+                return (
+                  <div key={item._id} style={{
+                    display: 'flex',
+                    gap: '12px',
+                    padding: '12px',
+                    background: 'white',
+                    borderRadius: '12px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                    border: '1px solid #e2e8f0'
+                  }}>
+                    {/* Image */}
+                    <div style={{
+                      width: '70px',
+                      height: '70px',
+                      borderRadius: '10px',
+                      background: '#f7fafc',
+                      overflow: 'hidden',
+                      flexShrink: 0
+                    }}>
+                      <img 
+                        src={item.image?.startsWith('http') ? item.image : `http://localhost:5000${item.image}`}
+                        alt={item.name} 
+                        style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '6px' }} 
+                      />
                     </div>
-                    <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                      <button onClick={() => updateQuantity(item._id, item.quantity - 1)} style={{width: '25px', height: '25px', border: '1px solid #ddd', borderRadius: '4px', backgroundColor: 'white', cursor: 'pointer', fontSize: '14px'}}>-</button>
-                      <span style={{minWidth: '20px', textAlign: 'center', fontSize: '14px'}}>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item._id, item.quantity + 1)} style={{width: '25px', height: '25px', border: '1px solid #ddd', borderRadius: '4px', backgroundColor: 'white', cursor: 'pointer', fontSize: '14px'}}>+</button>
-                      <button onClick={() => removeFromCart(item._id)} style={{marginLeft: 'auto', padding: '5px 10px', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px'}}>
-                        <i className="fa fa-trash"></i>
-                      </button>
+
+                    {/* Details */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <h4 style={{
+                        fontSize: '13px',
+                        fontWeight: '600',
+                        color: '#1a202c',
+                        marginBottom: '4px',
+                        lineHeight: '1.3',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical'
+                      }}>{item.name}</h4>
+
+                      {/* Price */}
+                      <div style={{ marginBottom: '8px' }}>
+                        <span style={{
+                          fontSize: '14px',
+                          fontWeight: '700',
+                          color: '#c53030'
+                        }}>
+                          {finalPrice.toFixed(3)} DT
+                        </span>
+                      </div>
+
+                      {/* Quantity & Delete */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          background: '#f7fafc',
+                          borderRadius: '8px',
+                          padding: '2px'
+                        }}>
+                          <button 
+                            onClick={() => updateQuantity(item._id, item.quantity - 1)}
+                            style={{
+                              width: '28px',
+                              height: '28px',
+                              border: 'none',
+                              borderRadius: '6px',
+                              background: 'white',
+                              cursor: 'pointer',
+                              fontSize: '14px',
+                              fontWeight: '600',
+                              color: '#1a365d',
+                              boxShadow: '0 1px 2px rgba(0,0,0,0.08)'
+                            }}
+                          >−</button>
+                          <span style={{
+                            minWidth: '32px',
+                            textAlign: 'center',
+                            fontSize: '13px',
+                            fontWeight: '700',
+                            color: '#1a202c'
+                          }}>{item.quantity}</span>
+                          <button 
+                            onClick={() => updateQuantity(item._id, item.quantity + 1)}
+                            style={{
+                              width: '28px',
+                              height: '28px',
+                              border: 'none',
+                              borderRadius: '6px',
+                              background: 'white',
+                              cursor: 'pointer',
+                              fontSize: '14px',
+                              fontWeight: '600',
+                              color: '#1a365d',
+                              boxShadow: '0 1px 2px rgba(0,0,0,0.08)'
+                            }}
+                          >+</button>
+                        </div>
+
+                        <button 
+                          onClick={() => removeFromCart(item._id)}
+                          style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '8px',
+                            border: 'none',
+                            background: '#fee2e2',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <i className="fas fa-trash-alt" style={{ color: '#dc2626', fontSize: '12px' }}></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })
+                );
+              })}
+            </div>
           )}
         </div>
 
+        {/* Footer */}
         {cart.length > 0 && (
-          <div style={{padding: '20px', borderTop: '1px solid #f0f0f0'}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '15px', fontSize: '18px', fontWeight: '700'}}>
-              <span>Total</span>
-              <span style={{color: '#81C784'}}>{getCartTotal().toFixed(2)} TND</span>
+          <div style={{
+            padding: '16px',
+            background: 'white',
+            borderTop: '1px solid #e2e8f0',
+            boxShadow: '0 -4px 20px rgba(0,0,0,0.05)'
+          }}>
+            {/* Code Promo */}
+            <div style={{ marginBottom: '14px' }}>
+              {!promoApplied ? (
+                <div>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <input
+                      type="text"
+                      placeholder="Code promo"
+                      value={promoCode}
+                      onChange={(e) => setPromoCode(e.target.value)}
+                      style={{
+                        flex: 1,
+                        padding: '10px 12px',
+                        border: promoError ? '2px solid #c53030' : '2px solid #e2e8f0',
+                        borderRadius: '8px',
+                        fontSize: '13px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s'
+                      }}
+                      onFocus={(e) => e.target.style.borderColor = '#1a365d'}
+                      onBlur={(e) => e.target.style.borderColor = promoError ? '#c53030' : '#e2e8f0'}
+                    />
+                    <button
+                      onClick={handleApplyPromo}
+                      style={{
+                        padding: '10px 16px',
+                        background: '#1a365d',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '13px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'background 0.2s'
+                      }}
+                      onMouseOver={(e) => (e.target as HTMLButtonElement).style.background = '#2c5282'}
+                      onMouseOut={(e) => (e.target as HTMLButtonElement).style.background = '#1a365d'}
+                    >
+                      Appliquer
+                    </button>
+                  </div>
+                  {promoError && (
+                    <p style={{ color: '#c53030', fontSize: '12px', marginTop: '6px', marginBottom: 0 }}>
+                      <i className="fas fa-exclamation-circle" style={{ marginRight: '4px' }}></i>
+                      {promoError}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '10px 12px',
+                  background: '#f0fdf4',
+                  borderRadius: '8px',
+                  border: '1px solid #86efac'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <i className="fas fa-check-circle" style={{ color: '#16a34a', fontSize: '14px' }}></i>
+                    <span style={{ fontSize: '13px', fontWeight: '600', color: '#166534' }}>
+                      {promoCode.toUpperCase()} (-{promoDiscount}%)
+                    </span>
+                  </div>
+                  <button
+                    onClick={removePromo}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#dc2626',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      fontWeight: '600'
+                    }}
+                  >
+                    Retirer
+                  </button>
+                </div>
+              )}
             </div>
-            <Link href="/cart" onClick={onClose} style={{display: 'block', width: '100%', padding: '12px', backgroundColor: '#81C784', color: 'white', textAlign: 'center', textDecoration: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: '600', marginBottom: '10px'}}>
-              Voir le panier
-            </Link>
-            <Link href="/checkout" onClick={onClose} style={{display: 'block', width: '100%', padding: '12px', backgroundColor: '#333', color: 'white', textAlign: 'center', textDecoration: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: '600'}}>
-              Commander
-            </Link>
+
+            {/* Subtotal */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '6px'
+            }}>
+              <span style={{ color: '#718096', fontSize: '13px' }}>Sous-total</span>
+              <span style={{ color: '#1a202c', fontSize: '13px', fontWeight: '600' }}>
+                {subtotal.toFixed(3)} DT
+              </span>
+            </div>
+
+            {/* Discount */}
+            {promoApplied && (
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '6px'
+              }}>
+                <span style={{ color: '#16a34a', fontSize: '13px' }}>Réduction ({promoDiscount}%)</span>
+                <span style={{ color: '#16a34a', fontSize: '13px', fontWeight: '600' }}>
+                  -{discountAmount.toFixed(3)} DT
+                </span>
+              </div>
+            )}
+
+            {/* Shipping */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '12px',
+              paddingBottom: '12px',
+              borderBottom: '1px dashed #e2e8f0'
+            }}>
+              <span style={{ color: '#718096', fontSize: '13px' }}>Livraison</span>
+              <span style={{ color: '#1a202c', fontSize: '13px', fontWeight: '600' }}>
+                {shippingCost.toFixed(3)} DT
+              </span>
+            </div>
+
+            {/* Total */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '16px'
+            }}>
+              <span style={{ color: '#1a202c', fontSize: '16px', fontWeight: '700' }}>Total</span>
+              <span style={{ 
+                fontSize: '20px', 
+                fontWeight: '800', 
+                color: '#c53030'
+              }}>
+                {finalTotal.toFixed(3)} <span style={{ fontSize: '13px', fontWeight: '600' }}>DT</span>
+              </span>
+            </div>
+
+            {/* Buttons */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <Link 
+                href="/checkout" 
+                onClick={onClose}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  width: '100%',
+                  padding: '14px',
+                  background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)',
+                  color: 'white',
+                  textAlign: 'center',
+                  textDecoration: 'none',
+                  borderRadius: '10px',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  boxShadow: '0 4px 15px rgba(197, 48, 48, 0.3)'
+                }}
+              >
+                <i className="fas fa-lock" style={{ fontSize: '12px' }}></i>
+                Commander maintenant
+              </Link>
+
+              <Link 
+                href="/cart" 
+                onClick={onClose}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  width: '100%',
+                  padding: '12px',
+                  background: 'white',
+                  color: '#1a365d',
+                  textAlign: 'center',
+                  textDecoration: 'none',
+                  borderRadius: '10px',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  border: '2px solid #1a365d'
+                }}
+              >
+                <i className="fas fa-shopping-bag" style={{ fontSize: '12px' }}></i>
+                Voir le panier
+              </Link>
+            </div>
+
+            {/* Free shipping notice - removed */}
           </div>
         )}
       </div>
