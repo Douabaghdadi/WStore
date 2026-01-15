@@ -29,8 +29,16 @@ export default function SubcategoryPage() {
   const [showDiscountOnly, setShowDiscountOnly] = useState(false);
   const [sortBy, setSortBy] = useState('');
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const { addToCart } = useCart();
   const { favorites, addFavorite, removeFavorite } = useFavorites();
+
+  const resetFilters = () => {
+    setSelectedBrand('');
+    setPriceRange({ min: '', max: '' });
+    setShowDiscountOnly(false);
+    setSortBy('');
+  };
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/subcategories/${params.id}`)
@@ -186,9 +194,75 @@ export default function SubcategoryPage() {
       </div>
 
       <div className="container">
+        {/* Mobile Filter Button */}
+        <div className="d-lg-none" style={{ marginBottom: '20px' }}>
+          <button 
+            onClick={() => setShowMobileFilters(!showMobileFilters)}
+            style={{
+              width: '100%',
+              padding: '14px 20px',
+              background: 'white',
+              border: '2px solid #e2e8f0',
+              borderRadius: '12px',
+              fontSize: '14px',
+              fontWeight: '600',
+              color: '#1a202c',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <i className="fas fa-sliders-h" style={{ color: '#c53030' }}></i>
+              Filtres et tri
+              {(selectedBrand || showDiscountOnly || priceRange.min || priceRange.max) && (
+                <span style={{ background: '#c53030', color: 'white', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px' }}>!</span>
+              )}
+            </span>
+            <i className={`fas fa-chevron-${showMobileFilters ? 'up' : 'down'}`} style={{ color: '#64748b' }}></i>
+          </button>
+          
+          {showMobileFilters && (
+            <div style={{ marginTop: '15px', backgroundColor: 'white', borderRadius: '16px', padding: '20px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
+              <div style={{ marginBottom: '15px' }}>
+                <select style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
+                  <option value="">Toutes les marques</option>
+                  {brands.map((brand: any) => (<option key={brand._id} value={brand._id}>{brand.name}</option>))}
+                </select>
+              </div>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '15px' }}>
+                <input type="number" placeholder="Prix min" value={priceRange.min} onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} />
+                <input type="number" placeholder="Prix max" value={priceRange.max} onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} />
+              </div>
+              
+              <select style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none', marginBottom: '15px' }} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="">Trier par</option>
+                <option value="price-asc">Prix croissant</option>
+                <option value="price-desc">Prix décroissant</option>
+              </select>
+              
+              <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '12px', background: showDiscountOnly ? '#fee2e2' : '#f8f9fa', borderRadius: '10px', fontSize: '14px', fontWeight: '500', marginBottom: '15px' }}>
+                <input type="checkbox" checked={showDiscountOnly} onChange={(e) => setShowDiscountOnly(e.target.checked)} style={{ accentColor: '#c53030' }} />
+                <i className="fas fa-tag" style={{ color: '#c53030' }}></i> Promotions uniquement
+              </label>
+              
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button onClick={resetFilters} style={{ flex: 1, padding: '12px', background: '#f1f5f9', color: '#64748b', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
+                  <i className="fas fa-redo me-2"></i>Réinitialiser
+                </button>
+                <button onClick={() => setShowMobileFilters(false)} style={{ flex: 1, padding: '12px', background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)', color: 'white', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
+                  Voir {filteredProducts.length} résultats
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
         <div className="row g-4">
-          {/* Filtres */}
-          <div className="col-lg-3">
+          {/* Filtres - Hidden on mobile */}
+          <div className="col-lg-3 d-none d-lg-block">
             <div style={{
               backgroundColor: 'white',
               borderRadius: '20px',
@@ -278,12 +352,7 @@ export default function SubcategoryPage() {
                   justifyContent: 'center',
                   gap: '8px'
                 }}
-                onClick={() => {
-                  setSelectedBrand('');
-                  setPriceRange({ min: '', max: '' });
-                  setShowDiscountOnly(false);
-                  setSortBy('');
-                }}
+                onClick={resetFilters}
               >
                 <i className="fas fa-redo"></i> Réinitialiser
               </button>
@@ -291,7 +360,7 @@ export default function SubcategoryPage() {
           </div>
 
           {/* Produits */}
-          <div className="col-lg-9">
+          <div className="col-12 col-lg-9">
             <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
                 <span style={{ fontWeight: '700', color: '#1a202c' }}>{filteredProducts.length}</span> produit(s) trouvé(s)
@@ -313,7 +382,7 @@ export default function SubcategoryPage() {
                   const finalPrice = (product.discount ?? 0) > 0 ? product.price * (1 - (product.discount ?? 0) / 100) : product.price;
                   const isFavorite = favorites.includes(product._id);
                   return (
-                    <div key={product._id} className="col-md-6 col-xl-4">
+                    <div key={product._id} className="col-6 col-md-6 col-xl-4">
                       <div style={{
                         backgroundColor: 'white',
                         borderRadius: '20px',

@@ -1,7 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ContactPage() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -83,20 +91,21 @@ export default function ContactPage() {
             <div style={{ 
               backgroundColor: "white", 
               borderRadius: "20px", 
-              padding: "40px", 
+              padding: isMobile ? "25px 20px" : "40px", 
               boxShadow: "0 5px 25px rgba(0,0,0,0.05)", 
               height: "100%",
               border: "1px solid #e2e8f0"
             }}>
-              <h3 style={{ fontSize: "24px", fontWeight: "700", color: "#1a202c", marginBottom: "30px" }}>
+              <h3 style={{ fontSize: isMobile ? "20px" : "24px", fontWeight: "700", color: "#1a202c", marginBottom: isMobile ? "25px" : "30px" }}>
                 Nos Coordonnées
               </h3>
 
               {/* Adresse */}
-              <div style={{ display: "flex", gap: "20px", marginBottom: "30px" }}>
+              <div style={{ display: "flex", gap: isMobile ? "15px" : "20px", marginBottom: isMobile ? "25px" : "30px", alignItems: "flex-start" }}>
                 <div style={{ 
-                  width: "50px", 
-                  height: "50px", 
+                  width: isMobile ? "45px" : "50px", 
+                  height: isMobile ? "45px" : "50px", 
+                  minWidth: isMobile ? "45px" : "50px",
                   borderRadius: "12px", 
                   background: "linear-gradient(135deg, rgba(26, 54, 93, 0.1) 0%, rgba(26, 54, 93, 0.05) 100%)", 
                   display: "flex", 
@@ -104,11 +113,11 @@ export default function ContactPage() {
                   justifyContent: "center", 
                   flexShrink: 0 
                 }}>
-                  <i className="fas fa-map-marker-alt" style={{ fontSize: "20px", color: "#1a365d" }}></i>
+                  <i className="fas fa-map-marker-alt" style={{ fontSize: isMobile ? "18px" : "20px", color: "#1a365d" }}></i>
                 </div>
-                <div>
-                  <h5 style={{ fontSize: "16px", fontWeight: "600", color: "#1a202c", marginBottom: "5px" }}>Adresses</h5>
-                  <p style={{ fontSize: "14px", color: "#718096", margin: 0, lineHeight: "1.6" }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h5 style={{ fontSize: isMobile ? "15px" : "16px", fontWeight: "600", color: "#1a202c", marginBottom: "5px" }}>Adresses</h5>
+                  <p style={{ fontSize: isMobile ? "13px" : "14px", color: "#718096", margin: 0, lineHeight: "1.6", wordBreak: "break-word" }}>
                     Cité Commerciale, Korba<br />
                     Rue Taher Sfar, Dar Chaâbene El Fehri
                   </p>
@@ -116,10 +125,11 @@ export default function ContactPage() {
               </div>
 
               {/* Téléphone */}
-              <div style={{ display: "flex", gap: "20px", marginBottom: "30px" }}>
+              <div style={{ display: "flex", gap: isMobile ? "15px" : "20px", marginBottom: isMobile ? "25px" : "30px", alignItems: "flex-start" }}>
                 <div style={{ 
-                  width: "50px", 
-                  height: "50px", 
+                  width: isMobile ? "45px" : "50px", 
+                  height: isMobile ? "45px" : "50px", 
+                  minWidth: isMobile ? "45px" : "50px",
                   borderRadius: "12px", 
                   background: "linear-gradient(135deg, rgba(197, 48, 48, 0.1) 0%, rgba(197, 48, 48, 0.05) 100%)", 
                   display: "flex", 
@@ -127,22 +137,23 @@ export default function ContactPage() {
                   justifyContent: "center", 
                   flexShrink: 0 
                 }}>
-                  <i className="fas fa-phone-alt" style={{ fontSize: "20px", color: "#c53030" }}></i>
+                  <i className="fas fa-phone-alt" style={{ fontSize: isMobile ? "18px" : "20px", color: "#c53030" }}></i>
                 </div>
-                <div>
-                  <h5 style={{ fontSize: "16px", fontWeight: "600", color: "#1a202c", marginBottom: "5px" }}>Téléphones</h5>
-                  <p style={{ fontSize: "14px", color: "#718096", margin: 0, lineHeight: "1.6" }}>
-                    (+216) 52 255 145<br />
-                    (+216) 48 018 250
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h5 style={{ fontSize: isMobile ? "15px" : "16px", fontWeight: "600", color: "#1a202c", marginBottom: "5px" }}>Téléphones</h5>
+                  <p style={{ fontSize: isMobile ? "13px" : "14px", color: "#718096", margin: 0, lineHeight: "1.6" }}>
+                    <a href="tel:+21652255145" style={{ color: "#718096", textDecoration: "none" }}>(+216) 52 255 145</a><br />
+                    <a href="tel:+21648018250" style={{ color: "#718096", textDecoration: "none" }}>(+216) 48 018 250</a>
                   </p>
                 </div>
               </div>
 
               {/* Email */}
-              <div style={{ display: "flex", gap: "20px", marginBottom: "30px" }}>
+              <div style={{ display: "flex", gap: isMobile ? "15px" : "20px", marginBottom: isMobile ? "25px" : "30px", alignItems: "flex-start" }}>
                 <div style={{ 
-                  width: "50px", 
-                  height: "50px", 
+                  width: isMobile ? "45px" : "50px", 
+                  height: isMobile ? "45px" : "50px", 
+                  minWidth: isMobile ? "45px" : "50px",
                   borderRadius: "12px", 
                   background: "linear-gradient(135deg, rgba(26, 54, 93, 0.1) 0%, rgba(26, 54, 93, 0.05) 100%)", 
                   display: "flex", 
@@ -150,21 +161,22 @@ export default function ContactPage() {
                   justifyContent: "center", 
                   flexShrink: 0 
                 }}>
-                  <i className="fas fa-envelope" style={{ fontSize: "20px", color: "#1a365d" }}></i>
+                  <i className="fas fa-envelope" style={{ fontSize: isMobile ? "18px" : "20px", color: "#1a365d" }}></i>
                 </div>
-                <div>
-                  <h5 style={{ fontSize: "16px", fontWeight: "600", color: "#1a202c", marginBottom: "5px" }}>Email</h5>
-                  <p style={{ fontSize: "14px", color: "#718096", margin: 0 }}>
-                    wstore887@gmail.com
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h5 style={{ fontSize: isMobile ? "15px" : "16px", fontWeight: "600", color: "#1a202c", marginBottom: "5px" }}>Email</h5>
+                  <p style={{ fontSize: isMobile ? "13px" : "14px", color: "#718096", margin: 0, wordBreak: "break-word" }}>
+                    <a href="mailto:wstore887@gmail.com" style={{ color: "#718096", textDecoration: "none" }}>wstore887@gmail.com</a>
                   </p>
                 </div>
               </div>
 
               {/* Horaires */}
-              <div style={{ display: "flex", gap: "20px" }}>
+              <div style={{ display: "flex", gap: isMobile ? "15px" : "20px", alignItems: "flex-start" }}>
                 <div style={{ 
-                  width: "50px", 
-                  height: "50px", 
+                  width: isMobile ? "45px" : "50px", 
+                  height: isMobile ? "45px" : "50px", 
+                  minWidth: isMobile ? "45px" : "50px",
                   borderRadius: "12px", 
                   background: "linear-gradient(135deg, rgba(197, 48, 48, 0.1) 0%, rgba(197, 48, 48, 0.05) 100%)", 
                   display: "flex", 
@@ -172,19 +184,19 @@ export default function ContactPage() {
                   justifyContent: "center", 
                   flexShrink: 0 
                 }}>
-                  <i className="fas fa-clock" style={{ fontSize: "20px", color: "#c53030" }}></i>
+                  <i className="fas fa-clock" style={{ fontSize: isMobile ? "18px" : "20px", color: "#c53030" }}></i>
                 </div>
-                <div>
-                  <h5 style={{ fontSize: "16px", fontWeight: "600", color: "#1a202c", marginBottom: "5px" }}>Horaires</h5>
-                  <p style={{ fontSize: "14px", color: "#718096", margin: 0, lineHeight: "1.6" }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h5 style={{ fontSize: isMobile ? "15px" : "16px", fontWeight: "600", color: "#1a202c", marginBottom: "5px" }}>Horaires</h5>
+                  <p style={{ fontSize: isMobile ? "13px" : "14px", color: "#718096", margin: 0, lineHeight: "1.6" }}>
                     Lun - Dim: 9h00 - 22h00
                   </p>
                 </div>
               </div>
 
               {/* Réseaux sociaux */}
-              <div style={{ marginTop: "40px", paddingTop: "30px", borderTop: "1px solid #e2e8f0" }}>
-                <h5 style={{ fontSize: "16px", fontWeight: "600", color: "#1a202c", marginBottom: "15px" }}>Suivez-nous</h5>
+              <div style={{ marginTop: isMobile ? "30px" : "40px", paddingTop: isMobile ? "25px" : "30px", borderTop: "1px solid #e2e8f0" }}>
+                <h5 style={{ fontSize: isMobile ? "15px" : "16px", fontWeight: "600", color: "#1a202c", marginBottom: "15px" }}>Suivez-nous</h5>
                 <div style={{ display: "flex", gap: "12px" }}>
                   {[
                     { icon: 'facebook-f', url: 'https://www.facebook.com/profile.php?id=100090708515530' },
@@ -197,8 +209,8 @@ export default function ContactPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ 
-                        width: "44px", 
-                        height: "44px", 
+                        width: isMobile ? "40px" : "44px", 
+                        height: isMobile ? "40px" : "44px", 
                         borderRadius: "12px", 
                         background: "linear-gradient(135deg, #1a365d 0%, #0d1b2a 100%)", 
                         display: "flex", 

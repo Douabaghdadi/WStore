@@ -126,7 +126,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Banners Section */}
-      <div className="homepage-banners" style={{ background: '#f7fafc', marginTop: '150px', paddingTop: '15px' }}>
+      <div className="homepage-banners" style={{ background: '#f7fafc', paddingTop: '15px' }}>
         <div className="container">
           <div className="row g-3">
             {/* Grande bannière iPhone - Gauche */}

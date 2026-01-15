@@ -28,6 +28,7 @@ export default function ShopPage() {
   const [showInStockOnly, setShowInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState('');
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const { addToCart } = useCart();
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
@@ -164,9 +165,88 @@ export default function ShopPage() {
       </div>
 
       <div className="container">
+        {/* Mobile Filter Button */}
+        <div className="d-lg-none" style={{ marginBottom: '20px' }}>
+          <button 
+            onClick={() => setShowMobileFilters(!showMobileFilters)}
+            style={{
+              width: '100%',
+              padding: '14px 20px',
+              background: 'white',
+              border: '2px solid #e2e8f0',
+              borderRadius: '12px',
+              fontSize: '14px',
+              fontWeight: '600',
+              color: '#1a202c',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <i className="fas fa-sliders-h" style={{ color: '#c53030' }}></i>
+              Filtres et tri
+              {(selectedBrand || selectedCategory || showDiscountOnly || showInStockOnly || priceRange.min || priceRange.max) && (
+                <span style={{ background: '#c53030', color: 'white', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px' }}>!</span>
+              )}
+            </span>
+            <i className={`fas fa-chevron-${showMobileFilters ? 'up' : 'down'}`} style={{ color: '#64748b' }}></i>
+          </button>
+          
+          {/* Mobile Filters Panel */}
+          {showMobileFilters && (
+            <div style={{ marginTop: '15px', backgroundColor: 'white', borderRadius: '16px', padding: '20px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '15px' }}>
+                <select style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                  <option value="">Catégorie</option>
+                  {categories.map((cat: any) => (<option key={cat._id} value={cat._id}>{cat.name}</option>))}
+                </select>
+                <select style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
+                  <option value="">Marque</option>
+                  {brands.map((brand: any) => (<option key={brand._id} value={brand._id}>{brand.name}</option>))}
+                </select>
+              </div>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '15px' }}>
+                <input type="number" placeholder="Prix min" value={priceRange.min} onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} />
+                <input type="number" placeholder="Prix max" value={priceRange.max} onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} />
+              </div>
+              
+              <select style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none', marginBottom: '15px' }} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <option value="">Trier par</option>
+                <option value="newest">Plus récents</option>
+                <option value="price-asc">Prix croissant</option>
+                <option value="price-desc">Prix décroissant</option>
+                <option value="name-asc">Nom (A-Z)</option>
+              </select>
+              
+              <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                <label style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: '10px', background: showDiscountOnly ? '#fee2e2' : '#f8f9fa', borderRadius: '10px', fontSize: '13px', fontWeight: '500' }}>
+                  <input type="checkbox" checked={showDiscountOnly} onChange={(e) => setShowDiscountOnly(e.target.checked)} style={{ accentColor: '#c53030' }} />
+                  <i className="fas fa-tag" style={{ color: '#c53030' }}></i> Promos
+                </label>
+                <label style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', padding: '10px', background: showInStockOnly ? '#dcfce7' : '#f8f9fa', borderRadius: '10px', fontSize: '13px', fontWeight: '500' }}>
+                  <input type="checkbox" checked={showInStockOnly} onChange={(e) => setShowInStockOnly(e.target.checked)} style={{ accentColor: '#16a34a' }} />
+                  <i className="fas fa-check" style={{ color: '#16a34a' }}></i> En stock
+                </label>
+              </div>
+              
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button onClick={resetFilters} style={{ flex: 1, padding: '12px', background: '#f1f5f9', color: '#64748b', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
+                  <i className="fas fa-redo me-2"></i>Réinitialiser
+                </button>
+                <button onClick={() => setShowMobileFilters(false)} style={{ flex: 1, padding: '12px', background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)', color: 'white', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
+                  Voir {filteredProducts.length} résultats
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
         <div className="row g-4">
-          {/* Filtres */}
-          <div className="col-lg-3">
+          {/* Filtres - Hidden on mobile */}
+          <div className="col-lg-3 d-none d-lg-block">
             <div style={{ backgroundColor: 'white', borderRadius: '20px', padding: '25px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', position: 'sticky', top: '180px' }}>
               <h5 style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <i className="fas fa-filter" style={{ color: '#c53030' }}></i> Filtres
@@ -233,7 +313,7 @@ export default function ShopPage() {
 
 
           {/* Produits */}
-          <div className="col-lg-9">
+          <div className="col-12 col-lg-9">
             <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
               <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
                 <span style={{ fontWeight: '700', color: '#1a202c' }}>{filteredProducts.length}</span> produit(s) trouvé(s)
@@ -264,7 +344,7 @@ export default function ShopPage() {
                   const finalPrice = (product.discount ?? 0) > 0 ? product.price * (1 - (product.discount ?? 0) / 100) : product.price;
                   const isFavorite = favorites.includes(product._id);
                   return (
-                    <div key={product._id} className="col-md-6 col-xl-4">
+                    <div key={product._id} className="col-6 col-md-6 col-xl-4">
                       <div style={{ backgroundColor: 'white', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', border: '1px solid #e2e8f0', height: '100%', display: 'flex', flexDirection: 'column', transition: 'all 0.3s ease' }}>
                         <div style={{ position: 'relative', backgroundColor: '#f7fafc', height: '280px' }}>
                           <Link href={`/product/${product._id}`}>

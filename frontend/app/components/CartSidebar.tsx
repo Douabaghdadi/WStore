@@ -303,191 +303,101 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
         {/* Footer */}
         {cart.length > 0 && (
           <div style={{
-            padding: '16px',
+            padding: '12px 16px',
             background: 'white',
             borderTop: '1px solid #e2e8f0',
             boxShadow: '0 -4px 20px rgba(0,0,0,0.05)'
           }}>
-            {/* Code Promo */}
-            <div style={{ marginBottom: '14px' }}>
+            {/* Code Promo - Compact */}
+            <div style={{ marginBottom: '12px' }}>
               {!promoApplied ? (
-                <div>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <input
-                      type="text"
-                      placeholder="Code promo"
-                      value={promoCode}
-                      onChange={(e) => setPromoCode(e.target.value)}
-                      style={{
-                        flex: 1,
-                        padding: '10px 12px',
-                        border: promoError ? '2px solid #c53030' : '2px solid #e2e8f0',
-                        borderRadius: '8px',
-                        fontSize: '13px',
-                        outline: 'none',
-                        transition: 'border-color 0.2s'
-                      }}
-                      onFocus={(e) => e.target.style.borderColor = '#1a365d'}
-                      onBlur={(e) => e.target.style.borderColor = promoError ? '#c53030' : '#e2e8f0'}
-                    />
-                    <button
-                      onClick={handleApplyPromo}
-                      style={{
-                        padding: '10px 16px',
-                        background: '#1a365d',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '8px',
-                        fontSize: '13px',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'background 0.2s'
-                      }}
-                      onMouseOver={(e) => (e.target as HTMLButtonElement).style.background = '#2c5282'}
-                      onMouseOut={(e) => (e.target as HTMLButtonElement).style.background = '#1a365d'}
-                    >
-                      Appliquer
-                    </button>
-                  </div>
-                  {promoError && (
-                    <p style={{ color: '#c53030', fontSize: '12px', marginTop: '6px', marginBottom: 0 }}>
-                      <i className="fas fa-exclamation-circle" style={{ marginRight: '4px' }}></i>
-                      {promoError}
-                    </p>
-                  )}
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <input
+                    type="text"
+                    placeholder="Code promo"
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                    style={{
+                      flex: 1,
+                      padding: '10px 12px',
+                      border: promoError ? '2px solid #c53030' : '2px solid #e2e8f0',
+                      borderRadius: '8px',
+                      fontSize: '13px',
+                      outline: 'none'
+                    }}
+                  />
+                  <button
+                    onClick={handleApplyPromo}
+                    style={{
+                      padding: '10px 14px',
+                      background: '#1a365d',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    OK
+                  </button>
                 </div>
               ) : (
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '10px 12px',
+                  padding: '8px 12px',
                   background: '#f0fdf4',
                   borderRadius: '8px',
                   border: '1px solid #86efac'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <i className="fas fa-check-circle" style={{ color: '#16a34a', fontSize: '14px' }}></i>
-                    <span style={{ fontSize: '13px', fontWeight: '600', color: '#166534' }}>
-                      {promoCode.toUpperCase()} (-{promoDiscount}%)
-                    </span>
-                  </div>
-                  <button
-                    onClick={removePromo}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: '#dc2626',
-                      cursor: 'pointer',
-                      fontSize: '12px',
-                      fontWeight: '600'
-                    }}
-                  >
+                  <span style={{ fontSize: '12px', fontWeight: '600', color: '#166534' }}>
+                    <i className="fas fa-check-circle me-1"></i>{promoCode.toUpperCase()} (-{promoDiscount}%)
+                  </span>
+                  <button onClick={removePromo} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: '11px', fontWeight: '600' }}>
                     Retirer
                   </button>
                 </div>
               )}
             </div>
 
-            {/* Subtotal */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '6px'
-            }}>
-              <span style={{ color: '#718096', fontSize: '13px' }}>Sous-total</span>
-              <span style={{ color: '#1a202c', fontSize: '13px', fontWeight: '600' }}>
-                {subtotal.toFixed(3)} DT
-              </span>
-            </div>
-
-            {/* Discount */}
-            {promoApplied && (
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '6px'
-              }}>
-                <span style={{ color: '#16a34a', fontSize: '13px' }}>Réduction ({promoDiscount}%)</span>
-                <span style={{ color: '#16a34a', fontSize: '13px', fontWeight: '600' }}>
-                  -{discountAmount.toFixed(3)} DT
-                </span>
+            {/* Summary - Compact */}
+            <div style={{ fontSize: '13px', marginBottom: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                <span style={{ color: '#718096' }}>Sous-total</span>
+                <span style={{ color: '#1a202c', fontWeight: '600' }}>{subtotal.toFixed(3)} DT</span>
               </div>
-            )}
-
-            {/* Shipping */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '12px',
-              paddingBottom: '12px',
-              borderBottom: '1px dashed #e2e8f0'
-            }}>
-              <span style={{ color: '#718096', fontSize: '13px' }}>Livraison</span>
-              <span style={{ color: '#1a202c', fontSize: '13px', fontWeight: '600' }}>
-                {shippingCost.toFixed(3)} DT
-              </span>
+              {promoApplied && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                  <span style={{ color: '#16a34a' }}>Réduction</span>
+                  <span style={{ color: '#16a34a', fontWeight: '600' }}>-{discountAmount.toFixed(3)} DT</span>
+                </div>
+              )}
+              <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px dashed #e2e8f0' }}>
+                <span style={{ color: '#718096' }}>Livraison</span>
+                <span style={{ color: '#1a202c', fontWeight: '600' }}>{shippingCost.toFixed(3)} DT</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px' }}>
+                <span style={{ color: '#1a202c', fontWeight: '700' }}>Total</span>
+                <span style={{ fontSize: '18px', fontWeight: '800', color: '#c53030' }}>{finalTotal.toFixed(3)} DT</span>
+              </div>
             </div>
 
-            {/* Total */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '16px'
-            }}>
-              <span style={{ color: '#1a202c', fontSize: '16px', fontWeight: '700' }}>Total</span>
-              <span style={{ 
-                fontSize: '20px', 
-                fontWeight: '800', 
-                color: '#c53030'
-              }}>
-                {finalTotal.toFixed(3)} <span style={{ fontSize: '13px', fontWeight: '600' }}>DT</span>
-              </span>
-            </div>
-
-            {/* Buttons */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <Link 
-                href="/checkout" 
-                onClick={onClose}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  width: '100%',
-                  padding: '14px',
-                  background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)',
-                  color: 'white',
-                  textAlign: 'center',
-                  textDecoration: 'none',
-                  borderRadius: '10px',
-                  fontSize: '14px',
-                  fontWeight: '700',
-                  boxShadow: '0 4px 15px rgba(197, 48, 48, 0.3)'
-                }}
-              >
-                <i className="fas fa-lock" style={{ fontSize: '12px' }}></i>
-                Commander maintenant
-              </Link>
-
+            {/* Buttons - Always visible */}
+            <div style={{ display: 'flex', gap: '10px' }}>
               <Link 
                 href="/cart" 
                 onClick={onClose}
                 style={{
+                  flex: 1,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '6px',
-                  width: '100%',
                   padding: '12px',
                   background: 'white',
                   color: '#1a365d',
-                  textAlign: 'center',
                   textDecoration: 'none',
                   borderRadius: '10px',
                   fontSize: '13px',
@@ -496,11 +406,31 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                 }}
               >
                 <i className="fas fa-shopping-bag" style={{ fontSize: '12px' }}></i>
-                Voir le panier
+                Panier
+              </Link>
+              <Link 
+                href="/checkout" 
+                onClick={onClose}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  padding: '12px',
+                  background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)',
+                  color: 'white',
+                  textDecoration: 'none',
+                  borderRadius: '10px',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  boxShadow: '0 4px 12px rgba(197, 48, 48, 0.3)'
+                }}
+              >
+                <i className="fas fa-lock" style={{ fontSize: '11px' }}></i>
+                Commander
               </Link>
             </div>
-
-            {/* Free shipping notice - removed */}
           </div>
         )}
       </div>

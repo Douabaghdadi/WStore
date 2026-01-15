@@ -29,6 +29,13 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
+        {/* Viewport for mobile responsiveness */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+        {/* Theme color for mobile browsers */}
+        <meta name="theme-color" content="#1a365d" />
+        {/* Apple mobile web app */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         {/* Bootstrap CSS */}
         <link 
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
