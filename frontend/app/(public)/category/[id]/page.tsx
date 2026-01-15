@@ -130,7 +130,7 @@ export default function CategoryPage() {
   };
 
   return (
-    <div style={{ marginTop: '150px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
+    <div style={{ marginTop: '130px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
       {/* Hero Section */}
       <div style={{
         background: 'linear-gradient(135deg, #0d1b2a 0%, #1a365d 50%, #2d4a7c 100%)',

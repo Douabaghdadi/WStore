@@ -117,7 +117,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div style={{marginTop: '160px', backgroundColor: '#fafbfc', minHeight: '100vh', paddingBottom: '80px'}}>
+    <div style={{marginTop: '130px', backgroundColor: '#fafbfc', minHeight: '100vh', paddingBottom: '80px'}}>
       <div className="container py-5">
         <div style={{textAlign: 'center', marginBottom: '50px'}}>
           <div style={{width: '50px', height: '50px', borderRadius: '12px', background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px', boxShadow: '0 4px 15px rgba(197,48,48,0.3)'}}>

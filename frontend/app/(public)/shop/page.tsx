@@ -112,7 +112,7 @@ export default function ShopPage() {
   };
 
   return (
-    <div style={{ marginTop: '150px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
+    <div style={{ marginTop: '130px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
       {/* Hero Section */}
       <div style={{
         background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 50%, #3c5a99 100%)',

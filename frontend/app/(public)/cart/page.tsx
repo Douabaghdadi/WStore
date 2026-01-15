@@ -46,21 +46,24 @@ export default function CartPage() {
 
   if (cart.length === 0) {
     return (
-      <div style={{marginTop: isMobile ? '100px' : '160px', minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f9fa', padding: '20px'}}>
-        <div style={{textAlign: 'center', backgroundColor: 'white', padding: isMobile ? '40px 25px' : '60px', borderRadius: '20px', boxShadow: '0 10px 40px rgba(0,0,0,0.08)'}}>
-          <div style={{width: isMobile ? '70px' : '100px', height: isMobile ? '70px' : '100px', margin: '0 auto 20px', background: 'linear-gradient(135deg, #1a365d, #2d4a7c)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <i className="fas fa-shopping-cart" style={{fontSize: isMobile ? '28px' : '40px', color: 'white'}}></i>
+      <div style={{marginTop: isMobile ? '70px' : '130px', minHeight: '75vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f9fa', padding: '20px'}}>
+        <div style={{textAlign: 'center', backgroundColor: 'white', padding: isMobile ? '40px 25px' : '60px 70px', borderRadius: '20px', boxShadow: '0 10px 40px rgba(0,0,0,0.08)', maxWidth: '420px', width: '100%'}}>
+          <div style={{width: isMobile ? '80px' : '100px', height: isMobile ? '80px' : '100px', margin: '0 auto 25px', background: 'linear-gradient(135deg, #1a365d, #2d4a7c)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 25px rgba(26,54,93,0.25)'}}>
+            <i className="fas fa-shopping-cart" style={{fontSize: isMobile ? '32px' : '42px', color: 'white'}}></i>
           </div>
-          <h2 style={{fontSize: isMobile ? '20px' : '26px', fontWeight: '800', color: '#1a202c', marginBottom: '10px'}}>Panier vide</h2>
-          <p style={{color: '#64748b', marginBottom: '25px'}}>Découvrez nos produits</p>
-          <Link href="/" style={{display: 'inline-block', padding: '14px 35px', background: 'linear-gradient(135deg, #c53030, #e53e3e)', color: 'white', textDecoration: 'none', borderRadius: '12px', fontWeight: '700'}}>Découvrir</Link>
+          <h2 style={{fontSize: isMobile ? '22px' : '28px', fontWeight: '800', color: '#1a202c', marginBottom: '12px'}}>Panier vide</h2>
+          <p style={{color: '#64748b', marginBottom: '30px', fontSize: isMobile ? '14px' : '15px'}}>Découvrez nos produits et commencez vos achats !</p>
+          <Link href="/shop" style={{display: 'inline-block', padding: isMobile ? '14px 35px' : '15px 40px', background: 'linear-gradient(135deg, #c53030, #e53e3e)', color: 'white', textDecoration: 'none', borderRadius: '12px', fontWeight: '700', fontSize: isMobile ? '14px' : '15px', boxShadow: '0 6px 20px rgba(197,48,48,0.3)'}}>
+            <i className="fas fa-store" style={{marginRight: '8px'}}></i>
+            Découvrir la boutique
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{marginTop: isMobile ? '100px' : '160px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '40px'}}>
+    <div style={{marginTop: isMobile ? '70px' : '130px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '40px'}}>
       <div className="container" style={{paddingTop: isMobile ? '15px' : '30px', paddingBottom: '15px'}}>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
           <div style={{width: isMobile ? '45px' : '55px', height: isMobile ? '45px' : '55px', background: 'linear-gradient(135deg, #c53030, #e53e3e)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px'}}>

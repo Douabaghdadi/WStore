@@ -43,14 +43,14 @@ export default function OrdersPage() {
 
   if (loading) {
     return (
-      <div style={{marginTop: '160px', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      <div style={{marginTop: '130px', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
         <div className="spinner-grow text-primary" role="status"></div>
       </div>
     );
   }
 
   return (
-    <div style={{marginTop: '160px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px'}}>
+    <div style={{marginTop: '130px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px'}}>
       <div className="container py-5">
         <h1 style={{fontSize: '36px', fontWeight: '700', marginBottom: '40px'}}>Mes Commandes</h1>
         

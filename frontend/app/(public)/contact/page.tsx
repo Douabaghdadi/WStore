@@ -45,7 +45,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div style={{ marginTop: "160px", backgroundColor: "#f7fafc", minHeight: "100vh", paddingBottom: "80px" }}>
+    <div style={{ marginTop: "130px", backgroundColor: "#f7fafc", minHeight: "100vh", paddingBottom: "80px" }}>
       {/* Hero Section */}
       <div style={{ 
         background: "linear-gradient(135deg, #0d1b2a 0%, #1a365d 100%)", 

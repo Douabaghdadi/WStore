@@ -26,7 +26,7 @@ export default function ProductPage() {
 
   if (loading) {
     return (
-      <div className="container-fluid py-5" style={{marginTop: '160px', background: '#f7fafc', minHeight: '100vh'}}>
+      <div className="container-fluid py-5" style={{marginTop: '130px', background: '#f7fafc', minHeight: '100vh'}}>
         <div className="text-center py-5">
           <div className="spinner-border" style={{color: '#c53030'}} role="status"></div>
         </div>
@@ -36,7 +36,7 @@ export default function ProductPage() {
 
   if (!product) {
     return (
-      <div className="container-fluid py-5" style={{marginTop: '160px'}}>
+      <div className="container-fluid py-5" style={{marginTop: '130px'}}>
         <div style={{
           background: 'linear-gradient(135deg, rgba(197, 48, 48, 0.1) 0%, rgba(197, 48, 48, 0.05) 100%)',
           border: '1px solid rgba(197, 48, 48, 0.2)',
@@ -61,7 +61,7 @@ export default function ProductPage() {
   };
 
   return (
-    <div style={{marginTop: '160px', backgroundColor: '#f7fafc', minHeight: '100vh'}}>
+    <div style={{marginTop: '130px', backgroundColor: '#f7fafc', minHeight: '100vh'}}>
       <div className="container py-5">
         {/* Breadcrumb */}
         <nav aria-label="breadcrumb" style={{marginBottom: '30px'}}>
