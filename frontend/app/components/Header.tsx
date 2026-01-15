@@ -264,15 +264,39 @@ export default function Header() {
             <div className="d-none d-xl-flex align-items-center gap-4">
               <Link href="/" className="nav-link" style={{color: '#1a1a1a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase'}}>Accueil</Link>
               <Link href="/shop" className="nav-link" style={{color: '#4a4a4a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase'}}>Boutique</Link>
-              <div className="dropdown">
-                <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown" style={{color: '#4a4a4a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase'}}>Nos Magasins</a>
-                <div className="dropdown-menu" style={{background: 'white', borderRadius: '12px', border: 'none', boxShadow: '0 10px 40px rgba(0,0,0,0.15)', padding: '10px 0'}}>
-                  <Link href="/magasins#korba" className="dropdown-item" style={{padding: '10px 20px'}}>
-                    <i className="fas fa-store me-2" style={{color: '#c53030'}}></i>Korba
+              <div className="dropdown" style={{position: 'relative'}}
+                onMouseEnter={() => setShowUserMenu(false)}
+              >
+                <a href="#" 
+                  className="nav-link" 
+                  style={{color: '#4a4a4a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '4px'}}
+                  onMouseEnter={(e) => {
+                    const dropdown = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (dropdown) dropdown.style.display = 'block';
+                  }}
+                >
+                  Nos Magasins
+                  <i className="fas fa-chevron-down" style={{fontSize: '10px'}}></i>
+                </a>
+                <div 
+                  className="dropdown-menu" 
+                  style={{display: 'none', position: 'absolute', top: '100%', left: '0', background: 'white', borderRadius: '12px', border: 'none', boxShadow: '0 10px 40px rgba(0,0,0,0.15)', padding: '12px 0', minWidth: '220px', zIndex: 1050}}
+                  onMouseEnter={(e) => e.currentTarget.style.display = 'block'}
+                  onMouseLeave={(e) => e.currentTarget.style.display = 'none'}
+                >
+                  <Link href="/magasins#korba" className="dropdown-item" style={{display: 'flex', alignItems: 'center', padding: '12px 18px', color: '#374151', textDecoration: 'none', fontSize: '14px', fontWeight: '500', transition: 'background 0.2s'}}>
+                    <i className="fas fa-store me-3" style={{color: '#c53030', fontSize: '15px'}}></i>Korba
                   </Link>
-                  <Link href="/magasins#dar-chaabene" className="dropdown-item" style={{padding: '10px 20px'}}>
-                    <i className="fas fa-store me-2" style={{color: '#c53030'}}></i>Dar Chaâbene
+                  <Link href="/magasins#dar-chaabene" className="dropdown-item" style={{display: 'flex', alignItems: 'center', padding: '12px 18px', color: '#374151', textDecoration: 'none', fontSize: '14px', fontWeight: '500', transition: 'background 0.2s'}}>
+                    <i className="fas fa-store me-3" style={{color: '#c53030', fontSize: '15px'}}></i>Dar Chaâbene
                   </Link>
+                  <div style={{borderTop: '1px solid #f1f5f9', margin: '8px 14px'}}></div>
+                  <div style={{padding: '4px 14px 8px'}}>
+                    <Link href="/magasins" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px 16px', color: 'white', textDecoration: 'none', fontWeight: '600', fontSize: '13px', background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', borderRadius: '8px', whiteSpace: 'nowrap'}}>
+                      Voir tous les magasins
+                      <i className="fas fa-arrow-right ms-2" style={{fontSize: '11px'}}></i>
+                    </Link>
+                  </div>
                 </div>
               </div>
               <Link href="/contact" className="nav-link" style={{color: '#4a4a4a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase'}}>Contact</Link>
@@ -341,7 +365,7 @@ export default function Header() {
                     <i className="fas fa-user" style={{color: 'white', fontSize: '14px'}}></i>
                   </a>
                   {showUserMenu && (
-                    <div style={{position: 'absolute', right: 0, top: '100%', marginTop: '10px', minWidth: '250px', backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 15px 50px rgba(0,0,0,0.2)', zIndex: 1000, overflow: 'hidden', border: '1px solid #e2e8f0'}}>
+                    <div style={{position: 'absolute', right: 0, top: '100%', marginTop: '10px', minWidth: '250px', backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 15px 50px rgba(0,0,0,0.2)', zIndex: 1050, overflow: 'hidden', border: '1px solid #e2e8f0'}}>
                       <div style={{padding: '16px', background: 'linear-gradient(135deg, #1a365d 0%, #2c5282 100%)', color: 'white'}}>
                         <div style={{fontSize: '14px', fontWeight: '700'}}>{user.name || 'Utilisateur'}</div>
                         <div style={{fontSize: '12px', opacity: 0.8}}>{user.email}</div>
@@ -416,7 +440,7 @@ export default function Header() {
         {/* Categories Bar - Desktop only */}
         <div className="d-none d-md-block" style={{background: '#f7fafc', borderTop: '3px solid #c53030', padding: '10px 0', position: 'relative', zIndex: 1020, overflow: 'visible'}}>
           <div className="container px-3">
-            <div className="categories-scroll-container" style={{display: 'flex', gap: '0', justifyContent: 'flex-start'}}>
+            <div className="categories-scroll-container" style={{display: 'flex', gap: '0', justifyContent: 'center'}}>
               {categories.map(cat => {
                 const catSubcategories = subcategories.filter(sub => {
                   const categoryId = sub.category?._id || sub.category;
@@ -483,36 +507,6 @@ export default function Header() {
               <i className="fas fa-times" style={{color: '#1a202c', fontSize: '16px'}}></i>
             </button>
           </div>
-          
-          {/* User info si connecté */}
-          {user && (
-            <div style={{
-              marginTop: '20px',
-              padding: '14px',
-              background: 'rgba(255,255,255,0.08)',
-              borderRadius: '14px',
-              border: '1px solid rgba(255,255,255,0.1)'
-            }}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-                <div style={{
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '12px',
-                  background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 4px 15px rgba(197,48,48,0.4)'
-                }}>
-                  <i className="fas fa-user" style={{color: 'white', fontSize: '16px'}}></i>
-                </div>
-                <div>
-                  <p style={{color: 'white', fontWeight: '600', fontSize: '14px', margin: 0}}>{user.name || 'Utilisateur'}</p>
-                  <p style={{color: 'rgba(255,255,255,0.5)', fontSize: '11px', margin: 0}}>{user.email}</p>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Mobile Menu Links */}
