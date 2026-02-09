@@ -2,11 +2,19 @@
 
 Plateforme e-commerce moderne avec Next.js et Express.
 
+**🔴 LIVE:** http://51.254.135.247:3000
+
 ---
 
 ## ⚡ NOUVEAU : Déploiement Automatique CI/CD
 
 **🎉 Votre projet est maintenant équipé d'un pipeline CI/CD professionnel !**
+
+### ✅ État du Déploiement
+
+- **Frontend**: http://51.254.135.247:3000 ✅
+- **Backend**: http://51.254.135.247:5000 ✅
+- **CI/CD**: Actif et fonctionnel ✅
 
 ### 🚀 Démarrage Rapide
 
