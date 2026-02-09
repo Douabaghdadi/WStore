@@ -4,6 +4,8 @@ Plateforme e-commerce moderne avec Next.js et Express.
 
 **🔴 LIVE:** http://51.254.135.247:3000
 
+**🚀 Dernière mise à jour:** 2026-02-09 - Test déploiement automatique
+
 ---
 
 ## ⚡ NOUVEAU : Déploiement Automatique CI/CD
