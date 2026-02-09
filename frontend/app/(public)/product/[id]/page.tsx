@@ -6,6 +6,7 @@ import ProductReviews from '../../../components/ProductReviews';
 import StarRating from '../../../components/StarRating';
 import { useCart } from '../../../context/CartContext';
 import { useFavorites } from '../../../context/FavoritesContext';
+import { API_URL } from '../../../../lib/api';
 
 export default function ProductPage() {
   const params = useParams();
@@ -16,7 +17,7 @@ export default function ProductPage() {
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${params.id}`)
+    fetch(`${API_URL}/api/products/${params.id}`)
       .then(r => r.json())
       .then(data => {
         setProduct(data);
@@ -103,7 +104,7 @@ export default function ProductPage() {
                 minHeight: '550px'
               }}>
                 <img 
-                  src={product.image ? (product.image.startsWith('http') ? product.image : `http://localhost:5000${product.image}`) : '/img/product-placeholder.jpg'} 
+                  src={product.image ? (product.image.startsWith('http') ? product.image : `${API_URL}${product.image}`) : '/img/product-placeholder.jpg'}
                   style={{maxWidth: '95%', maxHeight: '600px', objectFit: 'contain', borderRadius: '12px'}} 
                   alt={product.name} 
                 />

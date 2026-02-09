@@ -1,9 +1,10 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { API_URL } from "../../../lib/api";
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const orderId = searchParams.get('orderId');
@@ -19,7 +20,7 @@ export default function PaymentSuccessPage() {
     const checkPayment = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:5000/api/payments/status/${orderId}`, {
+        const res = await fetch(`${API_URL}/api/payments/status/${orderId}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -28,7 +29,7 @@ export default function PaymentSuccessPage() {
         if (data.paymentStatus === 'paid') {
           setStatus('success');
           // Récupérer les détails de la commande
-          const orderRes = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+          const orderRes = await fetch(`${API_URL}/api/orders/${orderId}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (orderRes.ok) {
@@ -120,5 +121,20 @@ export default function PaymentSuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div style={{marginTop: '160px', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{textAlign: 'center'}}>
+          <div className="spinner-border text-primary" role="status" style={{width: '3rem', height: '3rem'}}></div>
+          <p style={{marginTop: '20px', color: '#6b7280'}}>Chargement...</p>
+        </div>
+      </div>
+    }>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }

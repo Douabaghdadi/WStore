@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import Link from "next/link";
+import { API_URL } from "../../../../lib/api";
 
 export default function NewBrandPage() {
   const router = useRouter();
@@ -11,7 +12,7 @@ export default function NewBrandPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch("http://localhost:5000/api/brands", {
+    await fetch(`${API_URL}/api/brands`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)

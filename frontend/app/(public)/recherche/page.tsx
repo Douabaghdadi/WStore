@@ -1,9 +1,10 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useCart } from '../../context/CartContext';
 import { useFavorites } from '../../context/FavoritesContext';
+import { API_URL } from '../../../lib/api';
 
 interface Product {
   _id: string;
@@ -16,7 +17,7 @@ interface Product {
   category?: { _id: string; name: string };
 }
 
-export default function RecherchePage() {
+function RechercheContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const [products, setProducts] = useState<Product[]>([]);
@@ -34,10 +35,10 @@ export default function RecherchePage() {
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/brands').then(r => r.json()).then(setBrands);
-    fetch('http://localhost:5000/api/categories').then(r => r.json()).then(setCategories);
+    fetch(`${API_URL}/api/brands`).then(r => r.json()).then(setBrands);
+    fetch(`${API_URL}/api/categories`).then(r => r.json()).then(setCategories);
 
-    fetch('http://localhost:5000/api/products')
+    fetch(`${API_URL}/api/products`)
       .then(r => r.json())
       .then(data => {
         const searchResults = data.filter((p: Product) =>
@@ -228,7 +229,7 @@ export default function RecherchePage() {
                       <div style={{ backgroundColor: 'white', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', border: '1px solid #e2e8f0', height: '100%', display: 'flex', flexDirection: 'column' }}>
                         <div style={{ position: 'relative', backgroundColor: '#f7fafc', height: '280px' }}>
                           <Link href={`/product/${product._id}`}>
-                            <img src={product.image?.startsWith('http') ? product.image : product.image ? `http://localhost:5000${product.image}` : '/img/product-placeholder.jpg'} alt={product.name} style={{ width: '100%', height: '280px', objectFit: 'contain', padding: '20px' }} />
+                            <img src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'} alt={product.name} style={{ width: '100%', height: '280px', objectFit: 'contain', padding: '20px' }} />
                           </Link>
                           {product.brand?.name && (
                             <span style={{ position: 'absolute', top: '12px', left: '12px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '11px', fontWeight: '700' }}>{product.brand.name}</span>
@@ -274,5 +275,19 @@ export default function RecherchePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function RecherchePage() {
+  return (
+    <Suspense fallback={
+      <div style={{ marginTop: '160px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="spinner-border" style={{ color: '#c53030' }} role="status">
+          <span className="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+    }>
+      <RechercheContent />
+    </Suspense>
   );
 }

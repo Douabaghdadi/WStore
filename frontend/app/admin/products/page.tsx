@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Link from "next/link";
+import { API_URL } from "../../../lib/api";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -40,7 +41,7 @@ export default function ProductsPage() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5000/api/products");
+      const response = await fetch(`${API_URL}/api/products`);
       if (!response.ok) throw new Error("Erreur");
       setProducts(await response.json());
     } catch (err: any) {
@@ -51,17 +52,17 @@ export default function ProductsPage() {
   };
 
   const fetchCategories = async () => {
-    const res = await fetch("http://localhost:5000/api/categories");
+    const res = await fetch(`${API_URL}/api/categories`);
     if (res.ok) setCategories(await res.json());
   };
 
   const fetchSubcategories = async () => {
-    const res = await fetch("http://localhost:5000/api/subcategories");
+    const res = await fetch(`${API_URL}/api/subcategories`);
     if (res.ok) setSubcategories(await res.json());
   };
 
   const fetchBrands = async () => {
-    const res = await fetch("http://localhost:5000/api/brands");
+    const res = await fetch(`${API_URL}/api/brands`);
     if (res.ok) setBrands(await res.json());
   };
 
@@ -87,14 +88,14 @@ export default function ProductsPage() {
 
   const deleteProduct = async (id: string) => {
     if (confirm("Supprimer ce produit ?")) {
-      await fetch(`http://localhost:5000/api/products/${id}`, { method: "DELETE" });
+      await fetch(`${API_URL}/api/products/${id}`, { method: "DELETE" });
       fetchProducts();
     }
   };
 
   const toggleStock = async (product: any) => {
     const newStock = product.stock > 0 ? 0 : (product.previousStock > 0 ? product.previousStock : 10);
-    await fetch(`http://localhost:5000/api/products/${product._id}`, {
+    await fetch(`${API_URL}/api/products/${product._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...product, stock: newStock, previousStock: product.stock, category: product.category?._id, subcategories: product.subcategories?.map((s: any) => s._id), brand: product.brand?._id })
@@ -151,7 +152,7 @@ export default function ProductsPage() {
       if (formData.brand) formDataToSend.append("brand", formData.brand);
       if (imageFile) formDataToSend.append("image", imageFile);
 
-      const url = editingProduct ? `http://localhost:5000/api/products/${editingProduct._id}` : "http://localhost:5000/api/products";
+      const url = editingProduct ? `${API_URL}/api/products/${editingProduct._id}` : `${API_URL}/api/products`;
       await fetch(url, { method: editingProduct ? "PUT" : "POST", body: formDataToSend });
       
       setShowModal(false);

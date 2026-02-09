@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+.github
+*.md
+*.txt
+*.ps1
+*.sh
+.env
+.env.local
+.env.production
+backend/uploads
+backend/node_modules
+frontend/node_modules
+frontend/.next
+*.log
+.DS_Store

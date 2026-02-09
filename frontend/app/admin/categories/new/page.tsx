@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import Link from "next/link";
+import { API_URL } from "../../../../lib/api";
 
 export default function NewCategoryPage() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function NewCategoryPage() {
         formDataToSend.append("image", imageFile);
       }
 
-      const response = await fetch("http://localhost:5000/api/categories", {
+      const response = await fetch(`${API_URL}/api/categories`, {
         method: "POST",
         body: formDataToSend
       });

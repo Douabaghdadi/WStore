@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { useRouter } from 'next/navigation';
+import { API_URL } from '../../../lib/api';
 
 export default function CheckoutPage() {
   const { cart, getCartTotal, clearCart } = useCart();
@@ -57,7 +58,7 @@ export default function CheckoutPage() {
         paymentMethod: formData.paymentMethod
       };
 
-      const res = await fetch('http://localhost:5000/api/orders', {
+      const res = await fetch(`${API_URL}/api/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +72,7 @@ export default function CheckoutPage() {
         
         // Si paiement par carte, initier Paymee
         if (formData.paymentMethod === 'card') {
-          const paymentRes = await fetch('http://localhost:5000/api/payments/initiate', {
+          const paymentRes = await fetch(`${API_URL}/api/payments/initiate`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -220,7 +221,7 @@ export default function CheckoutPage() {
                 <div style={{maxHeight: '250px', overflowY: 'auto', marginBottom: '20px', paddingRight: '8px'}}>
                   {cart.map(item => {
                     const finalPrice = item.discount > 0 ? item.price * (1 - item.discount / 100) : item.price;
-                    const imgSrc = item.image?.startsWith('http') ? item.image : `http://localhost:5000${item.image}`;
+                    const imgSrc = item.image?.startsWith('http') ? item.image : `${API_URL}${item.image}`;
                     return (
                       <div key={item._id} style={{display: 'flex', gap: '12px', marginBottom: '14px', paddingBottom: '14px', borderBottom: '1px solid #f3f4f6'}}>
                         <div style={{width: '60px', height: '60px', borderRadius: '10px', overflow: 'hidden', backgroundColor: '#f9fafb', flexShrink: 0, border: '1px solid #e5e7eb'}}>

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import Link from "next/link";
+import { API_URL } from "../../../../lib/api";
 
 export default function NewSubcategoryPage() {
   const router = useRouter();
@@ -15,14 +16,14 @@ export default function NewSubcategoryPage() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/categories")
+    fetch(`${API_URL}/api/categories`)
       .then(r => r.json())
       .then(data => setCategories(data));
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetch("http://localhost:5000/api/subcategories", {
+    await fetch(`${API_URL}/api/subcategories`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)

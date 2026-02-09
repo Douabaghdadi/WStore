@@ -1,11 +1,12 @@
-"use client";
-import { useEffect, useState } from "react";
+﻿"use client";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Link from "next/link";
+import { API_URL } from "../../../lib/api";
 
-export default function OrdersPage() {
+function OrdersContent() {
   const searchParams = useSearchParams();
   const initialSearch = searchParams.get("search") || "";
   
@@ -29,7 +30,7 @@ export default function OrdersPage() {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/orders/all", {
+      const response = await fetch(`${API_URL}/api/orders/all`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await response.json();
@@ -42,7 +43,7 @@ export default function OrdersPage() {
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
+      const response = await fetch(`${API_URL}/api/orders/${orderId}/status`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ status: newStatus })
@@ -56,17 +57,17 @@ export default function OrdersPage() {
         }
       }
     } catch (error) {
-      console.error("Erreur lors de la mise à jour du statut:", error);
+      console.error("Erreur lors de la mise Ã  jour du statut:", error);
     }
   };
 
   const getStatusBadge = (status: string, large = false) => {
     const badges: any = {
       pending: { bg: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)", icon: "mdi-clock-outline", text: "En attente" },
-      confirmed: { bg: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)", icon: "mdi-check-circle-outline", text: "Confirmée" },
-      shipped: { bg: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)", icon: "mdi-truck-delivery-outline", text: "Expédiée" },
-      delivered: { bg: "linear-gradient(135deg, #10b981 0%, #059669 100%)", icon: "mdi-package-variant", text: "Livrée" },
-      cancelled: { bg: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)", icon: "mdi-close-circle-outline", text: "Annulée" }
+      confirmed: { bg: "linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)", icon: "mdi-check-circle-outline", text: "ConfirmÃ©e" },
+      shipped: { bg: "linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)", icon: "mdi-truck-delivery-outline", text: "ExpÃ©diÃ©e" },
+      delivered: { bg: "linear-gradient(135deg, #10b981 0%, #059669 100%)", icon: "mdi-package-variant", text: "LivrÃ©e" },
+      cancelled: { bg: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)", icon: "mdi-close-circle-outline", text: "AnnulÃ©e" }
     };
     const badge = badges[status] || badges.pending;
     return (
@@ -94,7 +95,7 @@ export default function OrdersPage() {
         boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
       }}>
         <i className={`mdi ${isCash ? "mdi-cash" : "mdi-credit-card"}`}></i>
-        {isCash ? "Espèces" : "Carte"}
+        {isCash ? "EspÃ¨ces" : "Carte"}
       </span>
     );
   };
@@ -146,7 +147,7 @@ export default function OrdersPage() {
 
   const renderCalendar = () => {
     const { daysInMonth, startingDay } = getDaysInMonth(currentMonth);
-    const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+    const monthNames = ['Janvier', 'FÃ©vrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'AoÃ»t', 'Septembre', 'Octobre', 'Novembre', 'DÃ©cembre'];
     const dayNames = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
     
     const days = [];
@@ -221,7 +222,7 @@ export default function OrdersPage() {
             <div className="mt-3 pt-3 border-top">
               <div className="d-flex justify-content-between align-items-center">
                 <span className="text-muted">
-                  <i className="mdi mdi-filter"></i> Filtré par: <strong>{selectedDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</strong>
+                  <i className="mdi mdi-filter"></i> FiltrÃ© par: <strong>{selectedDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</strong>
                 </span>
                 <button className="btn btn-sm" style={{ background: "#fef2f2", color: "#ef4444", border: "1px solid #fecaca" }} onClick={() => setSelectedDate(null)}>
                   <i className="mdi mdi-close"></i> Effacer
@@ -358,10 +359,10 @@ export default function OrdersPage() {
                           <div className="input-group">
                             <span className="input-group-text bg-white border-end-0"><i className="mdi mdi-sort text-muted"></i></span>
                             <select className="form-select border-start-0" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                              <option value="date-desc">📅 Plus récentes</option>
-                              <option value="date-asc">📅 Plus anciennes</option>
-                              <option value="amount-desc">💰 Montant décroissant</option>
-                              <option value="amount-asc">💰 Montant croissant</option>
+                              <option value="date-desc">ðŸ“… Plus rÃ©centes</option>
+                              <option value="date-asc">ðŸ“… Plus anciennes</option>
+                              <option value="amount-desc">ðŸ’° Montant dÃ©croissant</option>
+                              <option value="amount-asc">ðŸ’° Montant croissant</option>
                             </select>
                           </div>
                         </div>
@@ -375,31 +376,31 @@ export default function OrdersPage() {
                       {showFilters && (
                         <div className="card shadow-sm border-0 mt-3" style={{ backgroundColor: '#f8f9fa' }}>
                           <div className="card-body">
-                            <h6 className="mb-3" style={{ color: "#ef4444" }}><i className="mdi mdi-filter-variant"></i> Filtres avancés</h6>
+                            <h6 className="mb-3" style={{ color: "#ef4444" }}><i className="mdi mdi-filter-variant"></i> Filtres avancÃ©s</h6>
                             <div className="row g-3">
                               <div className="col-md-6">
                                 <label className="form-label fw-bold small text-muted">STATUT</label>
                                 <select className="form-select" value={filterStatus} onChange={(e) => { setFilterStatus(e.target.value); setCurrentPage(1); }}>
                                   <option value="">Tous les statuts</option>
-                                  <option value="pending">⏳ En attente</option>
-                                  <option value="confirmed">✅ Confirmée</option>
-                                  <option value="shipped">🚚 Expédiée</option>
-                                  <option value="delivered">📦 Livrée</option>
-                                  <option value="cancelled">❌ Annulée</option>
+                                  <option value="pending">â³ En attente</option>
+                                  <option value="confirmed">âœ… ConfirmÃ©e</option>
+                                  <option value="shipped">ðŸšš ExpÃ©diÃ©e</option>
+                                  <option value="delivered">ðŸ“¦ LivrÃ©e</option>
+                                  <option value="cancelled">âŒ AnnulÃ©e</option>
                                 </select>
                               </div>
                               <div className="col-md-6">
                                 <label className="form-label fw-bold small text-muted">MODE DE PAIEMENT</label>
                                 <select className="form-select" value={filterPayment} onChange={(e) => { setFilterPayment(e.target.value); setCurrentPage(1); }}>
                                   <option value="">Tous les modes</option>
-                                  <option value="cash">💵 Espèces</option>
-                                  <option value="card">💳 Carte</option>
+                                  <option value="cash">ðŸ’µ EspÃ¨ces</option>
+                                  <option value="card">ðŸ’³ Carte</option>
                                 </select>
                               </div>
                             </div>
                             <div className="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                              <button className="btn btn-sm btn-outline-secondary" onClick={resetFilters}><i className="mdi mdi-refresh"></i> Réinitialiser</button>
-                              <span style={{ background: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)", color: "white", padding: "6px 16px", borderRadius: "50px", fontSize: "0.85rem", fontWeight: 600 }}>{filtered.length} résultat{filtered.length > 1 ? 's' : ''}</span>
+                              <button className="btn btn-sm btn-outline-secondary" onClick={resetFilters}><i className="mdi mdi-refresh"></i> RÃ©initialiser</button>
+                              <span style={{ background: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)", color: "white", padding: "6px 16px", borderRadius: "50px", fontSize: "0.85rem", fontWeight: 600 }}>{filtered.length} rÃ©sultat{filtered.length > 1 ? 's' : ''}</span>
                             </div>
                           </div>
                         </div>
@@ -436,7 +437,7 @@ export default function OrdersPage() {
                               <td>{getPaymentBadge(order.paymentMethod)}</td>
                               <td>{getStatusBadge(order.status)}</td>
                               <td>
-                                <button onClick={() => viewOrderDetails(order)} style={{ background: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)", color: "white", border: "none", padding: "8px 14px", borderRadius: "8px", cursor: "pointer" }} title="Voir détails">
+                                <button onClick={() => viewOrderDetails(order)} style={{ background: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)", color: "white", border: "none", padding: "8px 14px", borderRadius: "8px", cursor: "pointer" }} title="Voir dÃ©tails">
                                   <i className="mdi mdi-eye"></i>
                                 </button>
                               </td>
@@ -445,7 +446,7 @@ export default function OrdersPage() {
                             <tr>
                               <td colSpan={8} className="text-center py-4">
                                 <i className="mdi mdi-cart-off" style={{ fontSize: '48px', color: '#ccc' }}></i>
-                                <p className="text-muted mt-2">Aucune commande trouvée</p>
+                                <p className="text-muted mt-2">Aucune commande trouvÃ©e</p>
                               </td>
                             </tr>
                           )}
@@ -459,7 +460,7 @@ export default function OrdersPage() {
                         <nav>
                           <ul className="pagination">
                             <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                              <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>Précédent</button>
+                              <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>PrÃ©cÃ©dent</button>
                             </li>
                             {[...Array(Math.ceil(filtered.length / itemsPerPage))].map((_, i) => (
                               <li key={i} className={`page-item ${currentPage === i + 1 ? 'active' : ''}`}>
@@ -481,7 +482,7 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      {/* Modal de détails de commande - Design moderne */}
+      {/* Modal de dÃ©tails de commande - Design moderne */}
       {showModal && selectedOrder && (
         <>
           <style>{`
@@ -629,7 +630,7 @@ export default function OrdersPage() {
                       <span className="info-value">{selectedOrder.user?.email || "N/A"}</span>
                     </div>
                     <div className="info-row">
-                      <span className="info-label">Téléphone:</span>
+                      <span className="info-label">TÃ©lÃ©phone:</span>
                       <span className="info-value">{selectedOrder.shippingAddress?.phone || "N/A"}</span>
                     </div>
                   </div>
@@ -665,9 +666,9 @@ export default function OrdersPage() {
                   </div>
                 </div>
 
-                {/* Articles commandés */}
+                {/* Articles commandÃ©s */}
                 <div className="info-section-title" style={{ marginBottom: "16px" }}>
-                  <i className="mdi mdi-package-variant"></i> Articles Commandés
+                  <i className="mdi mdi-package-variant"></i> Articles CommandÃ©s
                 </div>
                 <div style={{ background: "white", borderRadius: "16px", border: "1px solid #e2e8f0", overflow: "hidden" }}>
                   <table className="product-table">
@@ -675,7 +676,7 @@ export default function OrdersPage() {
                       <tr>
                         <th>Produit</th>
                         <th>Prix unitaire</th>
-                        <th>Quantité</th>
+                        <th>QuantitÃ©</th>
                         <th>Total</th>
                       </tr>
                     </thead>
@@ -691,7 +692,7 @@ export default function OrdersPage() {
                                   <i className="mdi mdi-image-off" style={{ color: "#94a3b8", fontSize: "1.5rem" }}></i>
                                 </div>
                               )}
-                              <span className="product-name">{item.product?.name || "Produit supprimé"}</span>
+                              <span className="product-name">{item.product?.name || "Produit supprimÃ©"}</span>
                             </div>
                           </td>
                           <td style={{ fontWeight: 600, color: "#475569" }}>{item.price.toFixed(2)} TND</td>
@@ -709,7 +710,7 @@ export default function OrdersPage() {
                   <span className="total-value">{selectedOrder.totalAmount.toFixed(2)} TND</span>
                 </div>
 
-                {/* Bouton télécharger bon de livraison */}
+                {/* Bouton tÃ©lÃ©charger bon de livraison */}
                 <div style={{ marginTop: "20px" }}>
                   <button 
                     onClick={() => {
@@ -777,29 +778,29 @@ export default function OrdersPage() {
                                 <div class="info-label">Adresse</div>
                                 <div class="info-value">${selectedOrder.shippingAddress.address}</div>
                                 <div class="info-value">${selectedOrder.shippingAddress.postalCode} ${selectedOrder.shippingAddress.city}</div>
-                                <div class="info-label" style="margin-top: 8px;">Téléphone</div>
+                                <div class="info-label" style="margin-top: 8px;">TÃ©lÃ©phone</div>
                                 <div class="info-value">${selectedOrder.shippingAddress.phone}</div>
                               </div>
                               
                               <div class="info-box">
                                 <div class="section-title">Commande</div>
-                                <div class="info-label">Référence</div>
+                                <div class="info-label">RÃ©fÃ©rence</div>
                                 <div class="info-value">#${selectedOrder._id.slice(-8).toUpperCase()}</div>
                                 <div class="info-label" style="margin-top: 8px;">Date</div>
                                 <div class="info-value">${new Date(selectedOrder.createdAt).toLocaleDateString('fr-FR')}</div>
                                 <div class="info-label" style="margin-top: 8px;">Paiement</div>
-                                <div class="info-value">${selectedOrder.paymentMethod === 'card' ? 'Carte bancaire' : 'À la livraison'}</div>
+                                <div class="info-value">${selectedOrder.paymentMethod === 'card' ? 'Carte bancaire' : 'Ã€ la livraison'}</div>
                               </div>
                             </div>
                             
                             <div class="section">
-                              <div class="section-title">Articles commandés</div>
+                              <div class="section-title">Articles commandÃ©s</div>
                               <table>
                                 <thead>
                                   <tr>
-                                    <th>Désignation</th>
+                                    <th>DÃ©signation</th>
                                     <th>Prix unitaire</th>
-                                    <th style="text-align: center;">Quantité</th>
+                                    <th style="text-align: center;">QuantitÃ©</th>
                                     <th style="text-align: right;">Total</th>
                                   </tr>
                                 </thead>
@@ -818,7 +819,7 @@ export default function OrdersPage() {
                             
                             <div class="total-section">
                               <div class="total-box">
-                                <div class="total-label">Total à payer</div>
+                                <div class="total-label">Total Ã  payer</div>
                                 <div class="total-value">${selectedOrder.totalAmount.toFixed(2)} TND</div>
                               </div>
                             </div>
@@ -839,7 +840,7 @@ export default function OrdersPage() {
                             <div class="company-footer">
                               <div class="company-name">W.STORE - Informatique, Smartphones & Accessoires</div>
                               <div class="company-info">+216 52 255 145 / 48 018 250 | wstore887@gmail.com | www.wstore.tn</div>
-                              <div class="company-info" style="margin-top: 4px;">Cité Commerciale, Korba | Rue Taher Sfar, Dar Chaâbene El Fehri</div>
+                              <div class="company-info" style="margin-top: 4px;">CitÃ© Commerciale, Korba | Rue Taher Sfar, Dar ChaÃ¢bene El Fehri</div>
                             </div>
                           </body>
                           </html>
@@ -853,7 +854,7 @@ export default function OrdersPage() {
                             <div class="header">
                               <div>
                                 <div class="logo">PARAPHARMACIE</div>
-                                <div class="logo-sub">Votre santé, notre priorité</div>
+                                <div class="logo-sub">Votre santÃ©, notre prioritÃ©</div>
                               </div>
                               <div class="doc-info">
                                 <div class="doc-title">BON DE LIVRAISON</div>
@@ -868,7 +869,7 @@ export default function OrdersPage() {
                                   <div class="section-title">Informations Client</div>
                                   <div style="margin-bottom: 8px;"><div class="info-label">Nom</div><div class="info-value">${selectedOrder.user?.name || 'N/A'}</div></div>
                                   <div style="margin-bottom: 8px;"><div class="info-label">Email</div><div class="info-value">${selectedOrder.user?.email || 'N/A'}</div></div>
-                                  <div><div class="info-label">Téléphone</div><div class="info-value">${selectedOrder.shippingAddress?.phone || 'N/A'}</div></div>
+                                  <div><div class="info-label">TÃ©lÃ©phone</div><div class="info-value">${selectedOrder.shippingAddress?.phone || 'N/A'}</div></div>
                                 </div>
                                 <div class="info-box">
                                   <div class="section-title">Adresse de Livraison</div>
@@ -880,13 +881,13 @@ export default function OrdersPage() {
                             </div>
                             
                             <div class="section">
-                              <div class="section-title">Articles Commandés</div>
+                              <div class="section-title">Articles CommandÃ©s</div>
                               <table>
                                 <thead>
                                   <tr>
                                     <th>Produit</th>
                                     <th>Prix Unitaire</th>
-                                    <th style="text-align: center;">Quantité</th>
+                                    <th style="text-align: center;">QuantitÃ©</th>
                                     <th style="text-align: right;">Total</th>
                                   </tr>
                                 </thead>
@@ -905,7 +906,7 @@ export default function OrdersPage() {
                             
                             <div class="total-section">
                               <div class="total-box">
-                                <div class="total-label">Total à payer</div>
+                                <div class="total-label">Total Ã  payer</div>
                                 <div class="total-value">${selectedOrder.totalAmount.toFixed(2)} TND</div>
                               </div>
                             </div>
@@ -939,7 +940,7 @@ export default function OrdersPage() {
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e2e8f0"; e.currentTarget.style.color = "#64748b"; e.currentTarget.style.background = "white"; }}
                   >
                     <i className="mdi mdi-file-download-outline" style={{ fontSize: "1.3rem" }}></i>
-                    Télécharger le bon de livraison
+                    TÃ©lÃ©charger le bon de livraison
                   </button>
                 </div>
 
@@ -958,12 +959,12 @@ export default function OrdersPage() {
                     )}
                     {selectedOrder.status === "confirmed" && (
                       <button className="action-btn btn-ship" onClick={() => { updateOrderStatus(selectedOrder._id, "shipped"); setShowModal(false); }}>
-                        <i className="mdi mdi-truck-delivery"></i> Marquer comme expédiée
+                        <i className="mdi mdi-truck-delivery"></i> Marquer comme expÃ©diÃ©e
                       </button>
                     )}
                     {selectedOrder.status === "shipped" && (
                       <button className="action-btn btn-deliver" onClick={() => { updateOrderStatus(selectedOrder._id, "delivered"); setShowModal(false); }}>
-                        <i className="mdi mdi-package-variant"></i> Marquer comme livrée
+                        <i className="mdi mdi-package-variant"></i> Marquer comme livrÃ©e
                       </button>
                     )}
                   </div>
@@ -981,5 +982,19 @@ export default function OrdersPage() {
         </>
       )}
     </div>
+  );
+}
+
+export default function OrdersPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div className="spinner-border" style={{ color: "#ef4444" }} role="status">
+          <span className="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+    }>
+      <OrdersContent />
+    </Suspense>
   );
 }

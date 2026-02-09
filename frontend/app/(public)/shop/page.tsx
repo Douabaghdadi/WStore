@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useCart } from '../../context/CartContext';
 import { useFavorites } from '../../context/FavoritesContext';
+import { API_URL } from '../../../lib/api';
 
 interface Product {
   _id: string;
@@ -33,10 +34,10 @@ export default function ShopPage() {
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/brands').then(r => r.json()).then(setBrands);
-    fetch('http://localhost:5000/api/categories').then(r => r.json()).then(setCategories);
+    fetch(`${API_URL}/api/brands`).then(r => r.json()).then(setBrands);
+    fetch(`${API_URL}/api/categories`).then(r => r.json()).then(setCategories);
 
-    fetch('http://localhost:5000/api/products')
+    fetch(`${API_URL}/api/products`)
       .then(r => r.json())
       .then(data => {
         setProducts(data);
@@ -339,48 +340,232 @@ export default function ShopPage() {
                 </button>
               </div>
             ) : (
-              <div className="row g-4">
+              <div className="row g-3 g-md-4">
                 {filteredProducts.map((product) => {
                   const finalPrice = (product.discount ?? 0) > 0 ? product.price * (1 - (product.discount ?? 0) / 100) : product.price;
                   const isFavorite = favorites.includes(product._id);
                   return (
                     <div key={product._id} className="col-6 col-md-6 col-xl-4">
-                      <div style={{ backgroundColor: 'white', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', border: '1px solid #e2e8f0', height: '100%', display: 'flex', flexDirection: 'column', transition: 'all 0.3s ease' }}>
-                        <div style={{ position: 'relative', backgroundColor: '#f7fafc', height: '280px' }}>
+                      <div style={{ backgroundColor: 'white', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)', border: '1px solid #e2e8f0', height: '100%', display: 'flex', flexDirection: 'column', transition: 'all 0.3s ease' }}>
+                        {/* Image Container - Responsive height */}
+                        <div style={{ position: 'relative', backgroundColor: '#f7fafc', aspectRatio: '1/1' }}>
                           <Link href={`/product/${product._id}`}>
-                            <img src={product.image?.startsWith('http') ? product.image : product.image ? `http://localhost:5000${product.image}` : '/img/product-placeholder.jpg'} alt={product.name} style={{ width: '100%', height: '280px', objectFit: 'contain', padding: '20px' }} />
+                            <img 
+                              src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'} 
+                              alt={product.name} 
+                              style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '15px' }} 
+                            />
                           </Link>
-                          {product.brand?.name && (
-                            <span style={{ position: 'absolute', top: '12px', left: '12px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '11px', fontWeight: '700', boxShadow: '0 2px 8px rgba(26, 54, 93, 0.3)' }}>{product.brand.name}</span>
-                          )}
+                          
+                          {/* Badges - Responsive sizing */}
                           {(product.discount ?? 0) > 0 && (
-                            <span style={{ position: 'absolute', top: '12px', right: '12px', background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)', color: 'white', padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: '800', boxShadow: '0 2px 8px rgba(220, 38, 38, 0.3)' }}>-{product.discount}%</span>
+                            <span style={{ 
+                              position: 'absolute', 
+                              top: '8px', 
+                              right: '8px', 
+                              background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)', 
+                              color: 'white', 
+                              padding: '4px 8px', 
+                              borderRadius: '6px', 
+                              fontSize: '11px', 
+                              fontWeight: '800', 
+                              boxShadow: '0 2px 8px rgba(220, 38, 38, 0.3)' 
+                            }}>
+                              -{product.discount}%
+                            </span>
                           )}
-                          <button onClick={(e) => { e.preventDefault(); isFavorite ? removeFavorite(product._id) : addFavorite(product._id); }} style={{ position: 'absolute', bottom: '12px', right: '12px', width: '40px', height: '40px', borderRadius: '50%', border: 'none', background: isFavorite ? '#fee2e2' : 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
-                            <i className={isFavorite ? 'fas fa-heart' : 'far fa-heart'} style={{ color: isFavorite ? '#dc2626' : '#64748b', fontSize: '16px' }}></i>
+                          
+                          {/* Favorite Button - Responsive */}
+                          <button 
+                            onClick={(e) => { 
+                              e.preventDefault(); 
+                              isFavorite ? removeFavorite(product._id) : addFavorite(product._id); 
+                            }} 
+                            style={{ 
+                              position: 'absolute', 
+                              bottom: '8px', 
+                              right: '8px', 
+                              width: '32px', 
+                              height: '32px', 
+                              borderRadius: '50%', 
+                              border: 'none', 
+                              background: isFavorite ? '#fee2e2' : 'white', 
+                              cursor: 'pointer', 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              justifyContent: 'center', 
+                              boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            <i 
+                              className={isFavorite ? 'fas fa-heart' : 'far fa-heart'} 
+                              style={{ color: isFavorite ? '#dc2626' : '#64748b', fontSize: '13px' }}
+                            ></i>
                           </button>
                         </div>
-                        <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        
+                        {/* Product Info - Responsive padding */}
+                        <div style={{ padding: '12px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                           <Link href={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-                            <h6 style={{ fontWeight: '600', color: '#1e293b', fontSize: '15px', lineHeight: '1.5', height: '45px', overflow: 'hidden', marginBottom: '12px' }}>{product.name}</h6>
+                            <h6 style={{ 
+                              fontWeight: '600', 
+                              color: '#1e293b', 
+                              fontSize: '13px', 
+                              lineHeight: '1.4', 
+                              height: '36px', 
+                              overflow: 'hidden', 
+                              marginBottom: '8px',
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical'
+                            }}>
+                              {product.name}
+                            </h6>
                           </Link>
-                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '12px', background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2', padding: '4px 10px', borderRadius: '20px', width: 'fit-content' }}>
-                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: (product.stock ?? 0) > 0 ? '#22c55e' : '#ef4444' }}></span>
-                            <span style={{ color: (product.stock ?? 0) > 0 ? '#16a34a' : '#dc2626', fontSize: '11px', fontWeight: '600' }}>{(product.stock ?? 0) > 0 ? 'En stock' : 'Rupture'}</span>
+                          
+                          {/* Stock Badge - Compact */}
+                          <div style={{ 
+                            display: 'inline-flex', 
+                            alignItems: 'center', 
+                            gap: '4px', 
+                            marginBottom: '8px', 
+                            background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2', 
+                            padding: '3px 8px', 
+                            borderRadius: '12px', 
+                            width: 'fit-content' 
+                          }}>
+                            <span style={{ 
+                              width: '5px', 
+                              height: '5px', 
+                              borderRadius: '50%', 
+                              background: (product.stock ?? 0) > 0 ? '#22c55e' : '#ef4444' 
+                            }}></span>
+                            <span style={{ 
+                              color: (product.stock ?? 0) > 0 ? '#16a34a' : '#dc2626', 
+                              fontSize: '10px', 
+                              fontWeight: '600' 
+                            }}>
+                              {(product.stock ?? 0) > 0 ? 'En stock' : 'Rupture'}
+                            </span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '16px', marginTop: 'auto' }}>
-                            {(product.discount ?? 0) > 0 && (<span style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toFixed(3)}</span>)}
-                            <span style={{ fontSize: '20px', fontWeight: '800', color: (product.discount ?? 0) > 0 ? '#16a34a' : '#c53030' }}>{finalPrice.toFixed(3)}</span>
-                            <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>DT</span>
+                          
+                          {/* Price - Responsive sizing */}
+                          <div style={{ 
+                            display: 'flex', 
+                            alignItems: 'baseline', 
+                            gap: '6px', 
+                            marginBottom: '10px', 
+                            marginTop: 'auto' 
+                          }}>
+                            {(product.discount ?? 0) > 0 && (
+                              <span style={{ 
+                                fontSize: '11px', 
+                                color: '#94a3b8', 
+                                textDecoration: 'line-through' 
+                              }}>
+                                {product.price.toFixed(3)}
+                              </span>
+                            )}
+                            <span style={{ 
+                              fontSize: '16px', 
+                              fontWeight: '800', 
+                              color: (product.discount ?? 0) > 0 ? '#16a34a' : '#c53030' 
+                            }}>
+                              {finalPrice.toFixed(3)}
+                            </span>
+                            <span style={{ 
+                              fontSize: '11px', 
+                              color: '#64748b', 
+                              fontWeight: '600' 
+                            }}>
+                              DT
+                            </span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', background: '#f1f5f9', borderRadius: '8px', padding: '3px', flexShrink: 0 }}>
-                              <button onClick={() => handleQuantityChange(product._id, -1)} style={{ width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030', borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>-</button>
-                              <span style={{ color: '#1e293b', fontWeight: '700', minWidth: '28px', textAlign: 'center', fontSize: '14px' }}>{quantities[product._id] || 1}</span>
-                              <button onClick={() => handleQuantityChange(product._id, 1)} style={{ width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030', borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>+</button>
+                          
+                          {/* Actions - Compact for mobile */}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <div style={{ 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              background: '#f1f5f9', 
+                              borderRadius: '6px', 
+                              padding: '2px', 
+                              flexShrink: 0 
+                            }}>
+                              <button 
+                                onClick={() => handleQuantityChange(product._id, -1)} 
+                                style={{ 
+                                  width: '24px', 
+                                  height: '24px', 
+                                  border: 'none', 
+                                  background: 'white', 
+                                  color: '#c53030', 
+                                  borderRadius: '4px', 
+                                  cursor: 'pointer', 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  justifyContent: 'center', 
+                                  fontWeight: '700', 
+                                  fontSize: '13px', 
+                                  boxShadow: '0 1px 2px rgba(0,0,0,0.1)' 
+                                }}
+                              >
+                                -
+                              </button>
+                              <span style={{ 
+                                color: '#1e293b', 
+                                fontWeight: '700', 
+                                minWidth: '24px', 
+                                textAlign: 'center', 
+                                fontSize: '12px' 
+                              }}>
+                                {quantities[product._id] || 1}
+                              </span>
+                              <button 
+                                onClick={() => handleQuantityChange(product._id, 1)} 
+                                style={{ 
+                                  width: '24px', 
+                                  height: '24px', 
+                                  border: 'none', 
+                                  background: 'white', 
+                                  color: '#c53030', 
+                                  borderRadius: '4px', 
+                                  cursor: 'pointer', 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  justifyContent: 'center', 
+                                  fontWeight: '700', 
+                                  fontSize: '13px', 
+                                  boxShadow: '0 1px 2px rgba(0,0,0,0.1)' 
+                                }}
+                              >
+                                +
+                              </button>
                             </div>
-                            <button onClick={() => handleAddToCart(product)} disabled={(product.stock ?? 0) === 0} style={{ flex: 1, border: 'none', background: (product.stock ?? 0) > 0 ? 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)' : '#cbd5e1', color: 'white', borderRadius: '10px', padding: '10px 15px', cursor: (product.stock ?? 0) > 0 ? 'pointer' : 'not-allowed', fontSize: '13px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', boxShadow: (product.stock ?? 0) > 0 ? '0 4px 12px rgba(197, 48, 48, 0.3)' : 'none' }}>
-                              <i className="fas fa-shopping-cart"></i> Ajouter
+                            <button 
+                              onClick={() => handleAddToCart(product)} 
+                              disabled={(product.stock ?? 0) === 0} 
+                              style={{ 
+                                flex: 1, 
+                                border: 'none', 
+                                background: (product.stock ?? 0) > 0 ? 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)' : '#cbd5e1', 
+                                color: 'white', 
+                                borderRadius: '6px', 
+                                padding: '8px 10px', 
+                                cursor: (product.stock ?? 0) > 0 ? 'pointer' : 'not-allowed', 
+                                fontSize: '11px', 
+                                fontWeight: '700', 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                justifyContent: 'center', 
+                                gap: '4px', 
+                                boxShadow: (product.stock ?? 0) > 0 ? '0 2px 8px rgba(197, 48, 48, 0.3)' : 'none',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
+                              <i className="fas fa-shopping-cart" style={{ fontSize: '10px' }}></i>
+                              <span className="d-none d-sm-inline">Ajouter</span>
                             </button>
                           </div>
                         </div>

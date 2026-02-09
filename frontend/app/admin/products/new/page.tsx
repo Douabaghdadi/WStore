@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import Link from "next/link";
+import { API_URL } from "../../../../lib/api";
 
 export default function NewProductPage() {
   const router = useRouter();
@@ -24,13 +25,13 @@ export default function NewProductPage() {
   const [imagePreview, setImagePreview] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/categories")
+    fetch(`${API_URL}/api/categories`)
       .then(r => r.json())
       .then(data => setCategories(data));
-    fetch("http://localhost:5000/api/subcategories")
+    fetch(`${API_URL}/api/subcategories`)
       .then(r => r.json())
       .then(data => setSubcategories(data));
-    fetch("http://localhost:5000/api/brands")
+    fetch(`${API_URL}/api/brands`)
       .then(r => r.json())
       .then(data => setBrands(data));
   }, []);
@@ -65,7 +66,7 @@ export default function NewProductPage() {
     if (imageFile) {
       formDataToSend.append("image", imageFile);
     }
-    await fetch("http://localhost:5000/api/products", {
+    await fetch(`${API_URL}/api/products`, {
       method: "POST",
       body: formDataToSend
     });

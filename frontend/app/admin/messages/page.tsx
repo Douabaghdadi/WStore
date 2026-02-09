@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Link from "next/link";
+import { API_URL } from "../../../lib/api";
 
 interface Contact {
   _id: string;
@@ -27,7 +28,7 @@ export default function AdminMessagesPage() {
   const fetchContacts = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/contacts", {
+      const response = await fetch(`${API_URL}/api/contacts`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -44,7 +45,7 @@ export default function AdminMessagesPage() {
   const updateStatus = async (id: string, status: string) => {
     try {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:5000/api/contacts/${id}/status`, {
+      await fetch(`${API_URL}/api/contacts/${id}/status`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -62,7 +63,7 @@ export default function AdminMessagesPage() {
     if (!confirm("Supprimer ce message ?")) return;
     try {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:5000/api/contacts/${id}`, {
+      await fetch(`${API_URL}/api/contacts/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       });

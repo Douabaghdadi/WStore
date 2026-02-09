@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { API_URL } from "../../../lib/api";
 
 interface OrderItem {
   product: {
@@ -44,7 +45,7 @@ export default function ClientOrdersPage() {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/orders", {
+      const response = await fetch(`${API_URL}/api/orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -477,7 +478,7 @@ export default function ClientOrdersPage() {
                             >
                               {item.product?.image ? (
                                 <img 
-                                  src={item.product.image.startsWith('http') ? item.product.image : `http://localhost:5000${item.product.image}`}
+                                  src={item.product.image.startsWith('http') ? item.product.image : `${API_URL}${item.product.image}`}
                                   alt={item.product?.name || "Produit"}
                                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                 />
@@ -725,7 +726,7 @@ export default function ClientOrdersPage() {
                       >
                         {item.product?.image ? (
                           <img 
-                            src={item.product.image.startsWith('http') ? item.product.image : `http://localhost:5000${item.product.image}`}
+                            src={item.product.image.startsWith('http') ? item.product.image : `${API_URL}${item.product.image}`}
                             alt={item.product?.name || "Produit"}
                             style={{ width: "100%", height: "100%", objectFit: "cover" }}
                           />

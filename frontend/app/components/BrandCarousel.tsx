@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { API_URL } from '../../lib/api';
 
 interface Brand {
   _id: string;
@@ -11,7 +12,7 @@ export default function BrandCarousel() {
   const [brands, setBrands] = useState<Brand[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/brands')
+    fetch(`${API_URL}/api/brands`)
       .then(res => res.json())
       .then(data => setBrands(data))
       .catch(err => console.error('Erreur:', err));
@@ -148,7 +149,7 @@ export default function BrandCarousel() {
           >
             {brand.image ? (
               <img 
-                src={`http://localhost:5000${brand.image}`}
+                src={`${API_URL}${brand.image}`}
                 alt={brand.name}
                 style={{
                   maxWidth: '120px',
@@ -187,6 +188,24 @@ export default function BrandCarousel() {
         }
         .brand-carousel-scroll:hover {
           animation-play-state: paused;
+        }
+        
+        /* Styles responsives mobile */
+        @media (max-width: 768px) {
+          .brand-carousel-scroll > div {
+            min-width: 120px !important;
+            height: 60px !important;
+            padding: 0 15px !important;
+          }
+          
+          .brand-carousel-scroll img {
+            max-width: 90px !important;
+            max-height: 40px !important;
+          }
+          
+          .brand-carousel-scroll span {
+            font-size: 14px !important;
+          }
         }
       `}} />
     </div>

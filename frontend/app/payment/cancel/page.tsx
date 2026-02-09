@@ -1,8 +1,9 @@
 "use client";
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function PaymentCancelPage() {
+function PaymentCancelContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('orderId');
   const orderRef = orderId?.slice(-8).toUpperCase();
@@ -41,5 +42,20 @@ export default function PaymentCancelPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PaymentCancelPage() {
+  return (
+    <Suspense fallback={
+      <div style={{marginTop: '160px', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{textAlign: 'center'}}>
+          <div className="spinner-border text-warning" role="status" style={{width: '3rem', height: '3rem'}}></div>
+          <p style={{marginTop: '20px', color: '#6b7280'}}>Chargement...</p>
+        </div>
+      </div>
+    }>
+      <PaymentCancelContent />
+    </Suspense>
   );
 }

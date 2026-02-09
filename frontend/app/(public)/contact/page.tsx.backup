@@ -1,0 +1,1262 @@
+"use client";
+import { useState, useEffect } from "react";
+import { API_URL } from '../../../lib/api';
+
+export default function ContactPage() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const response = await fetch(`${API_URL}/api/contacts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        setSuccess(true);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+        setTimeout(() => setSuccess(false), 5000);
+      } else {
+        alert('Erreur lors de l\'envoi du message');
+      }
+    } catch (error) {
+      alert('Erreur de connexion');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+
+        @keyframes shimmer {
+          0% { background-position: -1000px 0; }
+          100% { background-position: 1000px 0; }
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+
+        .contact-container {
+          padding-left: 15px;
+          padding-right: 15px;
+          animation: fadeInUp 0.8s ease-out;
+        }
+
+        .contact-hero-bg-circle {
+          animation: float 6s ease-in-out infinite;
+        }
+
+        .contact-info-card, .contact-form-card {
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .contact-info-card:hover, .contact-form-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        .contact-info-item {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+        }
+
+        .contact-info-item:hover {
+          transform: translateX(8px);
+          background: linear-gradient(135deg, rgba(26, 54, 93, 0.05) 0%, rgba(197, 48, 48, 0.05) 100%) !important;
+        }
+
+        .contact-info-icon {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .contact-info-item:hover .contact-info-icon {
+          transform: scale(1.1) rotate(5deg);
+        }
+
+        .contact-social-btn {
+          position: relative;
+          overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .contact-social-btn::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.3);
+          transform: translate(-50%, -50%);
+          transition: width 0.6s, height 0.6s;
+        }
+
+        .contact-social-btn:hover::before {
+          width: 300px;
+          height: 300px;
+        }
+
+        .contact-social-btn:hover {
+          transform: translateY(-5px) scale(1.05);
+          box-shadow: 0 12px 35px rgba(26, 54, 93, 0.4) !important;
+        }
+
+        .contact-submit-btn {
+          position: relative;
+          overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .contact-submit-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          transition: left 0.5s;
+        }
+
+        .contact-submit-btn:hover::before {
+          left: 100%;
+        }
+
+        .contact-submit-btn:hover:not(:disabled) {
+          transform: translateY(-3px);
+          box-shadow: 0 15px 40px rgba(197, 48, 48, 0.5) !important;
+        }
+
+        .contact-submit-btn:active:not(:disabled) {
+          transform: translateY(-1px);
+        }
+
+        input, textarea, select {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input:focus, textarea:focus, select:focus {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(26, 54, 93, 0.15) !important;
+        }
+
+        .badge-support {
+          animation: pulse 2s ease-in-out infinite;
+        }
+
+        .success-message {
+          animation: fadeInUp 0.5s ease-out;
+        }
+        
+        @media (min-width: 992px) {
+          .contact-info-card > div:first-child,
+          .contact-form-card > div:first-child {
+            flex-direction: row !important;
+            align-items: center !important;
+            text-align: left !important;
+          }
+          
+          .contact-social-title {
+            text-align: left !important;
+          }
+          
+          .contact-social-buttons {
+            justify-content: flex-start !important;
+          }
+        }
+        
+        @media (max-width: 991px) {
+          .contact-info-card {
+            margin-bottom: 30px !important;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .contact-container {
+            margin-top: 85px !important;
+            padding-bottom: 30px !important;
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+          }
+          .contact-hero {
+            padding: 35px 12px !important;
+            margin-bottom: 20px !important;
+            margin-left: -10px !important;
+            margin-right: -10px !important;
+          }
+          .contact-hero h1 {
+            font-size: 26px !important;
+            line-height: 1.3 !important;
+            margin-bottom: 12px !important;
+          }
+          .contact-hero p {
+            font-size: 14px !important;
+            padding: 0 8px !important;
+            line-height: 1.6 !important;
+          }
+          .contact-hero .badge-support {
+            font-size: 10px !important;
+            padding: 7px 16px !important;
+            margin-bottom: 18px !important;
+          }
+          .contact-info-card {
+            margin-bottom: 20px !important;
+            padding: 20px 14px !important;
+            border-radius: 18px !important;
+          }
+          .contact-info-card > div:first-child {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            gap: 10px !important;
+            margin-bottom: 20px !important;
+            padding-bottom: 18px !important;
+          }
+          .contact-info-card > div:first-child > div:first-child {
+            width: 45px !important;
+            height: 45px !important;
+          }
+          .contact-info-card > div:first-child > div:first-child i {
+            font-size: 20px !important;
+          }
+          .contact-info-card > div:first-child h3 {
+            font-size: 19px !important;
+          }
+          .contact-info-item {
+            margin-bottom: 16px !important;
+            gap: 12px !important;
+            padding: 14px 12px !important;
+            border-radius: 14px !important;
+          }
+          .contact-info-item:hover {
+            transform: translateX(3px) !important;
+          }
+          .contact-info-icon {
+            width: 46px !important;
+            height: 46px !important;
+            min-width: 46px !important;
+            border-radius: 12px !important;
+          }
+          .contact-info-icon i {
+            font-size: 19px !important;
+          }
+          .contact-info-title {
+            font-size: 15px !important;
+            margin-bottom: 6px !important;
+            font-weight: 700 !important;
+            color: #1a202c !important;
+          }
+          .contact-info-text {
+            font-size: 13px !important;
+            line-height: 1.7 !important;
+            color: #4a5568 !important;
+          }
+          .contact-info-text a {
+            color: #4a5568 !important;
+            text-decoration: none !important;
+          }
+          .contact-info-text a:hover {
+            color: #1a365d !important;
+          }
+          .contact-social-section {
+            margin-top: 20px !important;
+            padding-top: 20px !important;
+            border-top: 2px solid #e2e8f0 !important;
+          }
+          .contact-social-title {
+            font-size: 15px !important;
+            margin-bottom: 14px !important;
+            font-weight: 700 !important;
+            color: #1a202c !important;
+            text-align: center !important;
+          }
+          .contact-social-buttons {
+            display: flex !important;
+            justify-content: center !important;
+            gap: 12px !important;
+          }
+          .contact-social-btn {
+            width: 50px !important;
+            height: 50px !important;
+            font-size: 18px !important;
+            border-radius: 12px !important;
+          }
+          .contact-form-card {
+            padding: 20px 14px !important;
+            border-radius: 18px !important;
+          }
+          .contact-form-card > div:first-child {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            gap: 10px !important;
+            margin-bottom: 20px !important;
+            padding-bottom: 18px !important;
+          }
+          .contact-form-card > div:first-child > div:first-child {
+            width: 45px !important;
+            height: 45px !important;
+          }
+          .contact-form-card > div:first-child > div:first-child i {
+            font-size: 20px !important;
+          }
+          .contact-form-card > div:first-child h3 {
+            font-size: 19px !important;
+          }
+          .contact-form-card form label {
+            font-size: 14px !important;
+            margin-bottom: 8px !important;
+          }
+          .contact-form-card form input,
+          .contact-form-card form select,
+          .contact-form-card form textarea {
+            padding: 14px 16px !important;
+            font-size: 14px !important;
+            border-radius: 12px !important;
+          }
+          .contact-submit-btn {
+            width: 100% !important;
+            padding: 16px 24px !important;
+            font-size: 16px !important;
+            border-radius: 12px !important;
+            margin-top: 8px !important;
+          }
+          .success-message {
+            font-size: 13px !important;
+            padding: 14px 14px !important;
+            border-radius: 12px !important;
+            flex-direction: column !important;
+            text-align: center !important;
+            gap: 8px !important;
+          }
+          .success-message > div {
+            width: 28px !important;
+            height: 28px !important;
+          }
+          .success-message > div i {
+            font-size: 16px !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .contact-container {
+            margin-top: 80px !important;
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+            padding-bottom: 25px !important;
+          }
+          .contact-hero {
+            padding: 28px 10px !important;
+            margin-bottom: 18px !important;
+            margin-left: -8px !important;
+            margin-right: -8px !important;
+          }
+          .contact-hero h1 {
+            font-size: 23px !important;
+            margin-bottom: 10px !important;
+          }
+          .contact-hero p {
+            font-size: 13px !important;
+            padding: 0 6px !important;
+            line-height: 1.5 !important;
+          }
+          .contact-hero .badge-support {
+            font-size: 9px !important;
+            padding: 6px 14px !important;
+            margin-bottom: 15px !important;
+          }
+          .contact-info-card {
+            padding: 18px 12px !important;
+            border-radius: 16px !important;
+            margin-bottom: 18px !important;
+          }
+          .contact-info-card > div:first-child {
+            margin-bottom: 18px !important;
+            padding-bottom: 16px !important;
+          }
+          .contact-info-card > div:first-child > div:first-child {
+            width: 42px !important;
+            height: 42px !important;
+          }
+          .contact-info-card > div:first-child > div:first-child i {
+            font-size: 18px !important;
+          }
+          .contact-info-card > div:first-child h3 {
+            font-size: 18px !important;
+          }
+          .contact-info-item {
+            margin-bottom: 14px !important;
+            gap: 10px !important;
+            padding: 12px 10px !important;
+            border-radius: 12px !important;
+          }
+          .contact-info-icon {
+            width: 42px !important;
+            height: 42px !important;
+            min-width: 42px !important;
+            border-radius: 10px !important;
+          }
+          .contact-info-icon i {
+            font-size: 17px !important;
+          }
+          .contact-info-title {
+            font-size: 14px !important;
+            margin-bottom: 5px !important;
+          }
+          .contact-info-text {
+            font-size: 12px !important;
+            line-height: 1.6 !important;
+          }
+          .contact-social-section {
+            margin-top: 18px !important;
+            padding-top: 18px !important;
+          }
+          .contact-social-title {
+            font-size: 14px !important;
+            margin-bottom: 12px !important;
+          }
+          .contact-social-buttons {
+            gap: 10px !important;
+          }
+          .contact-social-btn {
+            width: 46px !important;
+            height: 46px !important;
+            font-size: 17px !important;
+            border-radius: 11px !important;
+          }
+          .contact-form-card {
+            padding: 18px 12px !important;
+            border-radius: 16px !important;
+          }
+          .contact-form-card > div:first-child {
+            margin-bottom: 18px !important;
+            padding-bottom: 16px !important;
+          }
+          .contact-form-card > div:first-child > div:first-child {
+            width: 42px !important;
+            height: 42px !important;
+          }
+          .contact-form-card > div:first-child > div:first-child i {
+            font-size: 18px !important;
+          }
+          .contact-form-card > div:first-child h3 {
+            font-size: 18px !important;
+          }
+          .contact-form-card form label {
+            font-size: 13px !important;
+            margin-bottom: 7px !important;
+          }
+          .contact-form-card form input,
+          .contact-form-card form select,
+          .contact-form-card form textarea {
+            padding: 13px 14px !important;
+            font-size: 13px !important;
+            border-radius: 11px !important;
+          }
+          .contact-submit-btn {
+            padding: 15px 20px !important;
+            font-size: 15px !important;
+            border-radius: 11px !important;
+          }
+          .success-message {
+            font-size: 12px !important;
+            padding: 12px 12px !important;
+            border-radius: 11px !important;
+          }
+          .success-message > div {
+            width: 26px !important;
+            height: 26px !important;
+          }
+          .success-message > div i {
+            font-size: 15px !important;
+          }
+        }
+        
+        @media (max-width: 375px) {
+          .contact-container {
+            margin-top: 75px !important;
+            padding-left: 6px !important;
+            padding-right: 6px !important;
+            padding-bottom: 20px !important;
+          }
+          .contact-hero {
+            padding: 25px 8px !important;
+            margin-bottom: 15px !important;
+            margin-left: -6px !important;
+            margin-right: -6px !important;
+          }
+          .contact-hero h1 {
+            font-size: 21px !important;
+            margin-bottom: 8px !important;
+          }
+          .contact-hero p {
+            font-size: 12px !important;
+            padding: 0 5px !important;
+          }
+          .contact-hero .badge-support {
+            font-size: 8px !important;
+            padding: 5px 12px !important;
+            margin-bottom: 12px !important;
+          }
+          .contact-info-card {
+            padding: 16px 10px !important;
+            border-radius: 14px !important;
+            margin-bottom: 15px !important;
+          }
+          .contact-info-card > div:first-child {
+            margin-bottom: 16px !important;
+            padding-bottom: 14px !important;
+          }
+          .contact-info-card > div:first-child > div:first-child {
+            width: 38px !important;
+            height: 38px !important;
+          }
+          .contact-info-card > div:first-child > div:first-child i {
+            font-size: 16px !important;
+          }
+          .contact-info-card > div:first-child h3 {
+            font-size: 17px !important;
+          }
+          .contact-info-item {
+            padding: 10px 8px !important;
+            gap: 9px !important;
+            margin-bottom: 12px !important;
+            border-radius: 11px !important;
+          }
+          .contact-info-icon {
+            width: 38px !important;
+            height: 38px !important;
+            min-width: 38px !important;
+            border-radius: 9px !important;
+          }
+          .contact-info-icon i {
+            font-size: 15px !important;
+          }
+          .contact-info-title {
+            font-size: 13px !important;
+            margin-bottom: 4px !important;
+          }
+          .contact-info-text {
+            font-size: 11px !important;
+            line-height: 1.5 !important;
+          }
+          .contact-social-section {
+            margin-top: 16px !important;
+            padding-top: 16px !important;
+          }
+          .contact-social-title {
+            font-size: 13px !important;
+            margin-bottom: 10px !important;
+          }
+          .contact-social-buttons {
+            gap: 9px !important;
+          }
+          .contact-social-btn {
+            width: 42px !important;
+            height: 42px !important;
+            font-size: 16px !important;
+            border-radius: 10px !important;
+          }
+          .contact-form-card {
+            padding: 16px 10px !important;
+            border-radius: 14px !important;
+          }
+          .contact-form-card > div:first-child {
+            margin-bottom: 16px !important;
+            padding-bottom: 14px !important;
+          }
+          .contact-form-card > div:first-child > div:first-child {
+            width: 38px !important;
+            height: 38px !important;
+          }
+          .contact-form-card > div:first-child > div:first-child i {
+            font-size: 16px !important;
+          }
+          .contact-form-card > div:first-child h3 {
+            font-size: 17px !important;
+          }
+          .contact-form-card form label {
+            font-size: 12px !important;
+            margin-bottom: 6px !important;
+          }
+          .contact-form-card form input,
+          .contact-form-card form select,
+          .contact-form-card form textarea {
+            padding: 12px 12px !important;
+            font-size: 12px !important;
+            border-radius: 10px !important;
+          }
+          .contact-submit-btn {
+            padding: 14px 18px !important;
+            font-size: 14px !important;
+            border-radius: 10px !important;
+          }
+          .success-message {
+            font-size: 11px !important;
+            padding: 11px 10px !important;
+            border-radius: 10px !important;
+          }
+          .success-message > div {
+            width: 24px !important;
+            height: 24px !important;
+          }
+          .success-message > div i {
+            font-size: 14px !important;
+          }
+        }
+      `}</style>
+      <div className="contact-container" style={{ marginTop: "130px", backgroundColor: "#f8f9fa", minHeight: "100vh", paddingBottom: "80px" }}>
+        {/* Hero Section */}
+        <div className="contact-hero" style={{ 
+          background: "linear-gradient(135deg, #0d1b2a 0%, #1a365d 50%, #2d3748 100%)", 
+          padding: "80px 0", 
+          marginBottom: "50px",
+          position: "relative",
+          overflow: "hidden"
+        }}>
+        {/* Animated Background Elements */}
+        <div className="contact-hero-bg-circle" style={{
+          position: "absolute",
+          top: "10%",
+          right: "10%",
+          width: "200px",
+          height: "200px",
+          background: "radial-gradient(circle, rgba(197, 48, 48, 0.25) 0%, transparent 70%)",
+          borderRadius: "50%",
+          filter: "blur(40px)"
+        }}></div>
+        <div className="contact-hero-bg-circle" style={{
+          position: "absolute",
+          bottom: "15%",
+          left: "5%",
+          width: "150px",
+          height: "150px",
+          background: "radial-gradient(circle, rgba(26, 54, 93, 0.3) 0%, transparent 70%)",
+          borderRadius: "50%",
+          filter: "blur(30px)",
+          animationDelay: "1s"
+        }}></div>
+        <div style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.03\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
+          opacity: 0.4
+        }}></div>
+        <div className="container text-center" style={{ position: "relative", zIndex: 1, padding: "0 15px" }}>
+          <span className="badge-support" style={{
+            display: "inline-block",
+            background: "linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)",
+            padding: "10px 24px",
+            borderRadius: "50px",
+            marginBottom: "25px",
+            boxShadow: "0 8px 25px rgba(197, 48, 48, 0.3)",
+            border: "1px solid rgba(255, 255, 255, 0.1)"
+          }}>
+            <span style={{ color: "white", fontSize: "13px", fontWeight: "700", letterSpacing: "2.5px", textTransform: "uppercase" }}>
+              ✨ Support Client Premium
+            </span>
+          </span>
+          <h1 style={{ 
+            fontSize: isMobile ? "32px" : "48px", 
+            fontWeight: "800", 
+            color: "white", 
+            marginBottom: "20px",
+            textShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+            letterSpacing: "-0.5px"
+          }}>
+            Contactez-nous
+          </h1>
+          <p style={{ 
+            fontSize: isMobile ? "16px" : "19px", 
+            color: "rgba(255,255,255,0.85)", 
+            maxWidth: "650px", 
+            margin: "0 auto",
+            lineHeight: "1.7",
+            fontWeight: "400"
+          }}>
+            Une question sur nos produits ? Notre équipe d'experts est disponible pour vous accompagner.
+          </p>
+        </div>
+      </div>
+
+      <div className="container">
+        <div className="row g-5">
+          {/* Informations de contact */}
+          <div className="col-lg-4">
+            <div className="contact-info-card" style={{ 
+              backgroundColor: "white", 
+              borderRadius: "24px", 
+              padding: isMobile ? "20px 15px" : "45px 35px", 
+              boxShadow: "0 10px 40px rgba(0,0,0,0.08)", 
+              height: isMobile ? "auto" : "100%",
+              minHeight: isMobile ? "auto" : "600px",
+              display: "flex",
+              flexDirection: "column",
+              border: "1px solid rgba(226, 232, 240, 0.8)",
+              background: "linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)"
+            }}>
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                gap: "12px", 
+                marginBottom: isMobile ? "25px" : "35px",
+                paddingBottom: isMobile ? "20px" : "25px",
+                borderBottom: "2px solid #e2e8f0",
+                flexDirection: isMobile ? "column" : "row",
+                textAlign: isMobile ? "center" : "left"
+              }}>
+                <div style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "14px",
+                  background: "linear-gradient(135deg, #1a365d 0%, #0d1b2a 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 8px 20px rgba(26, 54, 93, 0.25)"
+                }}>
+                  <i className="fas fa-info-circle" style={{ fontSize: "22px", color: "white" }}></i>
+                </div>
+                <h3 style={{ fontSize: isMobile ? "20px" : "26px", fontWeight: "800", color: "#1a202c", margin: 0 }}>
+                  Nos Coordonnées
+                </h3>
+              </div>
+
+              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: isMobile ? "20px" : "25px" }}>
+              {/* Adresse */}
+              <div className="contact-info-item" style={{ 
+                display: "flex", 
+                gap: isMobile ? "15px" : "18px", 
+                alignItems: "flex-start",
+                padding: isMobile ? "15px" : "18px",
+                background: "linear-gradient(135deg, rgba(248, 249, 250, 0.8) 0%, rgba(241, 245, 249, 0.8) 100%)",
+                borderRadius: "16px",
+                border: "1px solid rgba(226, 232, 240, 0.5)"
+              }}>
+                <div className="contact-info-icon" style={{ 
+                  width: isMobile ? "48px" : "54px", 
+                  height: isMobile ? "48px" : "54px", 
+                  minWidth: isMobile ? "48px" : "54px",
+                  borderRadius: "14px", 
+                  background: "linear-gradient(135deg, rgba(26, 54, 93, 0.12) 0%, rgba(26, 54, 93, 0.06) 100%)", 
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "center", 
+                  flexShrink: 0,
+                  boxShadow: "0 4px 12px rgba(26, 54, 93, 0.1)"
+                }}>
+                  <i className="fas fa-map-marker-alt" style={{ fontSize: isMobile ? "20px" : "22px", color: "#1a365d" }}></i>
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h5 className="contact-info-title" style={{ 
+                    fontSize: isMobile ? "15px" : "17px", 
+                    fontWeight: "700", 
+                    color: "#1a202c", 
+                    marginBottom: "8px",
+                    letterSpacing: "-0.2px"
+                  }}>Adresses</h5>
+                  <p className="contact-info-text" style={{ 
+                    fontSize: isMobile ? "13px" : "14px", 
+                    color: "#4a5568", 
+                    margin: 0, 
+                    lineHeight: "1.7", 
+                    wordBreak: "break-word",
+                    fontWeight: "500"
+                  }}>
+                    📍 Cité Commerciale, Korba<br />
+                    📍 Rue Taher Sfar, Dar Chaâbene El Fehri
+                  </p>
+                </div>
+              </div>
+
+              {/* Téléphone */}
+              <div className="contact-info-item" style={{ 
+                display: "flex", 
+                gap: isMobile ? "15px" : "18px", 
+                alignItems: "flex-start",
+                padding: isMobile ? "15px" : "18px",
+                background: "linear-gradient(135deg, rgba(248, 249, 250, 0.8) 0%, rgba(241, 245, 249, 0.8) 100%)",
+                borderRadius: "16px",
+                border: "1px solid rgba(226, 232, 240, 0.5)"
+              }}>
+                <div className="contact-info-icon" style={{ 
+                  width: isMobile ? "48px" : "54px", 
+                  height: isMobile ? "48px" : "54px", 
+                  minWidth: isMobile ? "48px" : "54px",
+                  borderRadius: "14px", 
+                  background: "linear-gradient(135deg, rgba(197, 48, 48, 0.12) 0%, rgba(197, 48, 48, 0.06) 100%)", 
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "center", 
+                  flexShrink: 0,
+                  boxShadow: "0 4px 12px rgba(197, 48, 48, 0.1)"
+                }}>
+                  <i className="fas fa-phone-alt" style={{ fontSize: isMobile ? "20px" : "22px", color: "#c53030" }}></i>
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h5 className="contact-info-title" style={{ 
+                    fontSize: isMobile ? "15px" : "17px", 
+                    fontWeight: "700", 
+                    color: "#1a202c", 
+                    marginBottom: "8px",
+                    letterSpacing: "-0.2px"
+                  }}>Téléphones</h5>
+                  <p className="contact-info-text" style={{ 
+                    fontSize: isMobile ? "13px" : "14px", 
+                    color: "#4a5568", 
+                    margin: 0, 
+                    lineHeight: "1.7",
+                    fontWeight: "500"
+                  }}>
+                    <a href="tel:+21652255145" style={{ 
+                      color: "#4a5568", 
+                      textDecoration: "none",
+                      display: "block",
+                      marginBottom: "6px"
+                    }}>📞 (+216) 52 255 145</a>
+                    <a href="tel:+21648018250" style={{ 
+                      color: "#4a5568", 
+                      textDecoration: "none",
+                      display: "block"
+                    }}>📞 (+216) 48 018 250</a>
+                  </p>
+                </div>
+              </div>
+
+              {/* Email */}
+              <div className="contact-info-item" style={{ 
+                display: "flex", 
+                gap: isMobile ? "15px" : "18px", 
+                alignItems: "flex-start",
+                padding: isMobile ? "15px" : "18px",
+                background: "linear-gradient(135deg, rgba(248, 249, 250, 0.8) 0%, rgba(241, 245, 249, 0.8) 100%)",
+                borderRadius: "16px",
+                border: "1px solid rgba(226, 232, 240, 0.5)"
+              }}>
+                <div className="contact-info-icon" style={{ 
+                  width: isMobile ? "48px" : "54px", 
+                  height: isMobile ? "48px" : "54px", 
+                  minWidth: isMobile ? "48px" : "54px",
+                  borderRadius: "14px", 
+                  background: "linear-gradient(135deg, rgba(26, 54, 93, 0.12) 0%, rgba(26, 54, 93, 0.06) 100%)", 
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "center", 
+                  flexShrink: 0,
+                  boxShadow: "0 4px 12px rgba(26, 54, 93, 0.1)"
+                }}>
+                  <i className="fas fa-envelope" style={{ fontSize: isMobile ? "20px" : "22px", color: "#1a365d" }}></i>
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h5 className="contact-info-title" style={{ 
+                    fontSize: isMobile ? "15px" : "17px", 
+                    fontWeight: "700", 
+                    color: "#1a202c", 
+                    marginBottom: "8px",
+                    letterSpacing: "-0.2px"
+                  }}>Email</h5>
+                  <p className="contact-info-text" style={{ 
+                    fontSize: isMobile ? "13px" : "14px", 
+                    color: "#4a5568", 
+                    margin: 0, 
+                    wordBreak: "break-word",
+                    fontWeight: "500"
+                  }}>
+                    <a href="mailto:wstore887@gmail.com" style={{ color: "#4a5568", textDecoration: "none" }}>
+                      ✉️ wstore887@gmail.com
+                    </a>
+                  </p>
+                </div>
+              </div>
+
+              {/* Horaires */}
+              <div className="contact-info-item" style={{ 
+                display: "flex", 
+                gap: isMobile ? "15px" : "18px", 
+                alignItems: "flex-start",
+                padding: isMobile ? "15px" : "18px",
+                background: "linear-gradient(135deg, rgba(248, 249, 250, 0.8) 0%, rgba(241, 245, 249, 0.8) 100%)",
+                borderRadius: "16px",
+                border: "1px solid rgba(226, 232, 240, 0.5)"
+              }}>
+                <div className="contact-info-icon" style={{ 
+                  width: isMobile ? "48px" : "54px", 
+                  height: isMobile ? "48px" : "54px", 
+                  minWidth: isMobile ? "48px" : "54px",
+                  borderRadius: "14px", 
+                  background: "linear-gradient(135deg, rgba(197, 48, 48, 0.12) 0%, rgba(197, 48, 48, 0.06) 100%)", 
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "center", 
+                  flexShrink: 0,
+                  boxShadow: "0 4px 12px rgba(197, 48, 48, 0.1)"
+                }}>
+                  <i className="fas fa-clock" style={{ fontSize: isMobile ? "20px" : "22px", color: "#c53030" }}></i>
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h5 className="contact-info-title" style={{ 
+                    fontSize: isMobile ? "15px" : "17px", 
+                    fontWeight: "700", 
+                    color: "#1a202c", 
+                    marginBottom: "8px",
+                    letterSpacing: "-0.2px"
+                  }}>Horaires</h5>
+                  <p className="contact-info-text" style={{ 
+                    fontSize: isMobile ? "13px" : "14px", 
+                    color: "#4a5568", 
+                    margin: 0, 
+                    lineHeight: "1.7",
+                    fontWeight: "500"
+                  }}>
+                    🕐 Lun - Dim: 9h00 - 22h00
+                  </p>
+                </div>
+              </div>
+
+              {/* Réseaux sociaux */}
+              <div className="contact-social-section" style={{ 
+                marginTop: isMobile ? "25px" : "35px", 
+                paddingTop: isMobile ? "25px" : "30px", 
+                borderTop: "2px solid #e2e8f0" 
+              }}>
+                <h5 className="contact-social-title" style={{ 
+                  fontSize: isMobile ? "16px" : "18px", 
+                  fontWeight: "700", 
+                  color: "#1a202c", 
+                  marginBottom: "18px",
+                  textAlign: isMobile ? "center" : "left",
+                  letterSpacing: "-0.2px"
+                }}>Suivez-nous sur les réseaux</h5>
+                <div className="contact-social-buttons" style={{ 
+                  display: "flex", 
+                  gap: "14px", 
+                  justifyContent: isMobile ? "center" : "flex-start",
+                  flexWrap: "wrap"
+                }}>
+                  {[
+                    { icon: 'facebook-f', url: 'https://www.facebook.com/profile.php?id=100090708515530', color: '#1877f2' },
+                    { icon: 'instagram', url: 'https://www.instagram.com/w.store_tn/', color: '#e4405f' },
+                    { icon: 'whatsapp', url: 'https://wa.me/21652255145', color: '#25d366' }
+                  ].map((social) => (
+                    <a 
+                      key={social.icon}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-social-btn"
+                      style={{ 
+                        width: isMobile ? "48px" : "52px", 
+                        height: isMobile ? "48px" : "52px", 
+                        borderRadius: "14px", 
+                        background: `linear-gradient(135deg, ${social.color} 0%, ${social.color}dd 100%)`, 
+                        display: "flex", 
+                        alignItems: "center", 
+                        justifyContent: "center", 
+                        color: "white", 
+                        textDecoration: "none",
+                        fontSize: isMobile ? "18px" : "20px",
+                        boxShadow: `0 8px 20px ${social.color}40`
+                      }}
+                    >
+                      <i className={`fab fa-${social.icon}`}></i>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Formulaire de contact */}
+          <div className="col-lg-8">
+            <div className="contact-form-card" style={{ 
+              backgroundColor: "white", 
+              borderRadius: "24px", 
+              padding: isMobile ? "20px 15px" : "45px 40px", 
+              boxShadow: "0 10px 40px rgba(0,0,0,0.08)",
+              border: "1px solid rgba(226, 232, 240, 0.8)",
+              background: "linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)"
+            }}>
+              <div style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                gap: "12px", 
+                marginBottom: isMobile ? "25px" : "35px",
+                paddingBottom: isMobile ? "20px" : "25px",
+                borderBottom: "2px solid #e2e8f0",
+                flexDirection: isMobile ? "column" : "row",
+                textAlign: isMobile ? "center" : "left"
+              }}>
+                <div style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "14px",
+                  background: "linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 8px 20px rgba(197, 48, 48, 0.25)"
+                }}>
+                  <i className="fas fa-paper-plane" style={{ fontSize: "22px", color: "white" }}></i>
+                </div>
+                <h3 style={{ fontSize: isMobile ? "20px" : "26px", fontWeight: "800", color: "#1a202c", margin: 0 }}>
+                  Envoyez-nous un message
+                </h3>
+              </div>
+
+              {success && (
+                <div className="success-message" style={{ 
+                  background: "linear-gradient(135deg, rgba(72, 187, 120, 0.15) 0%, rgba(72, 187, 120, 0.08) 100%)", 
+                  color: "#276749", 
+                  padding: isMobile ? "16px 18px" : "18px 24px", 
+                  borderRadius: "14px", 
+                  marginBottom: "28px", 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: "12px",
+                  border: "2px solid rgba(72, 187, 120, 0.3)",
+                  fontSize: isMobile ? "14px" : "15px",
+                  fontWeight: "600",
+                  boxShadow: "0 4px 15px rgba(72, 187, 120, 0.15)"
+                }}>
+                  <div style={{
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "50%",
+                    background: "rgba(72, 187, 120, 0.2)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0
+                  }}>
+                    <i className="fas fa-check-circle" style={{ fontSize: "18px" }}></i>
+                  </div>
+                  <span>Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.</span>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit}>
+                <div className="row g-4">
+                  <div className="col-md-6">
+                    <label style={{ 
+                      fontSize: isMobile ? "14px" : "15px", 
+                      fontWeight: "700", 
+                      color: "#2d3748", 
+                      marginBottom: "10px", 
+                      display: "block",
+                      letterSpacing: "-0.2px"
+                    }}>
+                      Nom complet <span style={{ color: "#c53030" }}>*</span>
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onFocus={() => setFocusedField('name')}
+                      onBlur={() => setFocusedField(null)}
+                      style={{ 
+                        width: "100%", 
+                        padding: isMobile ? "14px 16px" : "16px 20px", 
+                        border: `2px solid ${focusedField === 'name' ? '#1a365d' : '#e2e8f0'}`, 
+                        borderRadius: "14px", 
+                        fontSize: isMobile ? "14px" : "15px", 
+                        outline: "none", 
+                        boxSizing: "border-box",
+                        fontWeight: "500",
+                        backgroundColor: focusedField === 'name' ? '#f8f9fa' : 'white'
+                      }}
+                      placeholder="Votre nom complet"
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <label style={{ 
+                      fontSize: isMobile ? "14px" : "15px", 
+                      fontWeight: "700", 
+                      color: "#2d3748", 
+                      marginBottom: "10px", 
+                      display: "block",
+                      letterSpacing: "-0.2px"
+                    }}>
+                      Email <span style={{ color: "#c53030" }}>*</span>
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onFocus={() => setFocusedField('email')}
+                      onBlur={() => setFocusedField(null)}
+                      style={{ 
+                        width: "100%", 
+                        padding: isMobile ? "14px 16px" : "16px 20px", 
+                        border: `2px solid ${focusedField === 'email' ? '#1a365d' : '#e2e8f0'}`, 
+                        borderRadius: "14px", 
+                        fontSize: isMobile ? "14px" : "15px", 
+                        outline: "none", 
+                        boxSizing: "border-box",
+                        fontWeight: "500",
+                        backgroundColor: focusedField === 'email' ? '#f8f9fa' : 'white'
+                      }}
+                      placeholder="votre@email.com"
+                    />
+                  </div>
+                  <div className="col-12">
+                    <label style={{ 
+                      fontSize: isMobile ? "14px" : "15px", 
+                      fontWeight: "700", 
+                      color: "#2d3748", 
+                      marginBottom: "10px", 
+                      display: "block",
+                      letterSpacing: "-0.2px"
+                    }}>
+                      Sujet <span style={{ color: "#c53030" }}>*</span>
+                    </label>
+                    <select
+                      required
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      onFocus={() => setFocusedField('subject')}
+                      onBlur={() => setFocusedField(null)}
+                      style={{ 
+                        width: "100%", 
+                        padding: isMobile ? "14px 16px" : "16px 20px", 
+                        border: `2px solid ${focusedField === 'subject' ? '#1a365d' : '#e2e8f0'}`, 
+                        borderRadius: "14px", 
+                        fontSize: isMobile ? "14px" : "15px", 
+                        outline: "none", 
+                        boxSizing: "border-box",
+                        backgroundColor: focusedField === 'subject' ? '#f8f9fa' : 'white',
+                        fontWeight: "500",
+                        cursor: "pointer"
+                      }}
+                    >
+                      <option value="">Sélectionnez un sujet</option>
+                      <option value="info">💡 Information produit</option>
+                      <option value="order">📦 Suivi de commande</option>
+                      <option value="return">🔄 Retour / Échange</option>
+                      <option value="warranty">🛡️ Garantie</option>
+                      <option value="other">💬 Autre</option>
+                    </select>
+                  </div>
+                  <div className="col-12">
+                    <label style={{ 
+                      fontSize: isMobile ? "14px" : "15px", 
+                      fontWeight: "700", 
+                      color: "#2d3748", 
+                      marginBottom: "10px", 
+                      display: "block",
+                      letterSpacing: "-0.2px"
+                    }}>
+                      Message <span style={{ color: "#c53030" }}>*</span>
+                    </label>
+                    <textarea
+                      required
+                      rows={isMobile ? 5 : 6}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      onFocus={() => setFocusedField('message')}
+                      onBlur={() => setFocusedField(null)}
+                      style={{ 
+                        width: "100%", 
+                        padding: isMobile ? "14px 16px" : "16px 20px", 
+                        border: `2px solid ${focusedField === 'message' ? '#1a365d' : '#e2e8f0'}`, 
+                        borderRadius: "14px", 
+                        fontSize: isMobile ? "14px" : "15px", 
+                        outline: "none", 
+                        resize: "vertical", 
+                        boxSizing: "border-box",
+                        fontWeight: "500",
+                        backgroundColor: focusedField === 'message' ? '#f8f9fa' : 'white',
+                        fontFamily: "inherit",
+                        lineHeight: "1.6"
+                      }}
+                      placeholder="Décrivez votre demande en détail..."
+                    ></textarea>
+                  </div>
+                  <div className="col-12">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="contact-submit-btn"
+                      style={{
+                        width: isMobile ? "100%" : "auto",
+                        padding: isMobile ? "16px 24px" : "18px 48px",
+                        background: loading ? "linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%)" : "linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "14px",
+                        fontSize: isMobile ? "15px" : "17px",
+                        fontWeight: "700",
+                        cursor: loading ? "not-allowed" : "pointer",
+                        boxShadow: loading ? "none" : "0 12px 35px rgba(197, 48, 48, 0.35)",
+                        marginTop: "10px",
+                        letterSpacing: "0.3px"
+                      }}
+                    >
+                      {loading ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm me-2"></span>
+                          Envoi en cours...
+                        </>
+                      ) : (
+                        <>
+                          <i className="fas fa-paper-plane me-2"></i>
+                          Envoyer le message
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </>
+  );
+}

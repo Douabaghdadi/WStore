@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import Link from 'next/link';
+import { API_URL } from '../../lib/api';
 
 interface CartSidebarProps {
   isOpen: boolean;
@@ -195,7 +196,7 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                       flexShrink: 0
                     }}>
                       <img 
-                        src={item.image?.startsWith('http') ? item.image : `http://localhost:5000${item.image}`}
+                        src={item.image?.startsWith('http') ? item.image : `${API_URL}${item.image}`}
                         alt={item.name} 
                         style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '6px' }} 
                       />

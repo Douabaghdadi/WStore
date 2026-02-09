@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { API_URL } from '../../../lib/api';
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -14,7 +15,7 @@ export default function OrdersPage() {
       return;
     }
 
-    fetch('http://localhost:5000/api/orders', {
+    fetch(`${API_URL}/api/orders`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(r => r.json())

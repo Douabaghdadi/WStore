@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
 import Link from 'next/link';
+import { API_URL } from '../../../lib/api';
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
@@ -41,7 +42,7 @@ export default function CartPage() {
   const getImageUrl = (image: string) => {
     if (!image) return '/img/product-placeholder.jpg';
     if (image.startsWith('http')) return image;
-    return 'http://localhost:5000' + image;
+    return API_URL + image;
   };
 
   if (cart.length === 0) {

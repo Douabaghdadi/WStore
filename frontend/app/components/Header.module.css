@@ -1,0 +1,245 @@
+/* Header Mobile Responsive Styles */
+
+/* Mobile Header Adjustments - Optimisé pour réduire l'espace */
+@media (max-width: 767px) {
+  .header-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+  }
+  
+  .main-nav {
+    height: 60px !important;
+    padding: 0 12px !important;
+    min-height: 60px !important;
+  }
+  
+  .logo img {
+    max-height: 36px !important;
+    width: auto !important;
+  }
+  
+  .icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 6px !important;
+  }
+  
+  .icon-btn i {
+    font-size: 15px !important;
+  }
+  
+  .badge {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 9px !important;
+    top: -4px !important;
+    right: -4px !important;
+  }
+}
+
+/* Very Small Mobile (< 375px) */
+@media (max-width: 374px) {
+  .main-nav {
+    gap: 6px !important;
+    padding: 0 10px !important;
+  }
+  
+  .icon-btn {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  .icon-btn i {
+    font-size: 14px !important;
+  }
+  
+  .logo img {
+    max-height: 32px !important;
+  }
+}
+
+/* Tablet Adjustments */
+@media (min-width: 768px) and (max-width: 991px) {
+  .main-nav {
+    height: 65px !important;
+  }
+  
+  .logo img {
+    max-height: 45px !important;
+  }
+}
+
+/* Mobile Menu Styles */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 85%;
+  max-width: 320px;
+  background: white;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+  backdrop-filter: blur(2px);
+}
+
+/* Smooth Menu Animation */
+.mobile-menu-enter {
+  transform: translateX(-100%);
+}
+
+.mobile-menu-enter-active {
+  transform: translateX(0);
+  transition: transform 300ms ease-out;
+}
+
+.mobile-menu-exit {
+  transform: translateX(0);
+}
+
+.mobile-menu-exit-active {
+  transform: translateX(-100%);
+  transition: transform 300ms ease-in;
+}
+
+/* Mobile Search Bar */
+.mobile-search {
+  padding: 10px 15px;
+  background: #f7fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.mobile-search input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+}
+
+.mobile-search input:focus {
+  border-color: #c53030;
+}
+
+/* Category Bar Mobile */
+@media (max-width: 767px) {
+  .categories-bar {
+    display: none !important;
+  }
+}
+
+/* Prevent body scroll when menu is open */
+body.menu-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* Safe area for iOS notch */
+@supports (padding: max(0px)) {
+  .header-container {
+    padding-top: max(0px, env(safe-area-inset-top));
+  }
+  
+  .mobile-menu {
+    padding-top: max(0px, env(safe-area-inset-top));
+  }
+}
+
+/* Improve touch targets */
+@media (max-width: 768px) {
+  .nav-link,
+  .dropdown-item,
+  .mobile-menu a,
+  .mobile-menu button {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Loading skeleton for images */
+.image-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Dropdown improvements for mobile */
+@media (max-width: 767px) {
+  .dropdown-menu {
+    position: static !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+}
+
+/* Search results mobile */
+@media (max-width: 768px) {
+  .search-results {
+    position: fixed !important;
+    top: auto !important;
+    left: 15px !important;
+    right: 15px !important;
+    max-height: 60vh !important;
+    margin-top: 10px;
+  }
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid #c53030;
+  outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

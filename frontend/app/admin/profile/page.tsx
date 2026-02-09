@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
+import { API_URL } from "../../../lib/api";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function ProfilePage() {
 
   const fetchUserDetails = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/users/${id}`);
+      const res = await fetch(`${API_URL}/api/users/${id}`);
       if (res.ok) {
         const data = await res.json();
         setUser(data);
@@ -51,7 +52,7 @@ export default function ProfilePage() {
                   <div className="col-md-4 text-center border-end">
                     <div className="mb-4">
                       <img 
-                        src={user.photo ? `http://localhost:5000${user.photo}` : "/admin/images/faces/face1.jpg"} 
+                        src={user.photo ? `${API_URL}${user.photo}` : "/admin/images/faces/face1.jpg"}
                         alt="Photo" 
                         style={{ 
                           width: "180px", 

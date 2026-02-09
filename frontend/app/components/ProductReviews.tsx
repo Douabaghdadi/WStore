@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import StarRating from "./StarRating";
+import { API_URL } from "../../lib/api";
 
 interface Review {
   _id: string;
@@ -40,7 +41,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
     if (!token) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/reviews/can-review/${productId}`, {
+      const res = await fetch(`${API_URL}/api/reviews/can-review/${productId}`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
@@ -56,7 +57,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
 
   const fetchReviews = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/reviews/product/${productId}`);
+      const res = await fetch(`${API_URL}/api/reviews/product/${productId}`);
       const data = await res.json();
       setReviews(data);
     } catch (error) {
@@ -71,7 +72,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/reviews", {
+      const res = await fetch(`${API_URL}/api/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

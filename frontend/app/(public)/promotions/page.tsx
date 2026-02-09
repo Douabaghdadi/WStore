@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useCart } from '../../context/CartContext';
 import { useFavorites } from '../../context/FavoritesContext';
+import { API_URL } from '../../../lib/api';
 
 interface Product {
   _id: string;
@@ -31,15 +32,15 @@ export default function PromotionsPage() {
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/brands')
+    fetch(`${API_URL}/api/brands`)
       .then(r => r.json())
       .then(data => setBrands(data));
 
-    fetch('http://localhost:5000/api/categories')
+    fetch(`${API_URL}/api/categories`)
       .then(r => r.json())
       .then(data => setCategories(data));
 
-    fetch('http://localhost:5000/api/products')
+    fetch(`${API_URL}/api/products`)
       .then(r => r.json())
       .then(data => {
         const promoProducts = data.filter((p: Product) => (p.discount ?? 0) > 0);
@@ -331,7 +332,7 @@ export default function PromotionsPage() {
                         <div style={{ position: 'relative', backgroundColor: '#f7fafc', height: '280px' }}>
                           <Link href={`/product/${product._id}`}>
                             <img 
-                              src={product.image?.startsWith('http') ? product.image : product.image ? `http://localhost:5000${product.image}` : '/img/product-placeholder.jpg'}
+                              src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
                               alt={product.name}
                               style={{ width: '100%', height: '280px', objectFit: 'contain', padding: '20px' }}
                             />

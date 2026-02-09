@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { API_URL } from "../../../lib/api";
 
 export default function ClientProfile() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function ClientProfile() {
     setSaving(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/auth/update-profile", {
+      const response = await fetch(`${API_URL}/api/auth/update-profile`, {
         method: "PUT", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ ...formData, profileImage })
       });
@@ -64,7 +65,7 @@ export default function ClientProfile() {
     setSaving(true);
     try {
       const token = localStorage.getItem("token");
-      await fetch("http://localhost:5000/api/auth/change-password", {
+      await fetch(`${API_URL}/api/auth/change-password`, {
         method: "PUT", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ currentPassword: passwordData.currentPassword, newPassword: passwordData.newPassword })
       });

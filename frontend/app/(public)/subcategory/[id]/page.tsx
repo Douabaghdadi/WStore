@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useCart } from '../../../context/CartContext';
 import { useFavorites } from '../../../context/FavoritesContext';
+import { API_URL } from '../../../../lib/api';
 
 interface Product {
   _id: string;
@@ -41,15 +42,15 @@ export default function SubcategoryPage() {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/subcategories/${params.id}`)
+    fetch(`${API_URL}/api/subcategories/${params.id}`)
       .then(r => r.json())
       .then(data => setSubcategory(data));
 
-    fetch('http://localhost:5000/api/brands')
+    fetch(`${API_URL}/api/brands`)
       .then(r => r.json())
       .then(data => setBrands(data));
 
-    fetch('http://localhost:5000/api/products')
+    fetch(`${API_URL}/api/products`)
       .then(r => r.json())
       .then(data => {
         const filtered = data.filter((p: Product) => 
@@ -397,7 +398,7 @@ export default function SubcategoryPage() {
                         <div style={{ position: 'relative', backgroundColor: '#f7fafc', height: '280px' }}>
                           <Link href={`/product/${product._id}`}>
                             <img 
-                              src={product.image?.startsWith('http') ? product.image : product.image ? `http://localhost:5000${product.image}` : '/img/product-placeholder.jpg'}
+                              src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
                               alt={product.name}
                               style={{ width: '100%', height: '280px', objectFit: 'contain', padding: '20px' }}
                             />

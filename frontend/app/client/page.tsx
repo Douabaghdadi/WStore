@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { API_URL } from "../../lib/api";
 
 interface DashboardCard {
   title: string;
@@ -41,7 +42,7 @@ export default function ClientDashboard() {
   const fetchClientStats = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/orders", {
+      const response = await fetch(`${API_URL}/api/orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

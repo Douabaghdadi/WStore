@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Header from "../components/Header";
+import { API_URL } from "../../lib/api";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function RegisterPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -49,7 +50,58 @@ export default function RegisterPage() {
   return (
     <>
       <Header />
-      <div style={{ 
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .register-container {
+            margin-top: 120px !important;
+            padding: 20px 15px !important;
+            min-height: calc(100vh - 120px) !important;
+          }
+          .register-card {
+            flex-direction: column !important;
+            gap: 30px !important;
+            padding: 30px 20px !important;
+            border-radius: 12px !important;
+          }
+          .logo-section {
+            flex: 0 0 auto !important;
+            width: 100% !important;
+            max-width: 200px !important;
+            margin: 0 auto !important;
+          }
+          .logo-section img {
+            max-width: 200px !important;
+          }
+          .form-section {
+            max-width: 100% !important;
+            width: 100% !important;
+          }
+          .register-title {
+            font-size: 24px !important;
+            margin-bottom: 20px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .register-container {
+            margin-top: 100px !important;
+            padding: 15px 10px !important;
+          }
+          .register-card {
+            padding: 25px 15px !important;
+            gap: 20px !important;
+          }
+          .logo-section {
+            max-width: 160px !important;
+          }
+          .logo-section img {
+            max-width: 160px !important;
+          }
+          .register-title {
+            font-size: 22px !important;
+          }
+        }
+      `}</style>
+      <div className="register-container" style={{ 
         minHeight: "100vh", 
         marginTop: "180px",
         background: "#f8f9fa",
@@ -59,7 +111,7 @@ export default function RegisterPage() {
         padding: "40px 20px"
       }}>
         {/* Carte englobant logo + formulaire */}
-        <div style={{ 
+        <div className="register-card" style={{ 
           display: "flex",
           alignItems: "center",
           gap: "60px",
@@ -71,7 +123,7 @@ export default function RegisterPage() {
           padding: "50px"
         }}>
           {/* Logo à gauche */}
-          <div style={{ 
+          <div className="logo-section" style={{ 
             flex: "0 0 280px", 
             display: "flex", 
             justifyContent: "center",
@@ -85,12 +137,12 @@ export default function RegisterPage() {
           </div>
 
           {/* Formulaire à droite */}
-          <div style={{ 
+          <div className="form-section" style={{ 
             flex: "1",
             maxWidth: "340px"
           }}>
             {/* Titre */}
-            <h2 style={{ 
+            <h2 className="register-title" style={{ 
               fontSize: "28px", 
               fontWeight: "700", 
               marginBottom: "25px", 

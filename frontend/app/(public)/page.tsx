@@ -6,6 +6,7 @@ import Link from 'next/link';
 import BrandCarousel from '../components/BrandCarousel';
 import CategoryCarousel from '../components/CategoryCarousel';
 import PromoSection from '../components/PromoSection';
+import { API_URL } from '../../lib/api';
 
 interface Product {
   _id: string;
@@ -40,8 +41,8 @@ export default function Home() {
 
   useEffect(() => {
     Promise.all([
-      fetch('http://localhost:5000/api/products').then(res => res.json()),
-      fetch('http://localhost:5000/api/categories').then(res => res.json())
+      fetch(`${API_URL}/api/products`).then(res => res.json()),
+      fetch(`${API_URL}/api/categories`).then(res => res.json())
     ])
       .then(([productsData, categoriesData]) => {
         setProducts(productsData);
@@ -130,8 +131,8 @@ export default function Home() {
         <div className="container">
           <div className="row g-3">
             {/* Grande bannière iPhone - Gauche */}
-            <div className="col-lg-6">
-              <div style={{
+            <div className="col-lg-6 col-12">
+              <div className="banner-iphone" style={{
                 background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%)',
                 borderRadius: '20px',
                 padding: '30px',
@@ -157,13 +158,13 @@ export default function Home() {
                   PROMO !
                 </div>
                 <div style={{ position: 'relative', zIndex: 5, flex: 1, marginTop: '60px' }}>
-                  <h2 style={{ color: 'white', fontSize: '3rem', fontWeight: '800', lineHeight: '1.1', marginBottom: '5px' }}>
+                  <h2 className="banner-title" style={{ color: 'white', fontSize: '3rem', fontWeight: '800', lineHeight: '1.1', marginBottom: '5px' }}>
                     iPhone
                   </h2>
-                  <h2 style={{ color: '#a0aec0', fontSize: '3rem', fontWeight: '800', lineHeight: '1.1', marginBottom: '25px' }}>
+                  <h2 className="banner-subtitle" style={{ color: '#a0aec0', fontSize: '3rem', fontWeight: '800', lineHeight: '1.1', marginBottom: '25px' }}>
                     16 Pro
                   </h2>
-                  <Link href="/shop" style={{
+                  <Link href="/shop" className="banner-btn" style={{
                     display: 'inline-block',
                     background: '#c53030',
                     color: 'white',
@@ -177,7 +178,7 @@ export default function Home() {
                     Profitez Maintenant !
                   </Link>
                 </div>
-                <div style={{
+                <div className="banner-image" style={{
                   position: 'absolute',
                   top: '50%',
                   right: '20px',
@@ -193,10 +194,10 @@ export default function Home() {
             </div>
 
             {/* Colonne droite */}
-            <div className="col-lg-6">
+            <div className="col-lg-6 col-12">
               <div className="row g-3">
                 <div className="col-12">
-                  <div style={{
+                  <div className="banner-headphone" style={{
                     background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
                     borderRadius: '20px',
                     padding: '25px 30px',
@@ -207,13 +208,13 @@ export default function Home() {
                     alignItems: 'center'
                   }}>
                     <div style={{ flex: 1, zIndex: 5 }}>
-                      <p style={{ color: '#c53030', fontSize: '14px', fontWeight: '700', fontStyle: 'italic', marginBottom: '5px' }}>
+                      <p className="banner-label" style={{ color: '#c53030', fontSize: '14px', fontWeight: '700', fontStyle: 'italic', marginBottom: '5px' }}>
                         OFFRE SPÉCIALE
                       </p>
-                      <h3 style={{ color: '#1a202c', fontSize: '1.4rem', fontWeight: '700', marginBottom: '15px' }}>
+                      <h3 className="banner-heading" style={{ color: '#1a202c', fontSize: '1.4rem', fontWeight: '700', marginBottom: '15px' }}>
                         Casque bluetooth P9 pro max
                       </h3>
-                      <Link href="/shop" style={{
+                      <Link href="/shop" className="banner-btn-small" style={{
                         display: 'inline-block',
                         background: '#1a202c',
                         color: 'white',
@@ -226,7 +227,7 @@ export default function Home() {
                         Profitez
                       </Link>
                     </div>
-                    <div style={{
+                    <div className="banner-image-small" style={{
                       position: 'absolute',
                       right: '20px',
                       top: '50%',
@@ -241,7 +242,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="col-6">
-                  <div style={{
+                  <div className="banner-airpods" style={{
                     background: 'linear-gradient(135deg, #2d4a7c 0%, #1a365d 50%, #0f2442 100%)',
                     borderRadius: '20px',
                     padding: '20px',
@@ -249,13 +250,13 @@ export default function Home() {
                     position: 'relative',
                     overflow: 'hidden'
                   }}>
-                    <h4 style={{ color: 'white', fontSize: '1rem', fontWeight: '700', marginBottom: '5px' }}>
+                    <h4 className="banner-small-title" style={{ color: 'white', fontSize: '1rem', fontWeight: '700', marginBottom: '5px' }}>
                       Promo AirPods
                     </h4>
-                    <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '12px', marginBottom: '15px' }}>
+                    <p className="banner-small-desc" style={{ color: 'rgba(255,255,255,0.8)', fontSize: '12px', marginBottom: '15px' }}>
                       Borofone BW26
                     </p>
-                    <Link href="/shop" style={{
+                    <Link href="/shop" className="banner-btn-mini" style={{
                       display: 'inline-block',
                       background: 'white',
                       color: '#1a365d',
@@ -267,7 +268,7 @@ export default function Home() {
                     }}>
                       Profitez
                     </Link>
-                    <div style={{
+                    <div className="banner-image-mini" style={{
                       position: 'absolute',
                       right: '10px',
                       bottom: '15px',
@@ -281,7 +282,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="col-6">
-                  <div style={{
+                  <div className="banner-speaker" style={{
                     background: 'linear-gradient(135deg, #e53e3e 0%, #c53030 50%, #9b2c2c 100%)',
                     borderRadius: '20px',
                     padding: '20px',
@@ -289,13 +290,13 @@ export default function Home() {
                     position: 'relative',
                     overflow: 'hidden'
                   }}>
-                    <h4 style={{ color: 'white', fontSize: '1rem', fontWeight: '700', marginBottom: '3px' }}>
+                    <h4 className="banner-small-title" style={{ color: 'white', fontSize: '1rem', fontWeight: '700', marginBottom: '3px' }}>
                       Speaker Marshall
                     </h4>
-                    <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '12px', marginBottom: '15px' }}>
+                    <p className="banner-small-desc" style={{ color: 'rgba(255,255,255,0.8)', fontSize: '12px', marginBottom: '15px' }}>
                       de haute qualité
                     </p>
-                    <Link href="/shop" style={{
+                    <Link href="/shop" className="banner-btn-mini" style={{
                       display: 'inline-block',
                       background: 'white',
                       color: '#c53030',
@@ -307,7 +308,7 @@ export default function Home() {
                     }}>
                       Voir Plus
                     </Link>
-                    <div style={{
+                    <div className="banner-image-mini" style={{
                       position: 'absolute',
                       right: '10px',
                       bottom: '15px',
@@ -386,7 +387,7 @@ export default function Home() {
                         }}>
                           <div style={{ position: 'relative', background: '#f7fafc', height: '240px' }}>
                             <Link href={`/product/${product._id}`}>
-                              <img src={product.image?.startsWith('http') ? product.image : product.image ? `http://localhost:5000${product.image}` : '/img/product-placeholder.jpg'}
+                              <img src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
                                 alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} />
                             </Link>
                             {(product.discount ?? 0) > 0 && (
@@ -637,7 +638,7 @@ export default function Home() {
                         }}>
                           <div style={{ position: 'relative', background: '#f7fafc', height: '240px' }}>
                             <Link href={`/product/${product._id}`}>
-                              <img src={product.image?.startsWith('http') ? product.image : product.image ? `http://localhost:5000${product.image}` : '/img/product-placeholder.jpg'}
+                              <img src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
                                 alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} />
                             </Link>
                             {(product.discount ?? 0) > 0 && (
@@ -794,7 +795,7 @@ export default function Home() {
                     }}>
                       <div style={{ position: 'relative', background: '#f7fafc', height: '240px' }}>
                         <Link href={`/product/${product._id}`}>
-                          <img src={product.image?.startsWith('http') ? product.image : product.image ? `http://localhost:5000${product.image}` : '/img/product-placeholder.jpg'}
+                          <img src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
                             alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} />
                         </Link>
                         <span style={{ position: 'absolute', top: '12px', left: '12px', background: '#c53030',
@@ -932,7 +933,7 @@ export default function Home() {
               { icon: 'fa-headset', title: 'Support 24/7', desc: 'À votre écoute', gradient: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', shadow: 'rgba(197, 48, 48, 0.4)' }
             ].map((f, i) => (
               <div key={i} className="col-6 col-md-3">
-                <div style={{ 
+                <div className="feature-card" style={{ 
                   background: 'white', 
                   borderRadius: '24px', 
                   padding: '40px 20px', 
@@ -941,7 +942,7 @@ export default function Home() {
                   border: '1px solid rgba(0,0,0,0.04)',
                   height: '100%'
                 }}>
-                  <div style={{ 
+                  <div className="feature-icon" style={{ 
                     width: '80px', 
                     height: '80px', 
                     background: f.gradient, 
@@ -954,14 +955,348 @@ export default function Home() {
                   }}>
                     <i className={`fas ${f.icon}`} style={{ fontSize: '32px', color: 'white' }}></i>
                   </div>
-                  <h6 style={{ fontWeight: '700', color: '#1a202c', marginBottom: '10px', fontSize: '17px' }}>{f.title}</h6>
-                  <p style={{ color: '#718096', fontSize: '14px', margin: 0, lineHeight: '1.5' }}>{f.desc}</p>
+                  <h6 className="feature-title" style={{ fontWeight: '700', color: '#1a202c', marginBottom: '10px', fontSize: '17px' }}>{f.title}</h6>
+                  <p className="feature-desc" style={{ color: '#718096', fontSize: '14px', margin: 0, lineHeight: '1.5' }}>{f.desc}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Styles responsives pour mobile - Design Luxe */}
+      <style jsx>{`
+        /* Bannières Hero - Mobile */
+        @media (max-width: 768px) {
+          .homepage-banners {
+            padding-top: 15px !important;
+            padding-bottom: 10px !important;
+          }
+          
+          .banner-iphone {
+            min-height: 320px !important;
+            padding: 25px !important;
+            border-radius: 24px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12) !important;
+          }
+          
+          .banner-title,
+          .banner-subtitle {
+            font-size: 2.2rem !important;
+            letter-spacing: -1px !important;
+          }
+          
+          .banner-btn {
+            padding: 12px 24px !important;
+            font-size: 13px !important;
+            box-shadow: 0 4px 16px rgba(197, 48, 48, 0.4) !important;
+            transition: all 0.3s ease !important;
+          }
+          
+          .banner-image {
+            width: 55% !important;
+            right: 15px !important;
+          }
+          
+          .banner-headphone {
+            height: 180px !important;
+            padding: 22px !important;
+            border-radius: 24px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12) !important;
+          }
+          
+          .banner-heading {
+            font-size: 1.2rem !important;
+            margin-bottom: 12px !important;
+            letter-spacing: -0.5px !important;
+          }
+          
+          .banner-label {
+            font-size: 12px !important;
+            letter-spacing: 1px !important;
+          }
+          
+          .banner-btn-small {
+            padding: 10px 18px !important;
+            font-size: 12px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+          }
+          
+          .banner-image-small {
+            width: 140px !important;
+            height: 140px !important;
+            right: 15px !important;
+          }
+          
+          .banner-airpods,
+          .banner-speaker {
+            height: 180px !important;
+            padding: 18px !important;
+            border-radius: 24px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12) !important;
+          }
+          
+          .banner-small-title {
+            font-size: 1rem !important;
+            letter-spacing: -0.3px !important;
+          }
+          
+          .banner-small-desc {
+            font-size: 11px !important;
+            margin-bottom: 12px !important;
+          }
+          
+          .banner-btn-mini {
+            padding: 8px 16px !important;
+            font-size: 11px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+          }
+          
+          .banner-image-mini {
+            width: 110px !important;
+            height: 110px !important;
+            right: 8px !important;
+            bottom: 12px !important;
+          }
+        }
+        
+        /* Features - Mobile Luxe */
+        @media (max-width: 768px) {
+          .feature-card {
+            padding: 30px 18px !important;
+            border-radius: 20px !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+            transition: all 0.3s ease !important;
+          }
+          
+          .feature-card:active {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12) !important;
+          }
+          
+          .feature-icon {
+            width: 64px !important;
+            height: 64px !important;
+            margin-bottom: 18px !important;
+            border-radius: 18px !important;
+          }
+          
+          .feature-icon i {
+            font-size: 26px !important;
+          }
+          
+          .feature-title {
+            font-size: 15px !important;
+            margin-bottom: 6px !important;
+            font-weight: 700 !important;
+            letter-spacing: -0.3px !important;
+          }
+          
+          .feature-desc {
+            font-size: 12px !important;
+            line-height: 1.6 !important;
+            opacity: 0.85 !important;
+          }
+        }
+        
+        /* Sections produits - Mobile */
+        @media (max-width: 768px) {
+          .homepage-banners + div,
+          .homepage-banners ~ div {
+            padding: 35px 0 !important;
+          }
+          
+          h2 {
+            font-size: 1.4rem !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+          }
+          
+          /* Boutons découvrir - Style Premium */
+          a[href*="/category"],
+          a[href*="/shop"],
+          a[href="/nouveautes"] {
+            font-size: 12px !important;
+            padding: 8px 16px !important;
+            border-width: 2px !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.3px !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+          }
+          
+          /* Boutons de navigation carrousel - Premium */
+          button[style*="position: absolute"] {
+            width: 40px !important;
+            height: 40px !important;
+            left: -8px !important;
+            border-radius: 50% !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+            backdrop-filter: blur(10px) !important;
+            background: rgba(255,255,255,0.95) !important;
+            transition: all 0.3s ease !important;
+          }
+          
+          button[style*="position: absolute"]:active {
+            transform: translateY(-50%) scale(0.95) !important;
+          }
+          
+          button[style*="position: absolute"]:last-of-type {
+            right: -8px !important;
+            left: auto !important;
+          }
+        }
+        
+        /* Cartes produits - Design Luxe Mobile */
+        @media (max-width: 768px) {
+          /* Taille des cartes - Plus grandes et élégantes */
+          div[style*="minWidth: '280px'"] {
+            min-width: 260px !important;
+            max-width: 260px !important;
+            border-radius: 24px !important;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.1) !important;
+            border: 1px solid rgba(0,0,0,0.06) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            overflow: hidden !important;
+          }
+          
+          /* Effet hover/touch sur les cartes */
+          div[style*="minWidth: '280px'"]:active {
+            transform: translateY(-6px) !important;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.15) !important;
+          }
+          
+          /* Image produit - Plus grande */
+          div[style*="minWidth: '280px'"] img {
+            height: 220px !important;
+            padding: 18px !important;
+            transition: transform 0.3s ease !important;
+          }
+          
+          div[style*="minWidth: '280px'"]:active img {
+            transform: scale(1.05) !important;
+          }
+          
+          /* Contenu de la carte - Espacement amélioré */
+          div[style*="minWidth: '280px'"] > div:last-child {
+            padding: 18px !important;
+          }
+          
+          /* Titre produit - Plus lisible */
+          div[style*="minWidth: '280px'"] h6 {
+            font-size: 14px !important;
+            height: 42px !important;
+            line-height: 1.5 !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.2px !important;
+          }
+          
+          /* Prix - Plus visible */
+          div[style*="minWidth: '280px'"] span[style*="fontSize: '20px'"] {
+            font-size: 20px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+          }
+          
+          /* Badge promo - Style premium */
+          div[style*="minWidth: '280px'"] span[style*="position: absolute"][style*="top"] {
+            border-radius: 10px !important;
+            padding: 7px 12px !important;
+            font-size: 12px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.5px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+          }
+          
+          /* Badge stock - Plus élégant */
+          div[style*="minWidth: '280px'"] div[style*="display: inline-flex"] {
+            padding: 5px 12px !important;
+            border-radius: 20px !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.3px !important;
+          }
+          
+          /* Boutons quantité - Design premium */
+          div[style*="minWidth: '28px'"] {
+            border-radius: 12px !important;
+            padding: 4px !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+          }
+          
+          div[style*="minWidth: '28px'"] button {
+            width: 30px !important;
+            height: 30px !important;
+            font-size: 14px !important;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            transition: all 0.2s ease !important;
+          }
+          
+          div[style*="minWidth: '28px'"] button:active {
+            transform: scale(0.9) !important;
+          }
+          
+          div[style*="minWidth: '28px'"] span {
+            min-width: 30px !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+          }
+          
+          /* Bouton ajouter au panier - Premium */
+          button[style*="flex: 1"] {
+            padding: 10px !important;
+            font-size: 11px !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.3px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+            transition: all 0.3s ease !important;
+          }
+          
+          button[style*="flex: 1"]:active {
+            transform: scale(0.97) !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+          }
+          
+          /* Bouton favoris - Plus visible */
+          button[style*="position: absolute"][style*="bottom: 12px"] {
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 50% !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important;
+            backdrop-filter: blur(10px) !important;
+            transition: all 0.3s ease !important;
+          }
+          
+          button[style*="position: absolute"][style*="bottom: 12px"]:active {
+            transform: scale(1.1) !important;
+          }
+          
+          button[style*="position: absolute"][style*="bottom: 12px"] i {
+            font-size: 16px !important;
+          }
+        }
+        
+        /* Bannières latérales - Masquer sur mobile */
+        @media (max-width: 991px) {
+          .d-none.d-lg-block {
+            display: none !important;
+          }
+        }
+        
+        /* Animations fluides */
+        @media (max-width: 768px) {
+          * {
+            -webkit-tap-highlight-color: transparent !important;
+          }
+          
+          button, a {
+            touch-action: manipulation !important;
+          }
+        }
+      `}</style>
 
     </>
   );

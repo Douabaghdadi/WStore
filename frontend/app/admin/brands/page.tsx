@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Link from "next/link";
+import { API_URL } from "../../../lib/api";
 
 export default function BrandsPage() {
   const [brands, setBrands] = useState([]);
@@ -20,7 +21,7 @@ export default function BrandsPage() {
   }, []);
 
   const fetchBrands = () => {
-    fetch("http://localhost:5000/api/brands")
+    fetch(`${API_URL}/api/brands`)
       .then(r => r.json())
       .then(data => setBrands(data));
   };
@@ -34,7 +35,7 @@ export default function BrandsPage() {
 
   const deleteBrand = async (id: string) => {
     if (confirm("Voulez-vous vraiment supprimer cette marque ?")) {
-      await fetch(`http://localhost:5000/api/brands/${id}`, { method: "DELETE" });
+      await fetch(`${API_URL}/api/brands/${id}`, { method: "DELETE" });
       fetchBrands();
     }
   };
@@ -57,8 +58,8 @@ export default function BrandsPage() {
     
     try {
       const url = editingBrand 
-        ? `http://localhost:5000/api/brands/${editingBrand._id}`
-        : "http://localhost:5000/api/brands";
+        ? `${API_URL}/api/brands/${editingBrand._id}`
+        : `${API_URL}/api/brands`;
       
       await fetch(url, {
         method: editingBrand ? "PUT" : "POST",

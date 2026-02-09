@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { API_URL } from "../../lib/api";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -18,7 +19,7 @@ const GoogleLogin = dynamic(() => import("../components/GoogleLogin"), {
   )
 });
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -38,7 +39,7 @@ export default function LoginPage() {
 
   const handleFacebookCallback = async (code: string) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/facebook", {
+      const res = await fetch(`${API_URL}/api/auth/facebook`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code })
@@ -58,7 +59,7 @@ export default function LoginPage() {
 
   const handleGoogleCallback = async (code: string) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/google", {
+      const res = await fetch(`${API_URL}/api/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code })
@@ -80,7 +81,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
@@ -99,48 +100,105 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ 
-      minHeight: "100vh", 
-      marginTop: "180px",
-      background: "#f8f9fa",
-      display: "flex", 
-      alignItems: "center", 
-      justifyContent: "center", 
-      padding: "40px 20px"
-    }}>
-      {/* Carte englobant logo + formulaire */}
-      <div style={{ 
-        display: "flex",
-        alignItems: "center",
-        gap: "60px",
-        maxWidth: "800px",
-        width: "100%",
-        background: "white",
-        borderRadius: "16px",
-        boxShadow: "0 8px 30px rgba(0,0,0,0.08)",
-        padding: "50px"
+    <>
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .login-container {
+            margin-top: 120px !important;
+            padding: 20px 15px !important;
+            min-height: calc(100vh - 120px) !important;
+          }
+          .login-card {
+            flex-direction: column !important;
+            gap: 30px !important;
+            padding: 30px 20px !important;
+            border-radius: 12px !important;
+          }
+          .logo-section {
+            flex: 0 0 auto !important;
+            width: 100% !important;
+            max-width: 200px !important;
+            margin: 0 auto !important;
+          }
+          .logo-section img {
+            max-width: 200px !important;
+          }
+          .form-section {
+            max-width: 100% !important;
+            width: 100% !important;
+          }
+          .login-title {
+            font-size: 24px !important;
+            margin-bottom: 20px !important;
+          }
+          .remember-forgot {
+            flex-direction: column !important;
+            gap: 12px !important;
+            align-items: flex-start !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .login-container {
+            margin-top: 100px !important;
+            padding: 15px 10px !important;
+          }
+          .login-card {
+            padding: 25px 15px !important;
+            gap: 20px !important;
+          }
+          .logo-section {
+            max-width: 160px !important;
+          }
+          .logo-section img {
+            max-width: 160px !important;
+          }
+          .login-title {
+            font-size: 22px !important;
+          }
+        }
+      `}</style>
+      <div className="login-container" style={{ 
+        minHeight: "100vh", 
+        marginTop: "180px",
+        background: "#f8f9fa",
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center", 
+        padding: "40px 20px"
       }}>
-        {/* Logo à gauche */}
-        <div style={{ 
-          flex: "0 0 280px", 
-          display: "flex", 
-          justifyContent: "center",
-          alignItems: "center"
+        {/* Carte englobant logo + formulaire */}
+        <div className="login-card" style={{ 
+          display: "flex",
+          alignItems: "center",
+          gap: "60px",
+          maxWidth: "800px",
+          width: "100%",
+          background: "white",
+          borderRadius: "16px",
+          boxShadow: "0 8px 30px rgba(0,0,0,0.08)",
+          padding: "50px"
         }}>
-          <img 
-            src="/img/logo.png" 
-            alt="W.Store Logo" 
-            style={{ width: "100%", maxWidth: "280px", height: "auto" }}
-          />
-        </div>
+          {/* Logo à gauche */}
+          <div className="logo-section" style={{ 
+            flex: "0 0 280px", 
+            display: "flex", 
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+            <img 
+              src="/img/logo.png" 
+              alt="W.Store Logo" 
+              style={{ width: "100%", maxWidth: "280px", height: "auto" }}
+            />
+          </div>
 
-        {/* Formulaire à droite */}
-        <div style={{ 
-          flex: "1",
-          maxWidth: "340px"
-        }}>
+          {/* Formulaire à droite */}
+          <div className="form-section" style={{ 
+            flex: "1",
+            maxWidth: "340px"
+          }}>
           {/* Titre */}
-          <h2 style={{ 
+          <h2 className="login-title" style={{ 
             fontSize: "28px", 
             fontWeight: "700", 
             marginBottom: "25px", 
@@ -226,7 +284,7 @@ export default function LoginPage() {
               />
             </div>
           
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+            <div className="remember-forgot" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
               <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", color: "#718096", fontSize: "13px" }}>
                 <input type="checkbox" style={{ width: "16px", height: "16px", accentColor: "#1a365d" }} />
                 <span>Se souvenir de moi</span>
@@ -267,5 +325,20 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+    </>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ marginTop: '160px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="spinner-border" style={{ color: '#c53030' }} role="status">
+          <span className="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }

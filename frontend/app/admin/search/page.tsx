@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Link from "next/link";
+import { API_URL } from "../../../lib/api";
 
 interface Product {
   _id: string;
@@ -72,7 +73,7 @@ function SearchContent() {
 
     try {
       // Recherche produits
-      const prodRes = await fetch("http://localhost:5000/api/products");
+      const prodRes = await fetch(`${API_URL}/api/products`);
       if (prodRes.ok) {
         const prodData = await prodRes.json();
         setProducts(prodData.filter((p: Product) => 
@@ -82,7 +83,7 @@ function SearchContent() {
       }
 
       // Recherche commandes (admin endpoint)
-      const orderRes = await fetch("http://localhost:5000/api/orders/all", { headers });
+      const orderRes = await fetch(`${API_URL}/api/orders/all`, { headers });
       if (orderRes.ok) {
         const orderData = await orderRes.json();
         setOrders(orderData.filter((o: Order) => {
@@ -96,7 +97,7 @@ function SearchContent() {
       }
 
       // Recherche utilisateurs
-      const userRes = await fetch("http://localhost:5000/api/users", { headers });
+      const userRes = await fetch(`${API_URL}/api/users`, { headers });
       if (userRes.ok) {
         const userData = await userRes.json();
         setUsers(userData.filter((u: User) => 
@@ -106,7 +107,7 @@ function SearchContent() {
       }
 
       // Recherche messages
-      const contactRes = await fetch("http://localhost:5000/api/contacts", { headers });
+      const contactRes = await fetch(`${API_URL}/api/contacts`, { headers });
       if (contactRes.ok) {
         const contactData = await contactRes.json();
         setContacts(contactData.filter((c: Contact) => 

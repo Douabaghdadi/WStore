@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { API_URL } from '../../lib/api';
 
 interface Category {
   _id: string;
@@ -14,7 +15,7 @@ export default function CategoryCarousel() {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/categories/with-count')
+    fetch(`${API_URL}/api/categories/with-count`)
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(err => console.error('Erreur:', err));
@@ -85,7 +86,7 @@ export default function CategoryCarousel() {
             style={{ textDecoration: 'none', flexShrink: 0 }}
           >
             <div style={{ 
-              width: '180px',
+              width: '240px',
               background: 'white',
               borderRadius: '20px',
               overflow: 'hidden',
@@ -103,18 +104,26 @@ export default function CategoryCarousel() {
             }}
             >
               <div style={{ 
-                height: '150px',
+                height: '200px',
                 background: '#f8f9fa',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 overflow: 'hidden'
               }}>
-                {category.image ? (
+                {category.image && category.image !== 'undefined' ? (
                   <img 
-                    src={`http://localhost:5000${category.image}`}
+                    src={category.image.startsWith('http') ? category.image : `${API_URL}${category.image}`}
                     alt={category.name}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.parentElement!.innerHTML = `
+                        <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #c53030 0%, #9b2c2c 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(197, 48, 48, 0.3);">
+                          <i class="fas fa-box-open" style="font-size: 28px; color: white;"></i>
+                        </div>
+                      `;
+                    }}
                   />
                 ) : (
                   <div style={{
@@ -131,12 +140,12 @@ export default function CategoryCarousel() {
                   </div>
                 )}
               </div>
-              <div style={{ padding: '16px', textAlign: 'center' }}>
+              <div style={{ padding: '20px', textAlign: 'center' }}>
                 <h6 style={{ 
                   fontWeight: '600', 
                   color: '#1d1d1f', 
-                  fontSize: '15px',
-                  marginBottom: '6px',
+                  fontSize: '17px',
+                  marginBottom: '8px',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis'
@@ -145,7 +154,7 @@ export default function CategoryCarousel() {
                 </h6>
                 <span style={{ 
                   color: '#86868b', 
-                  fontSize: '13px',
+                  fontSize: '14px',
                   fontWeight: '500'
                 }}>
                   {category.productCount} produits
@@ -170,6 +179,29 @@ export default function CategoryCarousel() {
         }
         .category-carousel-scroll:hover {
           animation-play-state: paused;
+        }
+        
+        /* Styles responsives mobile */
+        @media (max-width: 768px) {
+          .category-carousel-scroll > a > div {
+            width: 170px !important;
+          }
+          
+          .category-carousel-scroll > a > div > div:first-child {
+            height: 150px !important;
+          }
+          
+          .category-carousel-scroll > a > div > div:last-child {
+            padding: 16px !important;
+          }
+          
+          .category-carousel-scroll h6 {
+            font-size: 15px !important;
+          }
+          
+          .category-carousel-scroll span {
+            font-size: 12px !important;
+          }
         }
       `}} />
     </div>

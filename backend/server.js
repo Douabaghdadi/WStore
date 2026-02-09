@@ -14,7 +14,13 @@ const statsRoutes = require('./routes/statsRoutes');
 const favoriteRoutes = require('./routes/favorites');
 const paymentRoutes = require('./routes/paymentRoutes');
 const contactRoutes = require('./routes/contactRoutes');
-require('dotenv').config();
+
+// Load environment variables
+if (process.env.NODE_ENV === 'production') {
+  require('dotenv').config({ path: '.env.production' });
+} else {
+  require('dotenv').config();
+}
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -44,6 +50,6 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/contacts', contactRoutes);
 
 // Lancer le serveur
-app.listen(PORT, () => {
-    console.log(`Backend running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Backend running on http://0.0.0.0:${PORT}`);
 });

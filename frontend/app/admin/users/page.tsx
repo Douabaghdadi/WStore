@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
+import { API_URL } from "../../../lib/api";
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -26,7 +27,7 @@ export default function UsersPage() {
   }, []);
 
   const fetchUsers = async () => {
-    const res = await fetch("http://localhost:5000/api/users");
+    const res = await fetch(`${API_URL}/api/users`);
     const data = await res.json();
     setUsers(data);
   };
@@ -46,7 +47,7 @@ export default function UsersPage() {
 
   const deleteUser = async (id: string) => {
     if (confirm("Voulez-vous vraiment supprimer cet utilisateur ?")) {
-      await fetch(`http://localhost:5000/api/users/${id}`, { method: "DELETE" });
+      await fetch(`${API_URL}/api/users/${id}`, { method: "DELETE" });
       fetchUsers();
     }
   };
@@ -78,14 +79,14 @@ export default function UsersPage() {
         const updateData: any = { name: formData.name, email: formData.email, role: formData.role };
         if (formData.password) updateData.password = formData.password;
         
-        await fetch(`http://localhost:5000/api/users/${editingUser._id}`, {
+        await fetch(`${API_URL}/api/users/${editingUser._id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updateData)
         });
       } else {
         // Création
-        await fetch("http://localhost:5000/api/auth/register", {
+        await fetch(`${API_URL}/api/auth/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData)

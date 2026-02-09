@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { API_URL } from '../../lib/api';
 
 interface FavoritesContextType {
   favorites: string[];
@@ -30,7 +31,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/favorites', {
+      const res = await fetch(`${API_URL}/api/favorites`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -50,7 +51,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/favorites', {
+      const res = await fetch(`${API_URL}/api/favorites`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +73,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     if (!token) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/favorites/${productId}`, {
+      const res = await fetch(`${API_URL}/api/favorites/${productId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

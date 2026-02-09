@@ -594,7 +594,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================
-   RESPONSIVE MOBILE STYLES
+   RESPONSIVE MOBILE STYLES - DESIGN LUXE
    ============================================ */
 
 /* Homepage banners responsive */
@@ -611,14 +611,25 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 767.98px) {
   .homepage-banners {
     margin-top: 70px !important;
-    padding-top: 5px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+  
+  /* Bannières - Design Premium Mobile */
+  .homepage-banners .row {
+    gap: 12px !important;
+  }
+  
+  .homepage-banners .col-12 {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
   }
 }
 
 @media (max-width: 575.98px) {
   .homepage-banners {
     margin-top: 65px !important;
-    padding-top: 5px !important;
+    padding-top: 8px !important;
   }
 }
 
@@ -713,7 +724,7 @@ a, button, input, select, textarea {
   }
 }
 
-/* Mobile styles */
+/* Mobile styles - Design Luxe */
 @media (max-width: 767.98px) {
   /* Top bar mobile */
   .topbar-mobile-hide {
@@ -736,46 +747,70 @@ a, button, input, select, textarea {
     font-size: 1.2rem !important;
   }
   
-  /* Product grid - single column on small mobile */
+  /* Product grid - 2 colonnes sur mobile */
   .row .col-lg-3,
   .row .col-lg-4,
   .row .col-md-6 {
     flex: 0 0 50%;
     max-width: 50%;
+    padding-left: 8px;
+    padding-right: 8px;
   }
   
-  /* Product cards */
+  /* Product cards - Design Premium */
   .fruite-item,
   .product-card {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
+    transition: all 0.3s ease;
+  }
+  
+  .fruite-item:active,
+  .product-card:active {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12) !important;
   }
   
   .fruite-item img,
   .product-card img {
-    height: 150px !important;
+    height: 160px !important;
     object-fit: contain;
+    padding: 15px !important;
   }
   
-  /* Buttons */
+  /* Buttons - Style Premium */
   .btn {
-    padding: 10px 16px;
+    padding: 11px 18px;
     font-size: 14px;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn:active {
+    transform: scale(0.97);
   }
   
   .btn-md-square {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
   }
   
-  /* Features section */
+  /* Features section - Design Luxe */
   .featurs-icon {
-    width: 70px;
-    height: 70px;
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   }
   
   .featurs-item {
-    padding: 20px 15px !important;
+    padding: 25px 18px !important;
     text-align: center;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
   }
   
   /* Footer mobile */
@@ -792,22 +827,26 @@ a, button, input, select, textarea {
     justify-content: center;
   }
   
-  /* Form controls */
+  /* Form controls - Premium */
   .form-control {
-    padding: 10px 15px;
+    padding: 12px 16px;
     font-size: 16px; /* Prevents zoom on iOS */
+    border-radius: 14px;
+    border-width: 2px;
   }
   
   /* Search input */
   .search-input {
     width: 100% !important;
+    border-radius: 25px !important;
   }
   
-  /* Category bar */
+  /* Category bar - Scroll horizontal élégant */
   .category-bar {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    padding: 12px 0;
   }
   
   .category-bar::-webkit-scrollbar {
@@ -818,62 +857,86 @@ a, button, input, select, textarea {
     flex-wrap: nowrap !important;
     justify-content: flex-start !important;
     padding-bottom: 5px;
+    gap: 10px;
   }
   
-  /* Cards */
+  /* Cards - Design Premium */
   .card-body {
-    padding: 15px !important;
+    padding: 18px !important;
+    border-radius: 18px;
   }
   
-  /* Price tag */
+  /* Price tag - Plus visible */
   .price-tag {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 800;
   }
   
   /* Modal/Sidebar */
   .modal-dialog {
-    margin: 10px;
+    margin: 12px;
+    border-radius: 20px;
+  }
+  
+  /* Titres sections - Plus élégants */
+  h2 {
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  h2 span {
+    background: linear-gradient(135deg, #c53030 0%, #e53e3e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
-/* Extra small mobile */
+/* Extra small mobile - Design Ultra Premium */
 @media (max-width: 575.98px) {
   .hero-header {
     margin-top: 90px !important;
-    padding: 25px 10px !important;
+    padding: 25px 12px !important;
   }
   
   .display-3 {
-    font-size: 1.4rem !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
   }
   
   .display-6 {
-    font-size: 1rem !important;
+    font-size: 1.1rem !important;
   }
   
-  /* Single column for very small screens */
+  /* 2 colonnes pour très petits écrans */
   .row .col-lg-3,
   .row .col-lg-4,
   .row .col-md-6,
   .row .col-sm-6 {
     flex: 0 0 50%;
     max-width: 50%;
+    padding-left: 6px;
+    padding-right: 6px;
   }
   
-  /* Smaller product images */
+  /* Images produits - Optimisées */
   .fruite-item img,
   .product-card img {
-    height: 120px !important;
+    height: 140px !important;
+    padding: 12px !important;
   }
   
-  /* Footer */
+  /* Footer - Compact et élégant */
   footer {
     padding-top: 40px !important;
   }
   
   footer h5 {
-    font-size: 16px;
-    margin-bottom: 15px !important;
+    font-size: 17px;
+    margin-bottom: 16px !important;
+    font-weight: 700;
   }
   
   /* Bottom bar */
@@ -887,8 +950,25 @@ a, button, input, select, textarea {
   
   footer .d-flex.gap-4 {
     flex-direction: column;
-    gap: 10px !important;
+    gap: 12px !important;
     align-items: center;
+  }
+  
+  /* Sections - Espacement optimisé */
+  [style*="padding: '50px 0'"] {
+    padding: 35px 0 !important;
+  }
+  
+  /* Titres - Plus compacts */
+  h2 {
+    font-size: 1.35rem !important;
+    margin-bottom: 18px !important;
+  }
+  
+  /* Boutons - Touch-friendly */
+  .btn {
+    min-height: 44px;
+    padding: 12px 20px;
   }
 }
 
@@ -964,78 +1044,281 @@ html, body {
   max-width: 100vw;
 }
 
-/* Product cards responsive */
+/* Product cards responsive - Design Luxe Premium */
 @media (max-width: 767.98px) {
-  /* Product carousel items */
+  /* Product carousel items - Cartes élégantes */
   [style*="minWidth: '280px'"],
-  [style*="min-width: 280px"] {
-    min-width: 200px !important;
-    max-width: 200px !important;
+  [style*="min-width: 280px"],
+  [style*="minWidth: '260px'"],
+  [style*="min-width: 260px"] {
+    min-width: 240px !important;
+    max-width: 240px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+    margin: 0 !important;
   }
   
-  /* Product image height */
+  /* Forcer la largeur des cartes dans les sections */
+  .container [style*="display: 'flex'"] > div[style*="minWidth"] {
+    min-width: 240px !important;
+    max-width: 240px !important;
+  }
+  
+  /* Effet hover/active sur mobile */
+  [style*="minWidth: '280px'"]:active,
+  [style*="min-width: 280px"]:active,
+  [style*="minWidth: '260px'"]:active,
+  [style*="min-width: 260px"]:active {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15) !important;
+  }
+  
+  /* Product image height - Optimisée */
   [style*="height: '240px'"],
-  [style*="height: 240px"] {
-    height: 160px !important;
+  [style*="height: 240px"],
+  [style*="height: '180px'"],
+  [style*="height: 180px"] {
+    height: 180px !important;
+    border-radius: 24px 24px 0 0 !important;
   }
   
-  /* Banner heights */
+  /* Images dans les cartes */
+  [style*="height: '240px'"] img,
+  [style*="height: 240px"] img,
+  [style*="height: '180px'"] img,
+  [style*="height: 180px"] img {
+    padding: 16px !important;
+    object-fit: contain !important;
+  }
+  
+  /* Banner heights - Responsive élégant */
   [style*="minHeight: '400px'"],
   [style*="min-height: 400px"] {
-    min-height: 280px !important;
+    min-height: 300px !important;
+    border-radius: 24px !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15) !important;
   }
   
   [style*="height: '195px'"],
   [style*="height: 195px"] {
-    height: 160px !important;
+    height: 170px !important;
+    border-radius: 20px !important;
   }
   
-  /* Banner text sizes */
+  /* Banner text sizes - Lisible et élégant */
   [style*="fontSize: '3rem'"] {
-    font-size: 1.8rem !important;
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -1px !important;
   }
   
-  /* Section padding */
+  [style*="fontSize: '1.8rem'"] {
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+  }
+  
+  [style*="fontSize: '1.4rem'"] {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+  }
+  
+  /* Section padding - Espacement premium */
   [style*="padding: '50px 0'"] {
-    padding: 30px 0 !important;
+    padding: 40px 0 !important;
   }
   
-  /* Carousel scroll buttons - hide on mobile, use swipe */
-  .carousel-scroll-btn {
+  [style*="padding: '30px 0'"] {
+    padding: 25px 0 !important;
+  }
+  
+  /* Carousel scroll buttons - Masqués sur mobile (swipe natif) */
+  button[style*="position: absolute"][style*="left: '-15px'"],
+  button[style*="position: absolute"][style*="right: '-15px'"] {
     display: none !important;
+  }
+  
+  /* Padding des cartes - Optimisé */
+  [style*="padding: '18px'"] {
+    padding: 16px !important;
+  }
+  
+  /* Titres produits - Hauteur adaptée */
+  [style*="height: '42px'"] {
+    height: 40px !important;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* Prix - Plus visible */
+  [style*="fontSize: '20px'"][style*="fontWeight: '800'"] {
+    font-size: 19px !important;
+    font-weight: 800 !important;
+  }
+  
+  /* Badges stock - Compact */
+  [style*="padding: '4px 10px'"][style*="borderRadius: '20px'"] {
+    padding: 5px 12px !important;
+    font-size: 11px !important;
+  }
+  
+  /* Boutons quantité - Touch-friendly */
+  [style*="width: '28px'"][style*="height: '28px'"],
+  [style*="width: '26px'"][style*="height: '26px'"] {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 15px !important;
+    border-radius: 8px !important;
+  }
+  
+  /* Bouton ajouter panier - Premium */
+  button[style*="flex: 1"][style*="Ajouter"] {
+    padding: 11px 14px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  }
+  
+  /* Container quantité - Élégant */
+  [style*="background: '#f1f5f9'"][style*="borderRadius: '8px'"] {
+    padding: 4px !important;
+    border-radius: 10px !important;
+    background: rgba(241, 245, 249, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
   }
 }
 
-/* Small mobile adjustments */
+/* Small mobile adjustments - Ultra Premium */
 @media (max-width: 575.98px) {
-  /* Even smaller product cards */
+  /* Cartes produits - Plus compactes mais élégantes */
   [style*="minWidth: '280px'"],
-  [style*="min-width: 280px"] {
-    min-width: 160px !important;
-    max-width: 160px !important;
+  [style*="min-width: 280px"],
+  [style*="minWidth: '260px'"],
+  [style*="min-width: 260px"],
+  [style*="minWidth: '220px'"],
+  [style*="min-width: 220px"],
+  [style*="minWidth: '240px'"],
+  [style*="min-width: 240px"] {
+    min-width: 220px !important;
+    max-width: 220px !important;
+    border-radius: 18px !important;
+    margin: 0 !important;
   }
   
+  /* Forcer la largeur sur petits écrans */
+  .container [style*="display: 'flex'"] > div[style*="minWidth"] {
+    min-width: 220px !important;
+    max-width: 220px !important;
+  }
+  
+  /* Images produits - Optimisées */
   [style*="height: '240px'"],
-  [style*="height: 240px"] {
-    height: 130px !important;
+  [style*="height: 240px"],
+  [style*="height: '180px'"],
+  [style*="height: 180px"] {
+    height: 150px !important;
   }
   
-  /* Smaller fonts in cards */
+  [style*="height: '240px'"] img,
+  [style*="height: 240px"] img,
+  [style*="height: '180px'"] img,
+  [style*="height: 180px"] img {
+    padding: 12px !important;
+  }
+  
+  /* Bannières - Compactes */
+  [style*="minHeight: '400px'"],
+  [style*="min-height: 400px"] {
+    min-height: 260px !important;
+  }
+  
+  [style*="height: '195px'"],
+  [style*="height: 195px"],
+  [style*="height: '170px'"],
+  [style*="height: 170px"] {
+    height: 150px !important;
+  }
+  
+  /* Textes bannières - Lisibles */
+  [style*="fontSize: '3rem'"],
+  [style*="fontSize: '2rem'"] {
+    font-size: 1.7rem !important;
+  }
+  
+  [style*="fontSize: '1.8rem'"],
+  [style*="fontSize: '1.4rem'"] {
+    font-size: 1.2rem !important;
+  }
+  
+  /* Padding cartes - Compact */
+  [style*="padding: '18px'"],
+  [style*="padding: '16px'"] {
+    padding: 14px !important;
+  }
+  
+  /* Titres produits - Adaptés */
   .product-card h6,
-  .fruite-item h6 {
+  .fruite-item h6,
+  [style*="height: '42px'"],
+  [style*="height: '40px'"] {
     font-size: 12px !important;
     height: 36px !important;
+    line-height: 1.3 !important;
   }
   
-  /* Price font */
-  [style*="fontSize: '20px'"] {
-    font-size: 16px !important;
+  /* Prix - Visible */
+  [style*="fontSize: '20px'"],
+  [style*="fontSize: '19px'"] {
+    font-size: 17px !important;
   }
   
-  /* Quantity buttons */
-  [style*="width: '28px'"] {
-    width: 24px !important;
-    height: 24px !important;
+  /* Badges - Compacts */
+  [style*="padding: '6px 12px'"],
+  [style*="padding: '6px 10px'"],
+  [style*="padding: '5px 12px'"] {
+    padding: 4px 10px !important;
+    font-size: 10px !important;
+  }
+  
+  /* Boutons quantité - Touch-friendly */
+  [style*="width: '28px'"],
+  [style*="width: '32px'"] {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 14px !important;
+  }
+  
+  /* Bouton ajouter - Compact */
+  button[style*="flex: 1"][style*="Ajouter"] {
+    padding: 9px 12px !important;
+    font-size: 11px !important;
+  }
+  
+  /* Sections - Espacement réduit */
+  [style*="padding: '50px 0'"],
+  [style*="padding: '40px 0'"] {
+    padding: 30px 0 !important;
+  }
+  
+  [style*="padding: '30px 0'"],
+  [style*="padding: '25px 0'"] {
+    padding: 20px 0 !important;
+  }
+  
+  /* Titres sections - Compacts */
+  h2 {
+    font-size: 1.25rem !important;
+    margin-bottom: 16px !important;
+  }
+  
+  /* Boutons découvrir - Adaptés */
+  a[href*="/category"],
+  a[href*="/shop"],
+  a[href="/nouveautes"],
+  a[href="/promotions"] {
+    font-size: 11px !important;
+    padding: 7px 14px !important;
   }
 }
 
@@ -1045,6 +1328,7 @@ html, body {
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 
 [style*="overflowX: 'auto'"]::-webkit-scrollbar,
@@ -1056,6 +1340,23 @@ html, body {
 [style*="overflowX: 'auto'"] > div,
 [style*="overflow-x: auto"] > div {
   scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* Amélioration du scroll sur mobile */
+@media (max-width: 767.98px) {
+  [style*="overflowX: 'auto'"],
+  [style*="overflow-x: auto"] {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    margin-left: -12px !important;
+    margin-right: -12px !important;
+  }
+  
+  /* Gap entre les cartes - Élégant */
+  [style*="gap: '20px'"] {
+    gap: 14px !important;
+  }
 }
 
 
@@ -1135,5 +1436,1734 @@ html, body {
   
   .homepage-banners {
     margin-top: 70px !important;
+  }
+}
+
+
+/* ============================================
+   MOBILE PREMIUM ENHANCEMENTS
+   ============================================ */
+
+/* Bannières Hero - Mobile Premium */
+@media (max-width: 767.98px) {
+  /* Grande bannière iPhone */
+  .banner-iphone {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .banner-iphone::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+  
+  /* Bannières secondaires - Effet glassmorphism */
+  .banner-headphone,
+  .banner-airpods,
+  .banner-speaker {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  /* Boutons bannières - Effet premium */
+  .banner-btn,
+  .banner-btn-small,
+  .banner-btn-mini {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .banner-btn::before,
+  .banner-btn-small::before,
+  .banner-btn-mini::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  
+  .banner-btn:active::before,
+  .banner-btn-small:active::before,
+  .banner-btn-mini:active::before {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* Features Cards - Mobile Luxe */
+@media (max-width: 767.98px) {
+  .feature-card {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.05) 50%,
+      transparent 70%
+    );
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+  }
+  
+  .feature-card:active::after {
+    left: 100%;
+  }
+  
+  /* Icônes features - Animation */
+  .feature-icon {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .feature-card:active .feature-icon {
+    transform: scale(1.1) rotate(5deg);
+  }
+  
+  .feature-icon i {
+    transition: all 0.3s ease;
+  }
+  
+  .feature-card:active .feature-icon i {
+    transform: scale(1.15);
+  }
+}
+
+/* Product Cards - Interactions Premium Mobile */
+@media (max-width: 767.98px) {
+  /* Effet de brillance sur les cartes */
+  .product-card,
+  .fruite-item,
+  [style*="minWidth: '280px'"],
+  [style*="minWidth: '260px'"],
+  [style*="minWidth: '220px'"],
+  [style*="minWidth: '190px'"] {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Bouton favoris - Animation */
+  button[style*="borderRadius: '50%'"][style*="width: '36px'"] {
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  button[style*="borderRadius: '50%'"][style*="width: '36px'"]:active {
+    transform: scale(1.2) rotate(15deg);
+  }
+  
+  /* Badges - Animation subtile */
+  [style*="position: 'absolute'"][style*="top: '12px'"] {
+    animation: badge-float 3s ease-in-out infinite;
+  }
+  
+  @keyframes badge-float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+  
+  /* Bouton ajouter panier - Effet ripple */
+  button[style*="Ajouter"] {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  button[style*="Ajouter"]::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s, height 0.5s;
+  }
+  
+  button[style*="Ajouter"]:active::after {
+    width: 200px;
+    height: 200px;
+  }
+  
+  /* Sélecteur quantité - Effet premium */
+  [style*="background: '#f1f5f9'"] button {
+    transition: all 0.2s ease;
+  }
+  
+  [style*="background: '#f1f5f9'"] button:active {
+    transform: scale(0.9);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+  }
+}
+
+/* Titres sections - Gradient animé mobile */
+@media (max-width: 767.98px) {
+  h2 span[style*="color: '#1a365d'"],
+  h2 span[style*="color: '#c53030'"] {
+    background: linear-gradient(135deg, #c53030 0%, #e53e3e 50%, #1a365d 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 5s ease infinite;
+  }
+  
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+}
+
+/* Boutons découvrir - Effet premium mobile */
+@media (max-width: 767.98px) {
+  a[href*="/category"],
+  a[href*="/shop"],
+  a[href="/nouveautes"],
+  a[href="/promotions"] {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  a[href*="/category"]::before,
+  a[href*="/shop"]::before,
+  a[href="/nouveautes"]::before,
+  a[href="/promotions"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  a[href*="/category"]:active::before,
+  a[href*="/shop"]:active::before,
+  a[href="/nouveautes"]:active::before,
+  a[href="/promotions"]:active::before {
+    left: 100%;
+  }
+}
+
+/* Container - Padding optimisé mobile */
+@media (max-width: 767.98px) {
+  .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .container {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+
+/* Amélioration des espacements entre sections */
+@media (max-width: 767.98px) {
+  /* Espacement entre bannières et contenu */
+  .homepage-banners + div {
+    margin-top: 0 !important;
+  }
+  
+  /* Espacement uniforme entre sections */
+  body > div > div {
+    margin-bottom: 0 !important;
+  }
+}
+
+/* Touch feedback - Amélioration générale */
+@media (max-width: 767.98px) {
+  /* Tous les éléments cliquables */
+  a, button, [role="button"] {
+    -webkit-tap-highlight-color: rgba(197, 48, 48, 0.1);
+    tap-highlight-color: rgba(197, 48, 48, 0.1);
+  }
+  
+  /* Désactiver le zoom sur double-tap */
+  * {
+    touch-action: manipulation;
+  }
+  
+  /* Améliorer le scroll */
+  body {
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+  }
+}
+
+/* Loading states - Premium */
+@media (max-width: 767.98px) {
+  .spinner-border {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    border-width: 0.3rem !important;
+  }
+}
+
+/* Images - Optimisation mobile */
+@media (max-width: 767.98px) {
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Transitions globales - Smooth */
+@media (max-width: 767.98px) {
+  * {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Performance - Réduire les animations si nécessaire */
+@media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ============================================
+   FIX CARTES PRODUITS MOBILE - URGENT
+   ============================================ */
+
+/* Forcer les cartes à la bonne taille sur mobile */
+@media (max-width: 767.98px) {
+  /* Toutes les cartes produits */
+  div[style*="minWidth: '280px'"],
+  div[style*="minWidth: '260px'"],
+  div[style*="maxWidth: '280px'"],
+  div[style*="maxWidth: '260px'"] {
+    min-width: 240px !important;
+    max-width: 240px !important;
+    width: 240px !important;
+  }
+  
+  /* Container des cartes */
+  div[style*="display: 'flex'"][style*="gap: '20px'"] {
+    gap: 12px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  /* Images dans les cartes */
+  div[style*="minWidth: '280px'"] img,
+  div[style*="minWidth: '260px'"] img,
+  div[style*="minWidth: '240px'"] img {
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+  
+  /* Padding des cartes */
+  div[style*="minWidth: '280px'"] > div:last-child,
+  div[style*="minWidth: '260px'"] > div:last-child,
+  div[style*="minWidth: '240px'"] > div:last-child {
+    padding: 14px !important;
+  }
+  
+  /* Titres produits */
+  div[style*="minWidth: '280px'"] h6,
+  div[style*="minWidth: '260px'"] h6,
+  div[style*="minWidth: '240px'"] h6 {
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+    height: 36px !important;
+    overflow: hidden !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+  }
+  
+  /* Prix */
+  div[style*="minWidth: '280px'"] span[style*="fontSize: '20px'"],
+  div[style*="minWidth: '260px'"] span[style*="fontSize: '20px'"],
+  div[style*="minWidth: '240px'"] span[style*="fontSize: '20px'"] {
+    font-size: 18px !important;
+  }
+  
+  /* Boutons */
+  div[style*="minWidth: '280px'"] button,
+  div[style*="minWidth: '260px'"] button,
+  div[style*="minWidth: '240px'"] button {
+    font-size: 11px !important;
+    padding: 9px 12px !important;
+  }
+}
+
+/* Petits mobiles */
+@media (max-width: 575.98px) {
+  /* Cartes encore plus compactes */
+  div[style*="minWidth: '280px'"],
+  div[style*="minWidth: '260px'"],
+  div[style*="minWidth: '240px'"],
+  div[style*="maxWidth: '280px'"],
+  div[style*="maxWidth: '260px'"],
+  div[style*="maxWidth: '240px'"] {
+    min-width: 220px !important;
+    max-width: 220px !important;
+    width: 220px !important;
+  }
+  
+  /* Gap réduit */
+  div[style*="display: 'flex'"][style*="gap: '20px'"],
+  div[style*="display: 'flex'"][style*="gap: '12px'"] {
+    gap: 10px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  
+  /* Padding cartes */
+  div[style*="minWidth: '280px'"] > div:last-child,
+  div[style*="minWidth: '260px'"] > div:last-child,
+  div[style*="minWidth: '240px'"] > div:last-child,
+  div[style*="minWidth: '220px'"] > div:last-child {
+    padding: 12px !important;
+  }
+  
+  /* Titres */
+  div[style*="minWidth"] h6 {
+    font-size: 12px !important;
+    height: 34px !important;
+  }
+  
+  /* Prix */
+  div[style*="minWidth"] span[style*="fontSize: '20px'"],
+  div[style*="minWidth"] span[style*="fontSize: '18px'"] {
+    font-size: 16px !important;
+  }
+}
+
+/* Très petits écrans (iPhone SE, etc.) */
+@media (max-width: 375px) {
+  div[style*="minWidth: '280px'"],
+  div[style*="minWidth: '260px'"],
+  div[style*="minWidth: '240px'"],
+  div[style*="minWidth: '220px'"],
+  div[style*="maxWidth: '280px'"],
+  div[style*="maxWidth: '260px'"],
+  div[style*="maxWidth: '240px'"],
+  div[style*="maxWidth: '220px'"] {
+    min-width: 200px !important;
+    max-width: 200px !important;
+    width: 200px !important;
+  }
+  
+  div[style*="display: 'flex'"][style*="gap"] {
+    gap: 8px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
+/* Container principal - Éviter le débordement */
+@media (max-width: 767.98px) {
+  .container {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  
+  /* Sections avec scroll horizontal */
+  div[style*="overflowX: 'auto'"],
+  div[style*="overflow-x: auto"] {
+    margin-left: -12px !important;
+    margin-right: -12px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+
+
+/* ============================================
+   FIX IMAGES PRODUITS - DESIGN PREMIUM MOBILE
+   ============================================ */
+
+/* Images dans les cartes produits - Amélioration */
+@media (max-width: 767.98px) {
+  /* Container image produit */
+  div[style*="minWidth"] > div:first-child {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+    padding: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  
+  /* Images produits - Style premium */
+  div[style*="minWidth"] > div:first-child img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    padding: 15px !important;
+    transition: transform 0.3s ease !important;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08)) !important;
+  }
+  
+  /* Effet hover sur images */
+  div[style*="minWidth"]:active > div:first-child img {
+    transform: scale(1.05) !important;
+  }
+  
+  /* Fond dégradé subtil derrière l'image */
+  div[style*="minWidth"] > div:first-child::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(26, 54, 93, 0.03) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  
+  /* Image au-dessus du fond */
+  div[style*="minWidth"] > div:first-child img {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* Images dans les bannières promotionnelles */
+@media (max-width: 767.98px) {
+  /* Bannière casque */
+  .banner-headphone .banner-image-small,
+  div[style*="banner-image-small"] {
+    width: 160px !important;
+    height: 140px !important;
+    right: 10px !important;
+    background-size: contain !important;
+    background-position: center !important;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.15)) !important;
+  }
+  
+  /* Bannières AirPods et Speaker */
+  .banner-airpods .banner-image-mini,
+  .banner-speaker .banner-image-mini,
+  div[style*="banner-image-mini"] {
+    width: 120px !important;
+    height: 120px !important;
+    right: 5px !important;
+    bottom: 10px !important;
+    background-size: 90% !important;
+    background-position: center !important;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2)) !important;
+  }
+  
+  /* Grande bannière iPhone */
+  .banner-iphone .banner-image,
+  div[style*="banner-image"]:not([style*="banner-image-small"]):not([style*="banner-image-mini"]) {
+    width: 50% !important;
+    height: 85% !important;
+    right: 10px !important;
+    background-size: contain !important;
+    background-position: center right !important;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)) !important;
+  }
+}
+
+/* Petits mobiles - Images encore plus optimisées */
+@media (max-width: 575.98px) {
+  /* Images produits */
+  div[style*="minWidth"] > div:first-child {
+    padding: 15px !important;
+    height: 160px !important;
+  }
+  
+  div[style*="minWidth"] > div:first-child img {
+    padding: 12px !important;
+    max-height: 140px !important;
+  }
+  
+  /* Bannières */
+  .banner-headphone .banner-image-small,
+  div[style*="banner-image-small"] {
+    width: 140px !important;
+    height: 120px !important;
+  }
+  
+  .banner-airpods .banner-image-mini,
+  .banner-speaker .banner-image-mini,
+  div[style*="banner-image-mini"] {
+    width: 100px !important;
+    height: 100px !important;
+    background-size: 85% !important;
+  }
+  
+  .banner-iphone .banner-image {
+    width: 45% !important;
+    height: 80% !important;
+  }
+}
+
+/* Très petits écrans */
+@media (max-width: 375px) {
+  div[style*="minWidth"] > div:first-child {
+    height: 140px !important;
+    padding: 12px !important;
+  }
+  
+  div[style*="minWidth"] > div:first-child img {
+    padding: 10px !important;
+    max-height: 120px !important;
+  }
+}
+
+/* Amélioration du rendu des images */
+@media (max-width: 767.98px) {
+  /* Toutes les images */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  /* Images produits - Qualité optimale */
+  div[style*="minWidth"] img,
+  .banner-image,
+  .banner-image-small,
+  .banner-image-mini {
+    image-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Placeholder pour images manquantes */
+@media (max-width: 767.98px) {
+  div[style*="minWidth"] > div:first-child:not(:has(img))::after {
+    content: '📦';
+    font-size: 48px;
+    opacity: 0.3;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Animation de chargement des images */
+@media (max-width: 767.98px) {
+  @keyframes imageLoad {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  div[style*="minWidth"] img {
+    animation: imageLoad 0.3s ease-out;
+  }
+}
+
+/* Amélioration des bannières promotionnelles */
+@media (max-width: 767.98px) {
+  /* Bannière casque - Fond élégant */
+  .banner-headphone,
+  div[class*="banner-headphone"] {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .banner-headphone::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(26, 54, 93, 0.05) 0%, transparent 70%);
+  }
+  
+  /* Bannière AirPods - Fond bleu élégant */
+  .banner-airpods,
+  div[class*="banner-airpods"] {
+    background: linear-gradient(135deg, #2d4a7c 0%, #1a365d 100%) !important;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .banner-airpods::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  }
+  
+  /* Bannière Speaker - Fond rouge élégant */
+  .banner-speaker,
+  div[class*="banner-speaker"] {
+    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%) !important;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .banner-speaker::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  }
+}
+
+/* Textes dans les bannières - Plus lisibles */
+@media (max-width: 767.98px) {
+  .banner-headphone h3,
+  .banner-airpods h4,
+  .banner-speaker h4 {
+    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 10;
+  }
+  
+  .banner-headphone p,
+  .banner-airpods p,
+  .banner-speaker p {
+    text-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+  }
+  
+  .banner-btn-small,
+  .banner-btn-mini {
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+  }
+}
+
+/* Amélioration du contraste des images sur fond clair */
+@media (max-width: 767.98px) {
+  div[style*="background: '#f7fafc'"] img,
+  div[style*="background: #f7fafc"] img {
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08)) contrast(1.05) !important;
+  }
+}
+
+
+/* ============================================
+   FOOTER MOBILE - DESIGN PREMIUM ÉLÉGANT
+   ============================================ */
+
+/* Footer général - Amélioration */
+footer {
+  position: relative;
+  overflow: hidden;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Footer mobile - Structure améliorée */
+@media (max-width: 767.98px) {
+  footer {
+    padding-top: 50px !important;
+  }
+  
+  /* Container principal */
+  footer .container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  
+  /* Colonnes footer */
+  footer .row {
+    gap: 40px !important;
+  }
+  
+  footer .col-lg-4,
+  footer .col-lg-2,
+  footer .col-md-6 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  
+  /* Logo section - Parfaitement centré */
+  footer .col-lg-4:first-child {
+    text-align: center !important;
+    margin-bottom: 40px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  footer .col-lg-4:first-child * {
+    text-align: center !important;
+  }
+  
+  footer .col-lg-4:first-child > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  
+  footer .col-lg-4:first-child .mb-4 {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+  }
+  
+  footer .col-lg-4:first-child img {
+    margin: 0 auto 20px !important;
+    display: block !important;
+  }
+  
+  footer .col-lg-4:first-child p {
+    text-align: center !important;
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+    padding: 0 10px;
+    margin: 0 auto 20px !important;
+    max-width: 90% !important;
+  }
+  
+  footer .col-lg-4:first-child .d-flex {
+    justify-content: center !important;
+    margin: 0 auto !important;
+  }
+  
+  /* Sections avec titres */
+  footer h5 {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    margin-bottom: 20px !important;
+    text-align: center !important;
+    position: relative;
+    padding-bottom: 12px;
+  }
+  
+  footer h5::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #c53030, transparent);
+    border-radius: 2px;
+  }
+  
+  /* Sections Liens Rapides et Catégories - Centrage parfait */
+  footer .col-lg-2 {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  footer .col-lg-2 * {
+    text-align: center !important;
+  }
+  
+  /* Listes */
+  footer ul {
+    text-align: center !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  footer ul li {
+    margin-bottom: 14px !important;
+    text-align: center !important;
+  }
+  
+  footer ul li a {
+    font-size: 14px !important;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease !important;
+    text-align: center !important;
+  }
+  
+  footer ul li a:hover {
+    background: rgba(255,255,255,0.05) !important;
+    padding-left: 12px !important;
+  }
+  
+  /* Section contact - Centrage parfait */
+  footer .col-lg-4:last-child {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  footer .col-lg-4:last-child * {
+    text-align: center !important;
+  }
+  
+  footer .col-lg-4:last-child > div {
+    margin-bottom: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  footer .col-lg-4:last-child .d-flex {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    margin-bottom: 25px !important;
+    width: 100% !important;
+  }
+  
+  footer .col-lg-4:last-child .d-flex.align-items-start {
+    align-items: center !important;
+  }
+  
+  footer .col-lg-4:last-child .d-flex > div:first-child {
+    margin-bottom: 12px !important;
+    margin-right: 0 !important;
+  }
+  
+  footer .col-lg-4:last-child .d-flex > div:last-child {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  footer .col-lg-4:last-child .d-flex > div:last-child > div {
+    text-align: center !important;
+  }
+  
+  footer .col-lg-4:last-child .d-flex > div:last-child > div:first-child {
+    text-align: center !important;
+    font-size: 16px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  footer .col-lg-4:last-child .d-flex > div:last-child > div:not(:first-child) {
+    text-align: center !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+  
+  /* Icônes contact */
+  footer .d-flex > div[style*="width: '40px'"],
+  footer .d-flex > div[style*="width: 40px"] {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, rgba(197, 48, 48, 0.2) 0%, rgba(197, 48, 48, 0.1) 100%) !important;
+    box-shadow: 0 4px 12px rgba(197, 48, 48, 0.2) !important;
+  }
+  
+  footer .d-flex > div[style*="width: '40px'"] i,
+  footer .d-flex > div[style*="width: 40px"] i {
+    font-size: 18px !important;
+  }
+  
+  /* Réseaux sociaux */
+  footer .d-flex.gap-3 a {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 12px !important;
+    background: rgba(255,255,255,0.08) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  footer .d-flex.gap-3 a i {
+    font-size: 18px !important;
+  }
+  
+  footer .d-flex.gap-3 a:active {
+    transform: scale(0.95) !important;
+    background: linear-gradient(135deg, #c53030 0%, #9b2c2c 100%) !important;
+  }
+  
+  /* Bottom bar */
+  footer > div:last-child {
+    margin-top: 50px !important;
+    padding: 20px 0 !important;
+    background: rgba(0,0,0,0.2) !important;
+  }
+  
+  footer > div:last-child .container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  
+  footer > div:last-child .row {
+    gap: 15px !important;
+  }
+  
+  footer > div:last-child .col-md-6 {
+    text-align: center !important;
+    margin-bottom: 15px;
+  }
+  
+  footer > div:last-child .col-md-6:last-child {
+    margin-bottom: 0;
+  }
+  
+  footer > div:last-child p {
+    font-size: 13px !important;
+    margin-bottom: 0 !important;
+  }
+  
+  footer > div:last-child .d-flex {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+  
+  footer > div:last-child .d-flex a {
+    font-size: 13px !important;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease !important;
+  }
+  
+  footer > div:last-child .d-flex a:hover {
+    background: rgba(255,255,255,0.05) !important;
+    color: #c53030 !important;
+  }
+}
+
+/* Petits mobiles - Footer encore plus compact */
+@media (max-width: 575.98px) {
+  footer {
+    padding-top: 40px !important;
+  }
+  
+  footer .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  footer .row {
+    gap: 35px !important;
+  }
+  
+  footer h5 {
+    font-size: 17px !important;
+    margin-bottom: 18px !important;
+  }
+  
+  footer ul li a {
+    font-size: 13px !important;
+  }
+  
+  footer .col-lg-4:first-child p {
+    font-size: 13px !important;
+  }
+  
+  footer .d-flex.gap-3 a {
+    width: 46px !important;
+    height: 46px !important;
+  }
+  
+  footer .d-flex.gap-3 a i {
+    font-size: 16px !important;
+  }
+  
+  footer > div:last-child {
+    margin-top: 40px !important;
+    padding: 18px 0 !important;
+  }
+  
+  footer > div:last-child p,
+  footer > div:last-child .d-flex a {
+    font-size: 12px !important;
+  }
+}
+
+/* Très petits écrans */
+@media (max-width: 375px) {
+  footer {
+    padding-top: 35px !important;
+  }
+  
+  footer .container {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+  
+  footer .row {
+    gap: 30px !important;
+  }
+  
+  footer h5 {
+    font-size: 16px !important;
+  }
+  
+  footer .col-lg-4:first-child img {
+    max-width: 150px !important;
+  }
+  
+  footer .d-flex.gap-3 {
+    gap: 10px !important;
+  }
+  
+  footer .d-flex.gap-3 a {
+    width: 44px !important;
+    height: 44px !important;
+  }
+}
+
+/* Animations footer mobile */
+@media (max-width: 767.98px) {
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  footer .col-lg-4,
+  footer .col-lg-2,
+  footer .col-md-6 {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  footer .col-lg-4:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  
+  footer .col-lg-2:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  footer .col-lg-2:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  
+  footer .col-lg-4:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+}
+
+/* Amélioration des liens footer */
+@media (max-width: 767.98px) {
+  footer a {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  footer a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  footer a:active::before {
+    left: 100%;
+  }
+}
+
+/* Séparateur élégant entre sections */
+@media (max-width: 767.98px) {
+  footer .col-lg-4:not(:last-child)::after,
+  footer .col-lg-2:not(:last-child)::after {
+    content: '';
+    display: block;
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    margin: 40px auto 0;
+  }
+}
+
+/* Amélioration du contraste */
+@media (max-width: 767.98px) {
+  footer {
+    background: linear-gradient(135deg, #0a1628 0%, #1a365d 100%) !important;
+  }
+  
+  footer h5 {
+    color: #ffffff !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  
+  footer p,
+  footer a {
+    color: rgba(255,255,255,0.85) !important;
+  }
+  
+  footer a:hover,
+  footer a:active {
+    color: #ffffff !important;
+  }
+}
+
+/* Safe area pour appareils avec encoche */
+@supports (padding: max(0px)) {
+  @media (max-width: 767.98px) {
+    footer {
+      padding-bottom: max(20px, env(safe-area-inset-bottom)) !important;
+    }
+  }
+}
+
+
+/* ============================================
+   FIX BANNIÈRES AIRPODS & SPEAKER - ALIGNEMENT MOBILE
+   ============================================ */
+
+/* Forcer l'alignement des deux petites bannières sur mobile */
+@media (max-width: 767.98px) {
+  /* Container des bannières */
+  .homepage-banners .col-lg-6:last-child .row {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+  }
+  
+  /* Les deux bannières côte à côte */
+  .homepage-banners .col-lg-6:last-child .row .col-6 {
+    flex: 1 !important;
+    max-width: calc(50% - 5px) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  /* Bannières AirPods et Speaker */
+  .banner-airpods,
+  .banner-speaker {
+    height: 180px !important;
+    padding: 16px !important;
+    border-radius: 18px !important;
+  }
+  
+  /* Titres plus petits */
+  .banner-small-title {
+    font-size: 0.9rem !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .banner-small-desc {
+    font-size: 11px !important;
+    margin-bottom: 12px !important;
+  }
+  
+  /* Boutons plus petits */
+  .banner-btn-mini {
+    padding: 7px 14px !important;
+    font-size: 11px !important;
+  }
+  
+  /* Images plus petites */
+  .banner-image-mini {
+    width: 110px !important;
+    height: 110px !important;
+    right: 5px !important;
+    bottom: 10px !important;
+  }
+}
+
+/* Petits mobiles - Encore plus compact */
+@media (max-width: 575.98px) {
+  .homepage-banners .col-lg-6:last-child .row {
+    gap: 8px !important;
+  }
+  
+  .homepage-banners .col-lg-6:last-child .row .col-6 {
+    max-width: calc(50% - 4px) !important;
+  }
+  
+  .banner-airpods,
+  .banner-speaker {
+    height: 160px !important;
+    padding: 14px !important;
+    border-radius: 16px !important;
+  }
+  
+  .banner-small-title {
+    font-size: 0.85rem !important;
+  }
+  
+  .banner-small-desc {
+    font-size: 10px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .banner-btn-mini {
+    padding: 6px 12px !important;
+    font-size: 10px !important;
+  }
+  
+  .banner-image-mini {
+    width: 95px !important;
+    height: 95px !important;
+    right: 3px !important;
+    bottom: 8px !important;
+  }
+}
+
+/* Très petits écrans */
+@media (max-width: 375px) {
+  .banner-airpods,
+  .banner-speaker {
+    height: 145px !important;
+    padding: 12px !important;
+  }
+  
+  .banner-small-title {
+    font-size: 0.8rem !important;
+  }
+  
+  .banner-small-desc {
+    font-size: 9px !important;
+  }
+  
+  .banner-btn-mini {
+    padding: 5px 10px !important;
+    font-size: 9px !important;
+  }
+  
+  .banner-image-mini {
+    width: 85px !important;
+    height: 85px !important;
+  }
+}
+
+/* Amélioration visuelle des bannières */
+@media (max-width: 767.98px) {
+  /* Bannière AirPods - Effet premium */
+  .banner-airpods {
+    box-shadow: 0 8px 24px rgba(26, 54, 93, 0.25) !important;
+    position: relative;
+  }
+  
+  .banner-airpods::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  
+  /* Bannière Speaker - Effet premium */
+  .banner-speaker {
+    box-shadow: 0 8px 24px rgba(197, 48, 48, 0.25) !important;
+    position: relative;
+  }
+  
+  .banner-speaker::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  
+  /* Textes avec ombre pour meilleure lisibilité */
+  .banner-small-title,
+  .banner-small-desc {
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Boutons avec ombre */
+  .banner-btn-mini {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease !important;
+  }
+  
+  .banner-btn-mini:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+  }
+}
+
+/* Assurer que les bannières restent côte à côte */
+@media (max-width: 767.98px) {
+  .homepage-banners .col-lg-6:last-child .row .col-6:first-child {
+    order: 1;
+  }
+  
+  .homepage-banners .col-lg-6:last-child .row .col-6:last-child {
+    order: 2;
+  }
+}
+
+
+/* ============================================
+   SHOP PAGE MOBILE OPTIMIZATIONS - PREMIUM
+   ============================================ */
+
+/* Shop page product grid - Mobile responsive */
+@media (max-width: 767.98px) {
+  /* Product grid - 2 colonnes élégantes */
+  .shop-product-grid .col-6 {
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+  }
+  
+  /* Product cards - Design premium mobile */
+  .shop-product-card {
+    border-radius: 16px !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
+    transition: all 0.3s ease !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .shop-product-card:active {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+  }
+  
+  /* Product image container - Aspect ratio 1:1 */
+  .shop-product-image {
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    border-radius: 16px 16px 0 0 !important;
+  }
+  
+  .shop-product-image img {
+    padding: 12px !important;
+    object-fit: contain !important;
+  }
+  
+  /* Product info - Compact et lisible */
+  .shop-product-info {
+    padding: 12px !important;
+  }
+  
+  .shop-product-title {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    height: 36px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  /* Stock badge - Compact */
+  .shop-stock-badge {
+    padding: 3px 8px !important;
+    font-size: 10px !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .shop-stock-badge span:first-child {
+    width: 5px !important;
+    height: 5px !important;
+  }
+  
+  /* Price - Visible et élégant */
+  .shop-product-price {
+    margin-bottom: 10px !important;
+  }
+  
+  .shop-product-price .old-price {
+    font-size: 11px !important;
+  }
+  
+  .shop-product-price .current-price {
+    font-size: 16px !important;
+  }
+  
+  .shop-product-price .currency {
+    font-size: 11px !important;
+  }
+  
+  /* Quantity selector - Touch-friendly */
+  .shop-quantity-selector {
+    padding: 2px !important;
+    border-radius: 6px !important;
+  }
+  
+  .shop-quantity-selector button {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 13px !important;
+    border-radius: 4px !important;
+  }
+  
+  .shop-quantity-selector span {
+    min-width: 24px !important;
+    font-size: 12px !important;
+  }
+  
+  /* Add to cart button - Premium */
+  .shop-add-to-cart {
+    padding: 8px 10px !important;
+    font-size: 11px !important;
+    border-radius: 6px !important;
+    gap: 4px !important;
+  }
+  
+  .shop-add-to-cart i {
+    font-size: 10px !important;
+  }
+  
+  /* Actions container */
+  .shop-product-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+  
+  /* Badges - Responsive */
+  .shop-discount-badge {
+    top: 8px !important;
+    right: 8px !important;
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    border-radius: 6px !important;
+  }
+  
+  /* Favorite button - Touch-friendly */
+  .shop-favorite-btn {
+    bottom: 8px !important;
+    right: 8px !important;
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  .shop-favorite-btn i {
+    font-size: 13px !important;
+  }
+  
+  /* Filter button mobile */
+  .shop-mobile-filter-btn {
+    margin-bottom: 20px !important;
+    padding: 14px 20px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08) !important;
+  }
+  
+  /* Filter panel mobile */
+  .shop-mobile-filters {
+    margin-top: 15px !important;
+    padding: 20px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+  }
+  
+  .shop-mobile-filters select,
+  .shop-mobile-filters input {
+    padding: 12px !important;
+    border-radius: 10px !important;
+    font-size: 14px !important;
+  }
+  
+  .shop-mobile-filters button {
+    padding: 12px !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+  }
+  
+  /* Hero section shop */
+  .shop-hero {
+    padding: 35px 0 !important;
+    margin-bottom: 30px !important;
+  }
+  
+  .shop-hero h1 {
+    font-size: 2rem !important;
+  }
+  
+  .shop-hero p {
+    font-size: 14px !important;
+  }
+  
+  /* Results count */
+  .shop-results-count {
+    font-size: 14px !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+/* Extra small mobile - Shop page */
+@media (max-width: 575.98px) {
+  /* Grid spacing - Plus compact */
+  .shop-product-grid .col-6 {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+  
+  .shop-product-grid .row {
+    gap: 10px !important;
+  }
+  
+  /* Cards - Compact */
+  .shop-product-card {
+    border-radius: 14px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  /* Image - Optimisée */
+  .shop-product-image {
+    border-radius: 14px 14px 0 0 !important;
+  }
+  
+  .shop-product-image img {
+    padding: 10px !important;
+  }
+  
+  /* Info - Compact */
+  .shop-product-info {
+    padding: 10px !important;
+  }
+  
+  .shop-product-title {
+    font-size: 12px !important;
+    height: 34px !important;
+  }
+  
+  /* Price - Lisible */
+  .shop-product-price .current-price {
+    font-size: 15px !important;
+  }
+  
+  /* Buttons - Touch-friendly */
+  .shop-quantity-selector button {
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 12px !important;
+  }
+  
+  .shop-add-to-cart {
+    padding: 7px 8px !important;
+    font-size: 10px !important;
+  }
+  
+  /* Hero - Compact */
+  .shop-hero {
+    padding: 30px 0 !important;
+    margin-bottom: 25px !important;
+  }
+  
+  .shop-hero h1 {
+    font-size: 1.7rem !important;
+  }
+  
+  /* Badges - Compact */
+  .shop-discount-badge {
+    padding: 3px 6px !important;
+    font-size: 10px !important;
+  }
+  
+  .shop-favorite-btn {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  
+  .shop-favorite-btn i {
+    font-size: 12px !important;
+  }
+}
+
+/* Landscape mobile - Shop optimizations */
+@media (max-width: 767.98px) and (orientation: landscape) {
+  .shop-hero {
+    padding: 25px 0 !important;
+  }
+  
+  .shop-product-image {
+    aspect-ratio: 4 / 3 !important;
+  }
+}
+
+/* Touch interactions - Premium feel */
+@media (hover: none) and (pointer: coarse) {
+  .shop-product-card {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .shop-product-card:active {
+    transition: transform 0.1s ease !important;
+  }
+  
+  .shop-add-to-cart:active {
+    transform: scale(0.95) !important;
+  }
+  
+  .shop-quantity-selector button:active {
+    transform: scale(0.9) !important;
+  }
+  
+  .shop-favorite-btn:active {
+    transform: scale(0.9) !important;
   }
 }

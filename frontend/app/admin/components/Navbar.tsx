@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { API_URL } from "../../../lib/api";
 
 export default function Navbar() {
   const router = useRouter();
@@ -101,7 +102,7 @@ export default function Navbar() {
                 }}
               >
                 <img 
-                  src={user?.photo ? `http://localhost:5000${user.photo}` : "/admin/images/faces/face1.jpg"} 
+                  src={user?.photo ? `${API_URL}${user.photo}` : "/admin/images/faces/face1.jpg"}
                   alt="Profile" 
                   style={{ width: "36px", height: "36px", borderRadius: "50%", objectFit: "cover" }}
                 />

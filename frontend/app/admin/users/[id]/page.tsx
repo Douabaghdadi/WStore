@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
+import { API_URL } from "../../../../lib/api";
 
 export default function EditUserPage() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function EditUserPage() {
   }, [params.id]);
 
   const fetchUser = async () => {
-    const res = await fetch(`http://localhost:5000/api/users/${params.id}`);
+    const res = await fetch(`${API_URL}/api/users/${params.id}`);
     const data = await res.json();
     setFormData({ name: data.name, email: data.email, role: data.role, photo: data.photo || "" });
   };
@@ -36,7 +37,7 @@ export default function EditUserPage() {
     if (photoFile) {
       data.append("photo", photoFile);
     }
-    const res = await fetch(`http://localhost:5000/api/users/${params.id}`, {
+    const res = await fetch(`${API_URL}/api/users/${params.id}`, {
       method: "PUT",
       body: data
     });
@@ -64,7 +65,7 @@ export default function EditUserPage() {
                   <div className="col-md-4 text-center">
                     <div className="mb-3">
                       <img 
-                        src={formData.photo ? (formData.photo.startsWith('blob:') ? formData.photo : `http://localhost:5000${formData.photo}`) : "/admin/images/faces/face1.jpg"} 
+                        src={formData.photo ? (formData.photo.startsWith('blob:') ? formData.photo : `${API_URL}${formData.photo}`) : "/admin/images/faces/face1.jpg"}
                         alt="Photo" 
                         style={{ 
                           width: "200px", 

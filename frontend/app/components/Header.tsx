@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
+import { API_URL } from '../../lib/api';
 
 export default function Header() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function Header() {
       if (parsedUser) fetchPendingOrders();
     }
     
-    fetch('http://localhost:5000/api/categories')
+    fetch(`${API_URL}/api/categories`)
       .then(res => res.json())
       .then(data => {
         console.log('Categories loaded:', data);
@@ -40,7 +41,7 @@ export default function Header() {
       })
       .catch(err => console.error('Erreur chargement catégories:', err));
 
-    fetch('http://localhost:5000/api/subcategories')
+    fetch(`${API_URL}/api/subcategories`)
       .then(res => res.json())
       .then(data => {
         console.log('Subcategories loaded:', data);
@@ -48,7 +49,7 @@ export default function Header() {
       })
       .catch(err => console.error('Erreur chargement sous-catégories:', err));
 
-    fetch('http://localhost:5000/api/products')
+    fetch(`${API_URL}/api/products`)
       .then(res => res.json())
       .then(data => setAllProducts(data))
       .catch(err => console.error('Erreur chargement produits:', err));
@@ -79,7 +80,7 @@ export default function Header() {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
-      const response = await fetch('http://localhost:5000/api/orders/my-orders', {
+      const response = await fetch(`${API_URL}/api/orders/my-orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -327,7 +328,7 @@ export default function Header() {
                       return (
                         <Link key={product._id} href={`/product/${product._id}`} onClick={() => { setShowSearchDropdown(false); setSearchQuery(''); }}
                           style={{display: 'flex', alignItems: 'center', padding: '10px 14px', textDecoration: 'none', borderBottom: '1px solid #f1f5f9'}}>
-                          <img src={product.image?.startsWith('http') ? product.image : `http://localhost:5000${product.image}`} alt={product.name}
+                          <img src={product.image?.startsWith('http') ? product.image : `${API_URL}${product.image}`} alt={product.name}
                             style={{width: '45px', height: '45px', objectFit: 'contain', borderRadius: '8px', background: '#f7fafc', marginRight: '10px'}}/>
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{fontSize: '13px', fontWeight: '600', color: '#1a202c', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{product.name}</div>
@@ -423,7 +424,7 @@ export default function Header() {
                   return (
                     <Link key={product._id} href={`/product/${product._id}`} onClick={() => { setMobileSearchOpen(false); setSearchQuery(''); setSearchResults([]); }}
                       style={{display: 'flex', alignItems: 'center', padding: '10px 12px', textDecoration: 'none', borderBottom: '1px solid #f1f5f9'}}>
-                      <img src={product.image?.startsWith('http') ? product.image : `http://localhost:5000${product.image}`} alt={product.name}
+                      <img src={product.image?.startsWith('http') ? product.image : `${API_URL}${product.image}`} alt={product.name}
                         style={{width: '40px', height: '40px', objectFit: 'contain', borderRadius: '6px', background: '#f7fafc', marginRight: '10px'}}/>
                       <div style={{ flex: 1 }}>
                         <div style={{fontSize: '13px', fontWeight: '600', color: '#1a202c'}}>{product.name}</div>

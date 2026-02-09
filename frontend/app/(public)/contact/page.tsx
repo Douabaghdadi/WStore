@@ -45,12 +45,12 @@ export default function ContactPage() {
   };
 
   return (
-    <div style={{ marginTop: "130px", backgroundColor: "#f7fafc", minHeight: "100vh", paddingBottom: "80px" }}>
+    <div style={{ marginTop: isMobile ? "80px" : "130px", backgroundColor: "#f7fafc", minHeight: "100vh", paddingBottom: isMobile ? "40px" : "80px" }}>
       {/* Hero Section */}
       <div style={{ 
         background: "linear-gradient(135deg, #0d1b2a 0%, #1a365d 100%)", 
-        padding: "80px 0", 
-        marginBottom: "50px",
+        padding: isMobile ? "40px 20px" : "80px 0", 
+        marginBottom: isMobile ? "30px" : "50px",
         position: "relative",
         overflow: "hidden"
       }}>
@@ -58,39 +58,39 @@ export default function ContactPage() {
           position: "absolute",
           top: "10%",
           right: "10%",
-          width: "200px",
-          height: "200px",
+          width: isMobile ? "100px" : "200px",
+          height: isMobile ? "100px" : "200px",
           background: "radial-gradient(circle, rgba(197, 48, 48, 0.2) 0%, transparent 70%)",
           borderRadius: "50%"
         }}></div>
-        <div className="container text-center" style={{ position: "relative", zIndex: 1 }}>
+        <div className="container text-center" style={{ position: "relative", zIndex: 1, padding: isMobile ? "0 15px" : "0" }}>
           <span style={{
             display: "inline-block",
             background: "linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)",
-            padding: "8px 20px",
+            padding: isMobile ? "6px 16px" : "8px 20px",
             borderRadius: "30px",
-            marginBottom: "20px"
+            marginBottom: isMobile ? "15px" : "20px"
           }}>
-            <span style={{ color: "white", fontSize: "13px", fontWeight: "700", letterSpacing: "2px", textTransform: "uppercase" }}>
+            <span style={{ color: "white", fontSize: isMobile ? "11px" : "13px", fontWeight: "700", letterSpacing: isMobile ? "1.5px" : "2px", textTransform: "uppercase" }}>
               Support Client
             </span>
           </span>
-          <h1 style={{ fontSize: "42px", fontWeight: "800", color: "white", marginBottom: "15px" }}>
+          <h1 style={{ fontSize: isMobile ? "28px" : "42px", fontWeight: "800", color: "white", marginBottom: isMobile ? "10px" : "15px", lineHeight: "1.2" }}>
             Contactez-nous
           </h1>
-          <p style={{ fontSize: "18px", color: "rgba(255,255,255,0.8)", maxWidth: "600px", margin: "0 auto" }}>
+          <p style={{ fontSize: isMobile ? "15px" : "18px", color: "rgba(255,255,255,0.8)", maxWidth: "600px", margin: "0 auto", lineHeight: "1.5" }}>
             Une question sur nos produits ? Notre équipe d'experts est là pour vous aider.
           </p>
         </div>
       </div>
 
-      <div className="container">
-        <div className="row g-5">
+      <div className="container" style={{ padding: isMobile ? "0 15px" : "0" }}>
+        <div className="row" style={{ gap: isMobile ? "25px" : "0", margin: isMobile ? "0" : "0 -12px" }}>
           {/* Informations de contact */}
-          <div className="col-lg-4">
+          <div className={isMobile ? "" : "col-lg-4"} style={{ width: isMobile ? "100%" : "auto", padding: isMobile ? "0" : "0 12px" }}>
             <div style={{ 
               backgroundColor: "white", 
-              borderRadius: "20px", 
+              borderRadius: isMobile ? "16px" : "20px", 
               padding: isMobile ? "25px 20px" : "40px", 
               boxShadow: "0 5px 25px rgba(0,0,0,0.05)", 
               height: "100%",
@@ -230,15 +230,15 @@ export default function ContactPage() {
           </div>
 
           {/* Formulaire de contact */}
-          <div className="col-lg-8">
+          <div className={isMobile ? "" : "col-lg-8"} style={{ width: isMobile ? "100%" : "auto", padding: isMobile ? "0" : "0 12px" }}>
             <div style={{ 
               backgroundColor: "white", 
-              borderRadius: "20px", 
-              padding: "40px", 
+              borderRadius: isMobile ? "16px" : "20px", 
+              padding: isMobile ? "25px 20px" : "40px", 
               boxShadow: "0 5px 25px rgba(0,0,0,0.05)",
               border: "1px solid #e2e8f0"
             }}>
-              <h3 style={{ fontSize: "24px", fontWeight: "700", color: "#1a202c", marginBottom: "30px" }}>
+              <h3 style={{ fontSize: isMobile ? "20px" : "24px", fontWeight: "700", color: "#1a202c", marginBottom: isMobile ? "20px" : "30px" }}>
                 Envoyez-nous un message
               </h3>
 
@@ -246,13 +246,14 @@ export default function ContactPage() {
                 <div style={{ 
                   background: "linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, rgba(72, 187, 120, 0.05) 100%)", 
                   color: "#276749", 
-                  padding: "15px 20px", 
+                  padding: isMobile ? "12px 15px" : "15px 20px", 
                   borderRadius: "12px", 
-                  marginBottom: "25px", 
+                  marginBottom: isMobile ? "20px" : "25px", 
                   display: "flex", 
                   alignItems: "center", 
                   gap: "10px",
-                  border: "1px solid rgba(72, 187, 120, 0.2)"
+                  border: "1px solid rgba(72, 187, 120, 0.2)",
+                  fontSize: isMobile ? "13px" : "14px"
                 }}>
                   <i className="fas fa-check-circle"></i>
                   Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.
@@ -260,9 +261,9 @@ export default function ContactPage() {
               )}
 
               <form onSubmit={handleSubmit}>
-                <div className="row g-4">
-                  <div className="col-md-6">
-                    <label style={{ fontSize: "14px", fontWeight: "600", color: "#4a5568", marginBottom: "8px", display: "block" }}>
+                <div className="row" style={{ gap: isMobile ? "20px" : "0", margin: isMobile ? "0" : "0 -12px" }}>
+                  <div className={isMobile ? "" : "col-md-6"} style={{ width: isMobile ? "100%" : "auto", padding: isMobile ? "0" : "0 12px", marginBottom: isMobile ? "0" : "16px" }}>
+                    <label style={{ fontSize: isMobile ? "13px" : "14px", fontWeight: "600", color: "#4a5568", marginBottom: "8px", display: "block" }}>
                       Nom complet *
                     </label>
                     <input
@@ -272,10 +273,10 @@ export default function ContactPage() {
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       style={{ 
                         width: "100%", 
-                        padding: "14px 18px", 
+                        padding: isMobile ? "12px 16px" : "14px 18px", 
                         border: "2px solid #e2e8f0", 
                         borderRadius: "12px", 
-                        fontSize: "15px", 
+                        fontSize: isMobile ? "14px" : "15px", 
                         outline: "none", 
                         transition: "border-color 0.3s", 
                         boxSizing: "border-box" 
@@ -285,8 +286,8 @@ export default function ContactPage() {
                       onBlur={(e) => e.target.style.borderColor = "#e2e8f0"}
                     />
                   </div>
-                  <div className="col-md-6">
-                    <label style={{ fontSize: "14px", fontWeight: "600", color: "#4a5568", marginBottom: "8px", display: "block" }}>
+                  <div className={isMobile ? "" : "col-md-6"} style={{ width: isMobile ? "100%" : "auto", padding: isMobile ? "0" : "0 12px", marginBottom: isMobile ? "0" : "16px" }}>
+                    <label style={{ fontSize: isMobile ? "13px" : "14px", fontWeight: "600", color: "#4a5568", marginBottom: "8px", display: "block" }}>
                       Email *
                     </label>
                     <input
@@ -296,10 +297,10 @@ export default function ContactPage() {
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       style={{ 
                         width: "100%", 
-                        padding: "14px 18px", 
+                        padding: isMobile ? "12px 16px" : "14px 18px", 
                         border: "2px solid #e2e8f0", 
                         borderRadius: "12px", 
-                        fontSize: "15px", 
+                        fontSize: isMobile ? "14px" : "15px", 
                         outline: "none", 
                         transition: "border-color 0.3s", 
                         boxSizing: "border-box" 
@@ -309,8 +310,8 @@ export default function ContactPage() {
                       onBlur={(e) => e.target.style.borderColor = "#e2e8f0"}
                     />
                   </div>
-                  <div className="col-12">
-                    <label style={{ fontSize: "14px", fontWeight: "600", color: "#4a5568", marginBottom: "8px", display: "block" }}>
+                  <div className={isMobile ? "" : "col-12"} style={{ width: "100%", padding: isMobile ? "0" : "0 12px", marginBottom: isMobile ? "0" : "16px" }}>
+                    <label style={{ fontSize: isMobile ? "13px" : "14px", fontWeight: "600", color: "#4a5568", marginBottom: "8px", display: "block" }}>
                       Sujet *
                     </label>
                     <select
@@ -319,10 +320,10 @@ export default function ContactPage() {
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                       style={{ 
                         width: "100%", 
-                        padding: "14px 18px", 
+                        padding: isMobile ? "12px 16px" : "14px 18px", 
                         border: "2px solid #e2e8f0", 
                         borderRadius: "12px", 
-                        fontSize: "15px", 
+                        fontSize: isMobile ? "14px" : "15px", 
                         outline: "none", 
                         transition: "border-color 0.3s", 
                         boxSizing: "border-box",
@@ -339,21 +340,21 @@ export default function ContactPage() {
                       <option value="other">Autre</option>
                     </select>
                   </div>
-                  <div className="col-12">
-                    <label style={{ fontSize: "14px", fontWeight: "600", color: "#4a5568", marginBottom: "8px", display: "block" }}>
+                  <div className={isMobile ? "" : "col-12"} style={{ width: "100%", padding: isMobile ? "0" : "0 12px", marginBottom: isMobile ? "0" : "16px" }}>
+                    <label style={{ fontSize: isMobile ? "13px" : "14px", fontWeight: "600", color: "#4a5568", marginBottom: "8px", display: "block" }}>
                       Message *
                     </label>
                     <textarea
                       required
-                      rows={6}
+                      rows={isMobile ? 5 : 6}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       style={{ 
                         width: "100%", 
-                        padding: "14px 18px", 
+                        padding: isMobile ? "12px 16px" : "14px 18px", 
                         border: "2px solid #e2e8f0", 
                         borderRadius: "12px", 
-                        fontSize: "15px", 
+                        fontSize: isMobile ? "14px" : "15px", 
                         outline: "none", 
                         transition: "border-color 0.3s", 
                         resize: "vertical", 
@@ -364,17 +365,18 @@ export default function ContactPage() {
                       onBlur={(e) => e.target.style.borderColor = "#e2e8f0"}
                     ></textarea>
                   </div>
-                  <div className="col-12">
+                  <div className={isMobile ? "" : "col-12"} style={{ width: "100%", padding: isMobile ? "0" : "0 12px" }}>
                     <button
                       type="submit"
                       disabled={loading}
                       style={{
-                        padding: "16px 40px",
+                        width: isMobile ? "100%" : "auto",
+                        padding: isMobile ? "14px 30px" : "16px 40px",
                         background: loading ? "#cbd5e0" : "linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)",
                         color: "white",
                         border: "none",
                         borderRadius: "12px",
-                        fontSize: "16px",
+                        fontSize: isMobile ? "15px" : "16px",
                         fontWeight: "700",
                         cursor: loading ? "not-allowed" : "pointer",
                         transition: "all 0.3s",

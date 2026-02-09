@@ -4,6 +4,7 @@ import { useRouter, useParams } from "next/navigation";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
 import Link from "next/link";
+import { API_URL } from "../../../../lib/api";
 
 export default function EditCategoryPage() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function EditCategoryPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/categories/${params.id}`)
+    fetch(`${API_URL}/api/categories/${params.id}`)
       .then(r => r.json())
       .then(data => {
         setFormData({ name: data.name, description: data.description || "" });
@@ -49,7 +50,7 @@ export default function EditCategoryPage() {
         formDataToSend.append("image", imageFile);
       }
 
-      const response = await fetch(`http://localhost:5000/api/categories/${params.id}`, {
+      const response = await fetch(`${API_URL}/api/categories/${params.id}`, {
         method: "PUT",
         body: formDataToSend
       });
@@ -66,7 +67,7 @@ export default function EditCategoryPage() {
     }
   };
 
-  const displayImage = imagePreview || (currentImage ? `http://localhost:5000${currentImage}` : null);
+  const displayImage = imagePreview || (currentImage ? `${API_URL}${currentImage}` : null);
 
   return (
     <div className="container-scroller">

@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
+import { API_URL } from '../../lib/api';
 
 interface Product {
   _id: string;
@@ -30,7 +31,7 @@ export default function PromoSection() {
 
   useEffect(() => {
     setDebugInfo('Chargement en cours...');
-    fetch('http://localhost:5000/api/products')
+    fetch(`${API_URL}/api/products`)
       .then(res => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -593,6 +594,77 @@ export default function PromoSection() {
           </div>
         </div>
       </div>
+      
+      {/* Styles responsives mobile */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          /* Titre section */
+          h2 {
+            font-size: 1.3rem !important;
+          }
+          
+          /* Bouton découvrir */
+          a[href="/promotions"] {
+            font-size: 12px !important;
+            padding: 6px 12px !important;
+          }
+          
+          /* Boutons navigation carrousel */
+          button[style*="position: absolute"] {
+            width: 35px !important;
+            height: 35px !important;
+          }
+          
+          button[style*="left: '-15px'"] {
+            left: -10px !important;
+          }
+          
+          button[style*="right: '-15px'"] {
+            right: -10px !important;
+          }
+          
+          /* Cartes produits */
+          div[style*="minWidth: '260px'"] {
+            min-width: 220px !important;
+            max-width: 220px !important;
+          }
+          
+          /* Image produit */
+          div[style*="minWidth: '260px'"] img {
+            height: 160px !important;
+            padding: 12px !important;
+          }
+          
+          /* Contenu carte */
+          div[style*="minWidth: '260px'"] > div:last-child {
+            padding: 15px !important;
+          }
+          
+          /* Titre produit */
+          div[style*="minWidth: '260px'"] h6 {
+            font-size: 13px !important;
+            height: 38px !important;
+          }
+          
+          /* Prix */
+          div[style*="minWidth: '260px'"] span[style*="fontSize: '20px'"] {
+            font-size: 18px !important;
+          }
+          
+          /* Boutons quantité */
+          button[style*="width: '26px'"] {
+            width: 24px !important;
+            height: 24px !important;
+            font-size: 13px !important;
+          }
+          
+          /* Bouton ajouter */
+          button[style*="flex: 1"] {
+            padding: 7px 10px !important;
+            font-size: 10px !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }

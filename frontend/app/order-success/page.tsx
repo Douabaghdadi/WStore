@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { API_URL } from "../../lib/api";
 
 interface OrderItem {
   product: {
@@ -32,7 +33,7 @@ interface Order {
   createdAt: string;
 }
 
-export default function OrderSuccessPage() {
+function OrderSuccessContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [orderRef, setOrderRef] = useState("");
@@ -50,7 +51,7 @@ export default function OrderSuccessPage() {
     
     if (orderId) {
       const token = localStorage.getItem("token");
-      fetch(`http://localhost:5000/api/orders/${orderId}`, {
+      fetch(`${API_URL}/api/orders/${orderId}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(res => res.json())
@@ -358,5 +359,19 @@ export default function OrderSuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OrderSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ marginTop: '160px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="spinner-grow" style={{ color: '#1a365d' }} role="status">
+          <span className="visually-hidden">Chargement...</span>
+        </div>
+      </div>
+    }>
+      <OrderSuccessContent />
+    </Suspense>
   );
 }
