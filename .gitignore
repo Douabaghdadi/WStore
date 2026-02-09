@@ -14,7 +14,16 @@ build/
 .env.local
 .env.production
 backend/.env
+backend/.env.production
 frontend/.env.local
+frontend/.env.production
+
+# SSH Keys
+github-deploy-key
+github-deploy-key.pub
+*.pem
+*.key
+id_rsa*
 
 # Logs
 *.log
