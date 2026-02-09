@@ -1,13 +1,5 @@
 {
   "root": true,
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 2021,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
   "env": {
     "browser": true,
     "es2021": true,
@@ -15,16 +7,6 @@
   },
   "rules": {},
   "ignorePatterns": [
-    ".next/**",
-    "out/**",
-    "build/**",
-    "dist/**",
-    "next-env.d.ts",
-    "public/**",
-    "template/**",
-    "node_modules/**",
-    "*.config.js",
-    "*.config.ts",
-    "*.config.mjs"
+    "**/*"
   ]
 }
