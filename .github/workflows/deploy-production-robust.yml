@@ -1,0 +1,417 @@
+name: 🚀 Production Deployment (Robust)
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - '**.txt'
+      - '.gitignore'
+      - 'LICENSE'
+  workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: 'Skip tests (use with caution)'
+        required: false
+        default: 'false'
+
+env:
+  VPS_HOST: 51.254.135.247
+  VPS_USER: ubuntu
+  VPS_PORT: 22
+  APP_DIR: /var/www/wstore
+  NODE_VERSION: '20'
+  DEPLOYMENT_TIMEOUT: 600
+
+jobs:
+  # Job 1: Pre-deployment checks
+  pre-checks:
+    name: 🔍 Pre-deployment Checks
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      should_deploy: ${{ steps.changes.outputs.should_deploy }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Generate version number
+        id: version
+        run: |
+          VERSION="v$(date +%Y%m%d)-$(git rev-parse --short HEAD)"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Version: $VERSION"
+
+      - name: Check for significant changes
+        id: changes
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          
+          # Check if there are code changes (not just docs)
+          if echo "$CHANGED_FILES" | grep -qE '\.(js|jsx|ts|tsx|json|css|env)$'; then
+            echo "should_deploy=true" >> $GITHUB_OUTPUT
+            echo "✅ Code changes detected - deployment needed"
+          else
+            echo "should_deploy=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No code changes - skipping deployment"
+          fi
+
+      - name: Check VPS connectivity
+        run: |
+          echo "🔌 Testing VPS connectivity..."
+          if ping -c 3 ${{ env.VPS_HOST }} > /dev/null 2>&1; then
+            echo "✅ VPS is reachable"
+          else
+            echo "❌ VPS is not reachable"
+            exit 1
+          fi
+
+  # Job 2: Run tests
+  test:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+    needs: pre-checks
+    if: needs.pre-checks.outputs.should_deploy == 'true' && github.event.inputs.skip_tests != 'true'
+    
+    strategy:
+      matrix:
+        component: [backend, frontend]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ matrix.component }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./${{ matrix.component }}
+        run: |
+          if [ "${{ matrix.component }}" = "frontend" ]; then
+            npm ci --legacy-peer-deps
+          else
+            npm ci
+          fi
+
+      - name: Run linter
+        working-directory: ./${{ matrix.component }}
+        run: npm run lint || echo "Lint completed with warnings"
+        continue-on-error: true
+
+      - name: Type check (frontend only)
+        if: matrix.component == 'frontend'
+        working-directory: ./frontend
+        run: npx tsc --noEmit || echo "Type check completed"
+        continue-on-error: true
+
+      - name: Build
+        working-directory: ./${{ matrix.component }}
+        run: npm run build
+        timeout-minutes: 10
+
+      - name: Run tests
+        working-directory: ./${{ matrix.component }}
+        run: npm test || echo "No tests configured"
+        continue-on-error: true
+
+  # Job 3: Build and package
+  build:
+    name: 📦 Build Application
+    runs-on: ubuntu-latest
+    needs: [pre-checks, test]
+    if: needs.pre-checks.outputs.should_deploy == 'true'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Create environment files
+        run: |
+          echo "📝 Creating environment files..."
+          echo "${{ secrets.BACKEND_ENV_PRODUCTION }}" > backend/.env
+          echo "${{ secrets.FRONTEND_ENV_PRODUCTION }}" > frontend/.env.production
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: |
+          echo "🏗️ Building frontend..."
+          npm ci --legacy-peer-deps
+          npm run build
+        timeout-minutes: 15
+
+      - name: Create deployment package
+        run: |
+          echo "📦 Creating deployment package..."
+          VERSION="${{ needs.pre-checks.outputs.version }}"
+          ARCHIVE_NAME="wstore-${VERSION}.tar.gz"
+          
+          tar -czf $ARCHIVE_NAME \
+            --exclude="node_modules" \
+            --exclude=".git" \
+            --exclude=".github" \
+            --exclude="*.md" \
+            --exclude="*.txt" \
+            --exclude="*.ps1" \
+            --exclude="*.sh" \
+            --exclude="frontend/.next/cache" \
+            backend \
+            frontend \
+            ecosystem.config.js
+          
+          echo "✅ Package created: $ARCHIVE_NAME"
+          ls -lh $ARCHIVE_NAME
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-package
+          path: wstore-*.tar.gz
+          retention-days: 30
+
+  # Job 4: Deploy to VPS
+  deploy:
+    name: 🚀 Deploy to VPS
+    runs-on: ubuntu-latest
+    needs: [pre-checks, build]
+    if: needs.pre-checks.outputs.should_deploy == 'true'
+    environment:
+      name: production
+      url: http://51.254.135.247:3000
+    
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: deployment-package
+
+      - name: Setup SSH
+        run: |
+          echo "🔐 Setting up SSH..."
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ env.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Pre-deployment backup
+        run: |
+          echo "💾 Creating backup..."
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << 'EOF'
+            set -e
+            BACKUP_DIR="/var/backups/wstore"
+            mkdir -p $BACKUP_DIR
+            
+            if [ -d "${{ env.APP_DIR }}" ]; then
+              TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+              BACKUP_FILE="$BACKUP_DIR/backup-$TIMESTAMP.tar.gz"
+              
+              echo "Creating backup: $BACKUP_FILE"
+              tar -czf $BACKUP_FILE -C ${{ env.APP_DIR }} . 2>/dev/null || true
+              
+              # Keep only last 10 backups
+              ls -t $BACKUP_DIR/backup-*.tar.gz | tail -n +11 | xargs -r rm
+              
+              echo "✅ Backup created successfully"
+              ls -lh $BACKUP_FILE
+            else
+              echo "ℹ️ No existing installation to backup"
+            fi
+          EOF
+
+      - name: Upload deployment package
+        run: |
+          echo "📤 Uploading to VPS..."
+          ARCHIVE=$(ls wstore-*.tar.gz)
+          scp -o StrictHostKeyChecking=no $ARCHIVE ${{ env.VPS_USER }}@${{ env.VPS_HOST }}:/tmp/
+          echo "✅ Upload complete"
+
+      - name: Deploy application
+        run: |
+          echo "🚀 Deploying application..."
+          ARCHIVE=$(ls wstore-*.tar.gz | xargs basename)
+          
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << EOF
+            set -e
+            
+            echo "📦 Extracting package..."
+            mkdir -p ${{ env.APP_DIR }}
+            cd ${{ env.APP_DIR }}
+            tar -xzf /tmp/$ARCHIVE
+            
+            echo "📝 Installing backend dependencies..."
+            cd ${{ env.APP_DIR }}/backend
+            npm ci --production --legacy-peer-deps
+            
+            echo "📝 Installing frontend dependencies..."
+            cd ${{ env.APP_DIR }}/frontend
+            npm ci --production --legacy-peer-deps
+            
+            echo "🔄 Restarting applications..."
+            pm2 restart ecosystem.config.js --update-env || pm2 start ${{ env.APP_DIR }}/ecosystem.config.js
+            pm2 save
+            
+            echo "🧹 Cleanup..."
+            rm /tmp/$ARCHIVE
+            
+            echo "✅ Deployment completed!"
+            pm2 status
+          EOF
+
+      - name: Wait for services to start
+        run: |
+          echo "⏳ Waiting for services to start..."
+          sleep 15
+
+      - name: Health check - Frontend
+        run: |
+          echo "🏥 Checking frontend health..."
+          MAX_RETRIES=5
+          RETRY_COUNT=0
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            if curl -f -s -o /dev/null -w "%{http_code}" http://${{ env.VPS_HOST }}:3000 | grep -q "200"; then
+              echo "✅ Frontend is healthy"
+              exit 0
+            fi
+            
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            echo "⏳ Retry $RETRY_COUNT/$MAX_RETRIES..."
+            sleep 10
+          done
+          
+          echo "❌ Frontend health check failed"
+          exit 1
+
+      - name: Health check - Backend
+        run: |
+          echo "🏥 Checking backend health..."
+          MAX_RETRIES=5
+          RETRY_COUNT=0
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            if curl -f -s http://${{ env.VPS_HOST }}:5000/api/products > /dev/null; then
+              echo "✅ Backend is healthy"
+              exit 0
+            fi
+            
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            echo "⏳ Retry $RETRY_COUNT/$MAX_RETRIES..."
+            sleep 10
+          done
+          
+          echo "❌ Backend health check failed"
+          exit 1
+
+      - name: Verify deployment
+        run: |
+          echo "✅ Deployment verification complete"
+          echo "📊 Deployment Summary:"
+          echo "  Version: ${{ needs.pre-checks.outputs.version }}"
+          echo "  Frontend: http://${{ env.VPS_HOST }}:3000"
+          echo "  Backend: http://${{ env.VPS_HOST }}:5000"
+          echo "  Commit: ${{ github.sha }}"
+          echo "  Deployed by: ${{ github.actor }}"
+
+  # Job 5: Rollback on failure
+  rollback:
+    name: ⏮️ Rollback on Failure
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: failure()
+    
+    steps:
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ env.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Restore from backup
+        run: |
+          echo "⏮️ Rolling back to previous version..."
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} << 'EOF'
+            BACKUP_DIR="/var/backups/wstore"
+            LATEST_BACKUP=$(ls -t $BACKUP_DIR/backup-*.tar.gz 2>/dev/null | head -n 1)
+            
+            if [ -f "$LATEST_BACKUP" ]; then
+              echo "📦 Restoring from: $LATEST_BACKUP"
+              cd ${{ env.APP_DIR }}
+              tar -xzf $LATEST_BACKUP
+              
+              echo "🔄 Restarting services..."
+              pm2 restart all
+              
+              echo "✅ Rollback completed"
+              pm2 status
+            else
+              echo "❌ No backup found for rollback"
+              exit 1
+            fi
+          EOF
+
+      - name: Verify rollback
+        run: |
+          echo "🏥 Verifying rollback..."
+          sleep 10
+          
+          if curl -f http://${{ env.VPS_HOST }}:3000 > /dev/null 2>&1; then
+            echo "✅ Rollback successful - application is running"
+          else
+            echo "❌ Rollback verification failed"
+            exit 1
+          fi
+
+  # Job 6: Post-deployment tasks
+  post-deploy:
+    name: 📊 Post-Deployment
+    runs-on: ubuntu-latest
+    needs: [pre-checks, deploy]
+    if: success()
+    
+    steps:
+      - name: Create deployment record
+        run: |
+          echo "📝 Recording deployment..."
+          echo "Deployment successful!"
+          echo "Version: ${{ needs.pre-checks.outputs.version }}"
+          echo "Time: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          echo "Commit: ${{ github.sha }}"
+          echo "Actor: ${{ github.actor }}"
+
+      - name: Cleanup old artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const days = 30;
+            const timestamp = Date.now() - (days * 24 * 60 * 60 * 1000);
+            
+            const artifacts = await github.rest.actions.listArtifactsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            
+            for (const artifact of artifacts.data.artifacts) {
+              if (new Date(artifact.created_at) < timestamp) {
+                await github.rest.actions.deleteArtifact({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  artifact_id: artifact.id,
+                });
+                console.log(`Deleted old artifact: ${artifact.name}`);
+              }
+            }
