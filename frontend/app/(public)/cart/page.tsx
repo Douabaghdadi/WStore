@@ -88,7 +88,6 @@ export default function CartPage() {
                   borderBottom: index < cart.length - 1 ? '1px solid #eee' : 'none',
                   alignItems: 'center'
                 }}>
-                  {/* Image */}
                   <div style={{
                     width: isMobile ? '80px' : '100px',
                     height: isMobile ? '80px' : '100px',

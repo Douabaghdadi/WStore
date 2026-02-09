@@ -6,6 +6,21 @@ import { useCart } from '../../../context/CartContext';
 import { useFavorites } from '../../../context/FavoritesContext';
 import { API_URL } from '../../../../lib/api';
 
+interface Subcategory {
+  _id: string;
+  name: string;
+}
+
+interface Brand {
+  _id: string;
+  name: string;
+}
+
+interface CategoryRef {
+  _id: string;
+  name: string;
+}
+
 interface Product {
   _id: string;
   name: string;
@@ -14,9 +29,9 @@ interface Product {
   description?: string;
   image?: string;
   stock?: number;
-  brand?: { _id: string; name: string };
-  category?: { _id: string; name: string };
-  subcategories?: { _id: string; name: string }[];
+  brand?: Brand;
+  category?: CategoryRef;
+  subcategories?: Subcategory[];
 }
 
 interface Category {
@@ -31,8 +46,8 @@ export default function CategoryPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [category, setCategory] = useState<Category | null>(null);
-  const [brands, setBrands] = useState<any[]>([]);
-  const [subcategories, setSubcategories] = useState<any[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedBrand, setSelectedBrand] = useState('');
   const [selectedSubcategory, setSelectedSubcategory] = useState('');
@@ -64,7 +79,7 @@ export default function CategoryPage() {
     fetch(`${API_URL}/api/subcategories`)
       .then(r => r.json())
       .then(data => {
-        const filtered = data.filter((sub: any) => sub.category?._id === params.id);
+        const filtered = data.filter((sub: Subcategory & { category?: CategoryRef }) => sub.category?._id === params.id);
         setSubcategories(filtered);
       });
 
@@ -85,7 +100,7 @@ export default function CategoryPage() {
   useEffect(() => {
     let result = [...products];
     if (selectedBrand) result = result.filter((p) => p.brand?._id === selectedBrand);
-    if (selectedSubcategory) result = result.filter((p) => p.subcategories?.some((sub: any) => sub._id === selectedSubcategory));
+    if (selectedSubcategory) result = result.filter((p) => p.subcategories?.some((sub) => sub._id === selectedSubcategory));
     if (showDiscountOnly) result = result.filter((p) => (p.discount ?? 0) > 0);
     if (priceRange.min) {
       result = result.filter((p) => {
@@ -309,7 +324,7 @@ export default function CategoryPage() {
                     onChange={(e) => setSelectedSubcategory(e.target.value)}
                   >
                     <option value="">Toutes les sous-catégories</option>
-                    {subcategories.map((sub: any) => (
+                    {subcategories.map((sub) => (
                       <option key={sub._id} value={sub._id}>{sub.name}</option>
                     ))}
                   </select>
@@ -324,7 +339,7 @@ export default function CategoryPage() {
                   onChange={(e) => setSelectedBrand(e.target.value)}
                 >
                   <option value="">Toutes les marques</option>
-                  {brands.map((brand: any) => (
+                  {brands.map((brand) => (
                     <option key={brand._id} value={brand._id}>{brand.name}</option>
                   ))}
                 </select>

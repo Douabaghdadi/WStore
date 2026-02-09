@@ -37,7 +37,7 @@ export default function ContactPage() {
       } else {
         alert('Erreur lors de l\'envoi du message');
       }
-    } catch (error) {
+    } catch {
       alert('Erreur de connexion');
     } finally {
       setLoading(false);
@@ -79,7 +79,7 @@ export default function ContactPage() {
             Contactez-nous
           </h1>
           <p style={{ fontSize: isMobile ? "15px" : "18px", color: "rgba(255,255,255,0.8)", maxWidth: "600px", margin: "0 auto", lineHeight: "1.5" }}>
-            Une question sur nos produits ? Notre équipe d'experts est là pour vous aider.
+            Une question sur nos produits ? Notre équipe d&apos;experts est là pour vous aider.
           </p>
         </div>
       </div>

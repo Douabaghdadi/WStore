@@ -105,7 +105,7 @@ export default function CheckoutPage() {
         const data = await res.json();
         setError(data.error || 'Erreur lors de la commande');
       }
-    } catch (err) {
+    } catch {
       setError('Erreur de connexion');
     } finally {
       setLoading(false);
@@ -170,24 +170,24 @@ export default function CheckoutPage() {
               <form onSubmit={handleSubmit}>
                 <div style={{marginBottom: '20px'}}>
                   <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Nom complet *</label>
-                  <input type="text" required value={formData.fullName} onChange={(e) => setFormData({...formData, fullName: e.target.value})} placeholder="Entrez votre nom complet" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#1a365d'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
+                  <input type="text" required value={formData.fullName} onChange={(e) => setFormData({...formData, fullName: e.target.value})} placeholder="Entrez votre nom complet" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {(e.target as HTMLInputElement).style.borderColor = '#1a365d'; (e.target as HTMLInputElement).style.backgroundColor = 'white';}} onBlur={(e) => {(e.target as HTMLInputElement).style.borderColor = '#e5e7eb'; (e.target as HTMLInputElement).style.backgroundColor = '#fafbfc';}} />
                 </div>
                 <div style={{marginBottom: '20px'}}>
                   <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Téléphone *</label>
-                  <input type="tel" required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="+216 XX XXX XXX" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#1a365d'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
+                  <input type="tel" required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} placeholder="+216 XX XXX XXX" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {(e.target as HTMLInputElement).style.borderColor = '#1a365d'; (e.target as HTMLInputElement).style.backgroundColor = 'white';}} onBlur={(e) => {(e.target as HTMLInputElement).style.borderColor = '#e5e7eb'; (e.target as HTMLInputElement).style.backgroundColor = '#fafbfc';}} />
                 </div>
                 <div style={{marginBottom: '20px'}}>
                   <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Adresse complète *</label>
-                  <input type="text" required value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} placeholder="Rue, numéro, bâtiment..." style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#1a365d'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
+                  <input type="text" required value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} placeholder="Rue, numéro, bâtiment..." style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {(e.target as HTMLInputElement).style.borderColor = '#1a365d'; (e.target as HTMLInputElement).style.backgroundColor = 'white';}} onBlur={(e) => {(e.target as HTMLInputElement).style.borderColor = '#e5e7eb'; (e.target as HTMLInputElement).style.backgroundColor = '#fafbfc';}} />
                 </div>
                 <div className="row g-3" style={{marginBottom: '20px'}}>
                   <div className="col-md-6">
                     <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Ville *</label>
-                    <input type="text" required value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} placeholder="Tunis" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#1a365d'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
+                    <input type="text" required value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} placeholder="Tunis" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {(e.target as HTMLInputElement).style.borderColor = '#1a365d'; (e.target as HTMLInputElement).style.backgroundColor = 'white';}} onBlur={(e) => {(e.target as HTMLInputElement).style.borderColor = '#e5e7eb'; (e.target as HTMLInputElement).style.backgroundColor = '#fafbfc';}} />
                   </div>
                   <div className="col-md-6">
                     <label style={{display: 'block', marginBottom: '8px', fontWeight: '600', color: '#374151', fontSize: '13px'}}>Code postal *</label>
-                    <input type="text" required value={formData.postalCode} onChange={(e) => setFormData({...formData, postalCode: e.target.value})} placeholder="1000" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {e.target.style.borderColor = '#1a365d'; e.target.style.backgroundColor = 'white';}} onBlur={(e) => {e.target.style.borderColor = '#e5e7eb'; e.target.style.backgroundColor = '#fafbfc';}} />
+                    <input type="text" required value={formData.postalCode} onChange={(e) => setFormData({...formData, postalCode: e.target.value})} placeholder="1000" style={{width: '100%', padding: '12px 16px', border: '1.5px solid #e5e7eb', borderRadius: '10px', fontSize: '14px', transition: 'all 0.2s', outline: 'none', backgroundColor: '#fafbfc'}} onFocus={(e) => {(e.target as HTMLInputElement).style.borderColor = '#1a365d'; (e.target as HTMLInputElement).style.backgroundColor = 'white';}} onBlur={(e) => {(e.target as HTMLInputElement).style.borderColor = '#e5e7eb'; (e.target as HTMLInputElement).style.backgroundColor = '#fafbfc';}} />
                   </div>
                 </div>
                 <div style={{marginBottom: '25px'}}>
@@ -207,7 +207,7 @@ export default function CheckoutPage() {
                     </div>
                   </div>
                 </div>
-                <button type="submit" disabled={loading} style={{width: '100%', padding: '14px', background: loading ? '#d1d5db' : 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', color: 'white', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer', boxShadow: loading ? 'none' : '0 6px 20px rgba(197,48,48,0.25)', transition: 'all 0.3s'}} onMouseEnter={(e) => !loading && (e.currentTarget.style.transform = 'translateY(-2px)')} onMouseLeave={(e) => !loading && (e.currentTarget.style.transform = 'translateY(0)')}>
+                <button type="submit" disabled={loading} style={{width: '100%', padding: '14px', background: loading ? '#d1d5db' : 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', color: 'white', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer', boxShadow: loading ? 'none' : '0 6px 20px rgba(197,48,48,0.25)', transition: 'all 0.3s'}} onMouseEnter={(e) => !loading && ((e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-2px)')} onMouseLeave={(e) => !loading && ((e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)')}>
                   {loading ? 'Traitement en cours...' : 'Confirmer la commande'}
                 </button>
               </form>
