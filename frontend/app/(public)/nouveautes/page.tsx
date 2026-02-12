@@ -111,7 +111,7 @@ export default function NouveautesPage() {
   return (
     <>
       <style jsx>{`
-        @media (max-width: 768px) {
+        @media (max-width: 991px) {
           .nouveautes-container {
             margin-top: 80px !important;
             padding-bottom: 30px !important;
@@ -133,227 +133,90 @@ export default function NouveautesPage() {
           .hero-icon {
             font-size: 18px !important;
           }
+          
+          /* Filtres sidebar mobile */
           .filters-sidebar {
-            position: static !important;
-            margin-bottom: 20px;
-            padding: 20px !important;
-            border-radius: 15px !important;
-            display: none !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: ${showFilters ? '0' : '-100%'} !important;
+            width: 85% !important;
+            max-width: 320px !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            transition: left 0.3s ease !important;
+            overflow-y: auto !important;
           }
-          .filters-sidebar.show {
-            display: block !important;
+          .filters-overlay {
+            display: ${showFilters ? 'block' : 'none'};
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9998;
           }
-          .filters-title {
-            font-size: 16px !important;
-            margin-bottom: 20px !important;
-          }
-          .filter-section {
-            margin-bottom: 20px !important;
-          }
-          .filter-label {
-            font-size: 12px !important;
-            margin-bottom: 8px !important;
-          }
-          .filter-input, .filter-select {
-            padding: 10px 12px !important;
-            font-size: 13px !important;
-            border-radius: 10px !important;
+          .mobile-filter-btn {
+            display: flex !important;
           }
           
-          /* Grille 2 colonnes sur mobile */
-          .product-grid {
+          /* Images produits */
+          .product-image-container {
+            height: 200px !important;
+          }
+          .product-image {
+            height: 200px !important;
+            padding: 15px !important;
+          }
+          
+          /* Contenu carte */
+          .product-content {
+            padding: 15px !important;
+          }
+          
+          /* Titre produit */
+          .product-title {
+            font-size: 14px !important;
+            height: 40px !important;
+            margin-bottom: 10px !important;
+          }
+          
+          /* Prix */
+          .product-price-container {
+            margin-bottom: 12px !important;
+          }
+          .product-price {
+            font-size: 18px !important;
+          }
+          
+          /* Actions (quantité + ajouter) */
+          .product-actions {
+            flex-direction: column !important;
             gap: 10px !important;
           }
           
-          .col-6 {
-            padding-left: 5px !important;
-            padding-right: 5px !important;
-          }
-          
-          /* Cartes produits - hauteur fixe pour alignement */
-          .product-card {
-            border-radius: 12px !important;
-            margin-bottom: 0 !important;
-            height: 100% !important;
-            display: flex !important;
-            flex-direction: column !important;
-          }
-          
-          .product-image-container {
-            height: 140px !important;
-            flex-shrink: 0 !important;
-          }
-          
-          .product-image {
-            height: 140px !important;
-            padding: 10px !important;
-          }
-          
-          .product-badge {
-            top: 6px !important;
-            left: 6px !important;
-            padding: 3px 6px !important;
-            font-size: 8px !important;
-            border-radius: 4px !important;
-          }
-          
-          .product-badge i {
-            font-size: 6px !important;
-          }
-          
-          .product-discount-badge {
-            top: 6px !important;
-            right: 6px !important;
-            padding: 3px 6px !important;
-            font-size: 9px !important;
-            border-radius: 4px !important;
-          }
-          
-          .product-favorite-btn {
-            width: 28px !important;
-            height: 28px !important;
-            bottom: 6px !important;
-            right: 6px !important;
-          }
-          
-          .product-favorite-icon {
-            font-size: 11px !important;
-          }
-          
-          .product-content {
-            padding: 10px !important;
-            flex: 1 !important;
-            display: flex !important;
-            flex-direction: column !important;
-          }
-          
-          .product-title {
-            font-size: 11px !important;
-            height: 32px !important;
-            margin-bottom: 6px !important;
-            line-height: 1.3 !important;
-            overflow: hidden !important;
-            display: -webkit-box !important;
-            -webkit-line-clamp: 2 !important;
-            -webkit-box-orient: vertical !important;
-          }
-          
-          .product-stock-badge {
-            padding: 2px 6px !important;
-            font-size: 8px !important;
-            margin-bottom: 6px !important;
-          }
-          
-          .product-stock-badge span:first-child {
-            width: 4px !important;
-            height: 4px !important;
-          }
-          
-          .product-brand {
-            font-size: 8px !important;
-            margin-bottom: 5px !important;
-          }
-          
-          .product-price-container {
-            margin-bottom: 8px !important;
-            margin-top: auto !important;
-          }
-          
-          .product-old-price {
-            font-size: 9px !important;
-          }
-          
-          .product-price {
-            font-size: 14px !important;
-          }
-          
-          .product-price-currency {
-            font-size: 9px !important;
-          }
-          
-          .product-actions {
-            gap: 4px !important;
-            margin-top: auto !important;
-          }
-          
+          /* Sélecteur quantité */
           .quantity-controls {
-            padding: 2px !important;
-            border-radius: 4px !important;
+            width: 100% !important;
+            justify-content: center !important;
           }
           
-          .quantity-btn {
-            width: 20px !important;
-            height: 20px !important;
-            font-size: 10px !important;
-            border-radius: 3px !important;
-          }
-          
-          .quantity-value {
-            min-width: 20px !important;
-            font-size: 10px !important;
-          }
-          
+          /* Bouton Ajouter */
           .add-to-cart-btn {
-            padding: 6px 8px !important;
-            font-size: 9px !important;
-            border-radius: 6px !important;
-            gap: 3px !important;
-          }
-          
-          .add-to-cart-btn i {
-            font-size: 8px !important;
-          }
-          
-          .results-count {
-            font-size: 13px !important;
-            margin-bottom: 15px !important;
-          }
-          
-          .breadcrumb-item {
-            font-size: 11px !important;
-          }
-          
-          .hero-stats-badge {
-            padding: 5px 12px !important;
-            font-size: 12px !important;
-          }
-          
-          .reset-filters-btn {
-            padding: 12px !important;
-            font-size: 13px !important;
-            border-radius: 10px !important;
-          }
-          
-          .mobile-filter-toggle {
-            display: flex !important;
-            width: 100%;
-            margin-bottom: 15px;
-            padding: 12px 20px;
-            background: linear-gradient(135deg, #c53030 0%, #9b2c2c 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(197, 48, 48, 0.3);
-            transition: all 0.3s ease;
-          }
-          
-          .mobile-filter-toggle:active {
-            transform: scale(0.98);
+            width: 100% !important;
+            padding: 12px 15px !important;
           }
         }
         
-        @media (min-width: 769px) {
-          .mobile-filter-toggle {
+        @media (min-width: 992px) {
+          .mobile-filter-btn {
             display: none !important;
           }
-          .filters-sidebar {
-            display: block !important;
+        }
+        
+        @media (min-width: 992px) {
+          .mobile-filter-btn {
+            display: none !important;
           }
         }
         
@@ -369,40 +232,11 @@ export default function NouveautesPage() {
           .filters-sidebar {
             padding: 15px !important;
           }
-          
-          /* Optimisation pour très petits écrans */
-          .product-grid {
-            gap: 8px !important;
-          }
-          
-          .col-6 {
-            padding-left: 4px !important;
-            padding-right: 4px !important;
-          }
-          
-          .product-image-container {
-            height: 130px !important;
-          }
-          
-          .product-image {
-            height: 130px !important;
-            padding: 8px !important;
-          }
-          
-          .product-content {
-            padding: 8px !important;
-          }
-          
-          .product-title {
-            font-size: 10px !important;
-            height: 28px !important;
-          }
-          
-          .product-price {
-            font-size: 13px !important;
-          }
         }
       `}</style>
+      
+      {/* Overlay pour mobile */}
+      <div className="filters-overlay" onClick={() => setShowFilters(false)}></div>
       
       <div className="nouveautes-container" style={{ marginTop: '150px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
         {/* Hero Section */}
@@ -491,15 +325,6 @@ export default function NouveautesPage() {
         <div className="row g-4">
           {/* Filtres */}
           <div className="col-lg-3">
-            {/* Bouton toggle pour mobile */}
-            <button 
-              className="mobile-filter-toggle"
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <i className={`fas fa-${showFilters ? 'times' : 'filter'}`}></i>
-              {showFilters ? 'Fermer les filtres' : 'Afficher les filtres'}
-            </button>
-
             <div className={`filters-sidebar ${showFilters ? 'show' : ''}`} style={{
               backgroundColor: 'white',
               borderRadius: '20px',
@@ -508,7 +333,32 @@ export default function NouveautesPage() {
               position: 'sticky',
               top: '180px'
             }}>
-              <h5 className="filters-title" style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {/* Bouton fermer pour mobile */}
+              <div style={{ display: 'none' }} className="d-lg-none d-flex justify-content-between align-items-center mb-3">
+                <h5 style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', margin: 0 }}>
+                  <i className="fas fa-filter" style={{ color: '#c53030' }}></i> Filtres
+                </h5>
+                <button 
+                  onClick={() => setShowFilters(false)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontSize: '24px',
+                    color: '#64748b',
+                    cursor: 'pointer',
+                    padding: '0',
+                    width: '30px',
+                    height: '30px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              </div>
+
+              <h5 className="filters-title d-none d-lg-flex" style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <i className="fas fa-filter" style={{ color: '#c53030' }}></i> Filtres
               </h5>
 
@@ -615,6 +465,7 @@ export default function NouveautesPage() {
                   setPriceRange({ min: '', max: '' });
                   setShowDiscountOnly(false);
                   setSortBy('newest');
+                  setShowFilters(false);
                 }}
               >
                 <i className="fas fa-redo"></i> Réinitialiser
@@ -625,6 +476,30 @@ export default function NouveautesPage() {
 
           {/* Produits */}
           <div className="col-lg-9">
+            {/* Bouton filtres mobile */}
+            <button 
+              className="mobile-filter-btn mb-3"
+              onClick={() => setShowFilters(true)}
+              style={{
+                width: '100%',
+                padding: '14px',
+                background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '14px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                display: 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(197, 48, 48, 0.3)'
+              }}
+            >
+              <i className="fas fa-filter"></i> Filtres et Tri
+            </button>
+
             <div className="results-count" style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
                 <span style={{ fontWeight: '700', color: '#1a202c' }}>{filteredProducts.length}</span> produit(s) trouvé(s)

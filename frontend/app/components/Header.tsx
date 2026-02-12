@@ -263,14 +263,14 @@ export default function Header() {
             
             {/* Desktop Navigation */}
             <div className="d-none d-xl-flex align-items-center gap-4">
-              <Link href="/" className="nav-link" style={{color: '#1a1a1a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase'}}>Accueil</Link>
-              <Link href="/shop" className="nav-link" style={{color: '#4a4a4a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase'}}>Boutique</Link>
+              <Link href="/" className="nav-link" style={{color: '#1a1a1a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase', padding: '8px 12px', display: 'inline-block'}}>Accueil</Link>
+              <Link href="/shop" className="nav-link" style={{color: '#1a1a1a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase', padding: '8px 12px', display: 'inline-block'}}>Boutique</Link>
               <div className="dropdown" style={{position: 'relative'}}
                 onMouseEnter={() => setShowUserMenu(false)}
               >
                 <a href="#" 
                   className="nav-link" 
-                  style={{color: '#4a4a4a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '4px'}}
+                  style={{color: '#1a1a1a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '4px', padding: '8px 12px'}}
                   onMouseEnter={(e) => {
                     const dropdown = e.currentTarget.nextElementSibling as HTMLElement;
                     if (dropdown) dropdown.style.display = 'block';
@@ -514,21 +514,29 @@ export default function Header() {
         <div style={{flex: 1, padding: '20px 16px', overflowY: 'auto', background: '#fafbfc'}}>
           {/* Navigation principale */}
           <div style={{background: 'white', borderRadius: '16px', padding: '12px 16px', marginBottom: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}>
-            <Link href="/" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', padding: '12px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', borderBottom: '1px solid #f1f5f9'}}>
-              <i className="fas fa-home" style={{color: '#c53030', fontSize: '16px', width: '24px'}}></i>
-              Accueil
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', borderBottom: '1px solid #f1f5f9', minHeight: '48px'}}>
+              <div style={{width: '24px', minWidth: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
+                <i className="fas fa-home" style={{color: '#c53030', fontSize: '16px'}}></i>
+              </div>
+              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5'}}>Accueil</span>
             </Link>
-            <Link href="/shop" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', padding: '12px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', borderBottom: '1px solid #f1f5f9'}}>
-              <i className="fas fa-shopping-bag" style={{color: '#1a365d', fontSize: '16px', width: '24px'}}></i>
-              Boutique
+            <Link href="/shop" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', borderBottom: '1px solid #f1f5f9', minHeight: '48px'}}>
+              <div style={{width: '24px', minWidth: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
+                <i className="fas fa-shopping-bag" style={{color: '#1a365d', fontSize: '16px'}}></i>
+              </div>
+              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5'}}>Boutique</span>
             </Link>
-            <Link href="/magasins" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', padding: '12px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', borderBottom: '1px solid #f1f5f9'}}>
-              <i className="fas fa-map-marker-alt" style={{color: '#16a34a', fontSize: '16px', width: '24px'}}></i>
-              Nos Magasins
+            <Link href="/magasins" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', borderBottom: '1px solid #f1f5f9', minHeight: '48px'}}>
+              <div style={{width: '24px', minWidth: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
+                <i className="fas fa-map-marker-alt" style={{color: '#16a34a', fontSize: '16px'}}></i>
+              </div>
+              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5'}}>Nos Magasins</span>
             </Link>
-            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', padding: '12px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600'}}>
-              <i className="fas fa-envelope" style={{color: '#d97706', fontSize: '16px', width: '24px'}}></i>
-              Contact
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', minHeight: '48px'}}>
+              <div style={{width: '24px', minWidth: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
+                <i className="fas fa-envelope" style={{color: '#d97706', fontSize: '16px'}}></i>
+              </div>
+              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5'}}>Contact</span>
             </Link>
           </div>
 

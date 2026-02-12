@@ -28,6 +28,7 @@ export default function PromotionsPage() {
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('');
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+  const [showFilters, setShowFilters] = useState(false);
   const { addToCart } = useCart();
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
@@ -105,8 +106,89 @@ export default function PromotionsPage() {
 
   return (
     <div style={{ marginTop: '150px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
+      <style jsx>{`
+        @media (max-width: 991px) {
+          .filters-sidebar {
+            position: fixed !important;
+            top: 0 !important;
+            left: ${showFilters ? '0' : '-100%'} !important;
+            width: 85% !important;
+            max-width: 320px !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            transition: left 0.3s ease !important;
+            overflow-y: auto !important;
+          }
+          .filters-overlay {
+            display: ${showFilters ? 'block' : 'none'};
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9998;
+          }
+          .mobile-filter-btn {
+            display: flex !important;
+          }
+          .hero-section {
+            padding: 20px 0 !important;
+          }
+          .hero-title {
+            font-size: 1.5rem !important;
+          }
+          .hero-icon {
+            width: 40px !important;
+            height: 40px !important;
+          }
+          .hero-icon i {
+            font-size: 18px !important;
+          }
+          .product-card-img {
+            height: 200px !important;
+          }
+          .product-card-img img {
+            height: 200px !important;
+            padding: 15px !important;
+          }
+          .product-card-content {
+            padding: 15px !important;
+          }
+          .product-card-title {
+            font-size: 14px !important;
+            height: 40px !important;
+            margin-bottom: 10px !important;
+          }
+          .product-card-price {
+            font-size: 18px !important;
+            margin-bottom: 12px !important;
+          }
+          .product-card-actions {
+            flex-direction: column !important;
+            gap: 10px !important;
+          }
+          .product-card-quantity {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+          .product-card-add-btn {
+            width: 100% !important;
+            padding: 12px 15px !important;
+          }
+        }
+        @media (min-width: 992px) {
+          .mobile-filter-btn {
+            display: none !important;
+          }
+        }
+      `}</style>
+
+      {/* Overlay pour mobile */}
+      <div className="filters-overlay" onClick={() => setShowFilters(false)}></div>
+
       {/* Hero Section */}
-      <div style={{
+      <div className="hero-section" style={{
         background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)',
         padding: '35px 0',
         marginBottom: '30px',
@@ -146,7 +228,7 @@ export default function PromotionsPage() {
           </nav>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '10px' }}>
-            <div style={{
+            <div className="hero-icon" style={{
               width: '50px',
               height: '50px',
               background: 'rgba(255,255,255,0.2)',
@@ -158,7 +240,7 @@ export default function PromotionsPage() {
               <i className="fas fa-tags" style={{ color: 'white', fontSize: '22px' }}></i>
             </div>
             <div>
-              <h1 style={{ fontSize: '2rem', fontWeight: '800', color: 'white', margin: 0 }}>
+              <h1 className="hero-title" style={{ fontSize: '2rem', fontWeight: '800', color: 'white', margin: 0 }}>
                 Promotions
               </h1>
               <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', margin: 0 }}>
@@ -191,7 +273,7 @@ export default function PromotionsPage() {
         <div className="row g-4">
           {/* Filtres */}
           <div className="col-lg-3">
-            <div style={{
+            <div className="filters-sidebar" style={{
               backgroundColor: 'white',
               borderRadius: '20px',
               padding: '25px',
@@ -199,7 +281,32 @@ export default function PromotionsPage() {
               position: 'sticky',
               top: '180px'
             }}>
-              <h5 style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {/* Bouton fermer pour mobile */}
+              <div style={{ display: 'none' }} className="d-lg-none d-flex justify-content-between align-items-center mb-3">
+                <h5 style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', margin: 0 }}>
+                  <i className="fas fa-filter" style={{ color: '#dc2626' }}></i> Filtres
+                </h5>
+                <button 
+                  onClick={() => setShowFilters(false)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontSize: '24px',
+                    color: '#64748b',
+                    cursor: 'pointer',
+                    padding: '0',
+                    width: '30px',
+                    height: '30px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              </div>
+
+              <h5 className="d-none d-lg-flex" style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <i className="fas fa-filter" style={{ color: '#dc2626' }}></i> Filtres
               </h5>
 
@@ -286,6 +393,7 @@ export default function PromotionsPage() {
                   setSelectedCategory('');
                   setPriceRange({ min: '', max: '' });
                   setSortBy('');
+                  setShowFilters(false);
                 }}
               >
                 <i className="fas fa-redo"></i> Réinitialiser
@@ -296,6 +404,30 @@ export default function PromotionsPage() {
 
           {/* Produits */}
           <div className="col-lg-9">
+            {/* Bouton filtres mobile */}
+            <button 
+              className="mobile-filter-btn mb-3"
+              onClick={() => setShowFilters(true)}
+              style={{
+                width: '100%',
+                padding: '14px',
+                background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '14px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                display: 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(220, 38, 38, 0.3)'
+              }}
+            >
+              <i className="fas fa-filter"></i> Filtres et Tri
+            </button>
+
             <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
                 <span style={{ fontWeight: '700', color: '#1a202c' }}>{filteredProducts.length}</span> produit(s) en promotion
@@ -317,7 +449,7 @@ export default function PromotionsPage() {
                   const finalPrice = (product.discount ?? 0) > 0 ? product.price * (1 - (product.discount ?? 0) / 100) : product.price;
                   const isFavorite = favorites.includes(product._id);
                   return (
-                    <div key={product._id} className="col-md-6 col-xl-4">
+                    <div key={product._id} className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4">
                       <div style={{
                         backgroundColor: 'white',
                         borderRadius: '20px',
@@ -329,7 +461,7 @@ export default function PromotionsPage() {
                         flexDirection: 'column',
                         transition: 'all 0.3s ease'
                       }}>
-                        <div style={{ position: 'relative', backgroundColor: '#f7fafc', height: '280px' }}>
+                        <div style={{ position: 'relative', backgroundColor: '#f7fafc' }} className="product-card-img">
                           <Link href={`/product/${product._id}`}>
                             <img 
                               src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
@@ -375,9 +507,9 @@ export default function PromotionsPage() {
                               style={{ color: isFavorite ? '#dc2626' : '#64748b', fontSize: '16px' }}></i>
                           </button>
                         </div>
-                        <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <div className="product-card-content" style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                           <Link href={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-                            <h6 style={{ fontWeight: '600', color: '#1e293b', fontSize: '15px', lineHeight: '1.5', height: '45px', overflow: 'hidden', marginBottom: '12px' }}>
+                            <h6 className="product-card-title" style={{ fontWeight: '600', color: '#1e293b', fontSize: '15px', lineHeight: '1.5', height: '45px', overflow: 'hidden', marginBottom: '12px' }}>
                               {product.name}
                             </h6>
                           </Link>
@@ -388,13 +520,13 @@ export default function PromotionsPage() {
                               {(product.stock ?? 0) > 0 ? 'En stock' : 'Rupture'}
                             </span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '16px', marginTop: 'auto' }}>
+                          <div className="product-card-price" style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '16px', marginTop: 'auto' }}>
                             <span style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toFixed(3)}</span>
                             <span style={{ fontSize: '22px', fontWeight: '800', color: '#16a34a' }}>{finalPrice.toFixed(3)}</span>
                             <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>DT</span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', background: '#f1f5f9', borderRadius: '8px', padding: '3px', flexShrink: 0 }}>
+                          <div className="product-card-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div className="product-card-quantity" style={{ display: 'flex', alignItems: 'center', background: '#f1f5f9', borderRadius: '8px', padding: '3px', flexShrink: 0 }}>
                               <button onClick={() => handleQuantityChange(product._id, -1)} style={{
                                 width: '28px', height: '28px', border: 'none', background: 'white', color: '#dc2626',
                                 borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -407,7 +539,7 @@ export default function PromotionsPage() {
                                 fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                               }}>+</button>
                             </div>
-                            <button onClick={() => handleAddToCart(product)} disabled={(product.stock ?? 0) === 0} style={{
+                            <button className="product-card-add-btn" onClick={() => handleAddToCart(product)} disabled={(product.stock ?? 0) === 0} style={{
                               flex: 1, border: 'none',
                               background: (product.stock ?? 0) > 0 ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' : '#cbd5e1',
                               color: 'white', borderRadius: '10px', padding: '10px 15px',
