@@ -1,15 +1,50 @@
-node_modules/
-.next/
+# Fichiers à ignorer lors du déploiement
+
+# Documentation et guides
+*.md
+*.txt
+!README.md
+
+# Scripts de développement
+*.ps1
+*.bat
+
+# Archives
+archive-old-deployment/
+
+# Git
 .git/
-*.log
-.env
-.env.local
-backend/uploads/
-frontend/.next/
-backend/node_modules/
-frontend/node_modules/
-.DS_Store
-*.swp
-*.swo
+.github/
+.gitignore
+
+# IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Dependencies (seront réinstallées)
+node_modules/
+
+# Cache Next.js
+frontend/.next/cache/
+
+# Tests
+**/__tests__/
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
+
+# Environment (gérés par secrets)
+.env.local
+.env.development
+
+# Temporaires
+tmp/
+temp/
+*.tmp

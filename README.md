@@ -1,198 +1,158 @@
 # 🛍️ WStore - E-commerce Platform
 
-Plateforme e-commerce moderne avec Next.js et Express.
+Application e-commerce moderne avec Next.js et Node.js.
 
-**🔴 LIVE:** http://51.254.135.247:3000
+## 🚀 Déploiement
 
-**🚀 Dernière mise à jour:** 2026-02-09 - Test déploiement automatique
-
----
-
-## ⚡ NOUVEAU : Déploiement Automatique CI/CD
-
-**🎉 Votre projet est maintenant équipé d'un pipeline CI/CD professionnel !**
-
-### ✅ État du Déploiement
-
-- **Frontend**: http://51.254.135.247:3000 ✅
-- **Backend**: http://51.254.135.247:5000 ✅
-- **CI/CD**: Actif et fonctionnel ✅
-
-### 🚀 Démarrage Rapide
-
-**Commencez ici :** [START-HERE-CI-CD.md](./START-HERE-CI-CD.md)
-
-**Ou choisissez un guide :**
-- [QUICK-START-CI-CD.md](./QUICK-START-CI-CD.md) - 15 minutes
-- [GUIDE-VISUEL-CI-CD.md](./GUIDE-VISUEL-CI-CD.md) - Guide visuel
-- [SETUP-CI-CD.md](./SETUP-CI-CD.md) - Guide complet
-
-### 📊 Avant vs Après
-
-| Avant | Après |
-|-------|-------|
-| 15 min de déploiement | 2 min automatique |
-| 200+ scripts manuels | 1 workflow |
-| Pas de tests | Tests automatiques |
-| Pas de rollback | Rollback en 1 clic |
-| Fiabilité 70% | Fiabilité 99.9% |
-
----
-
-## 🚀 Déploiement Automatique
-
-Ce projet utilise **GitHub Actions** pour un déploiement automatique et robuste.
-
-### ✨ Fonctionnalités CI/CD
-
-- ✅ Tests automatiques à chaque push
-- ✅ Déploiement automatique sur production (branche `main`)
-- ✅ Déploiement staging (branche `develop`)
-- ✅ Backups automatiques avant chaque déploiement
-- ✅ Health checks après déploiement
-- ✅ Rollback automatique en cas d'échec
-- ✅ Notifications par email
-
-### 📋 Configuration Initiale
-
-**Suivez le guide complet : [SETUP-CI-CD.md](./SETUP-CI-CD.md)**
-
-Résumé rapide :
-
-1. **Créer un dépôt GitHub**
-2. **Configurer les secrets GitHub** (clés SSH, variables d'environnement)
-3. **Préparer le VPS** (Node.js, PM2)
-4. **Push le code** → Déploiement automatique !
-
-### 🔄 Workflow de Développement
+### Déploiement automatique (recommandé)
 
 ```bash
-# 1. Faire vos modifications
 git add .
-git commit -m "feat: nouvelle fonctionnalité"
-
-# 2. Push vers GitHub
+git commit -m "feat: votre message"
 git push origin main
-
-# 3. C'est tout ! Le déploiement se fait automatiquement
 ```
 
-### 📊 Suivre le Déploiement
+Le déploiement se fait automatiquement via GitHub Actions.
 
-Aller sur : `https://github.com/VOTRE-USERNAME/wstore/actions`
+### Documentation
 
-### 🆘 Rollback
+- **[COMMENCER ICI](COMMENCER-ICI-NOUVELLE-INFRA.md)** - Guide de démarrage
+- **[Infrastructure](INFRASTRUCTURE-PROFESSIONNELLE.md)** - Architecture complète
+- **[Migration](GUIDE-MIGRATION-INFRASTRUCTURE.md)** - Guide de migration
 
-```bash
-# Méthode 1 : Revenir au commit précédent
-git revert HEAD
-git push origin main
+## 📋 Prérequis
 
-# Méthode 2 : Restaurer un backup sur le VPS
-ssh ubuntu@51.254.135.247
-cd /var/www/wstore
-tar -xzf /var/backups/wstore/backup-LATEST.tar.gz
-pm2 restart all
-```
+- Node.js 20+
+- MongoDB
+- PM2 (production)
 
-## 🏗️ Architecture
-
-```
-┌─────────────────────────────────────────┐
-│           GitHub Actions                │
-│  (Tests → Build → Deploy → Health)      │
-└──────────────┬──────────────────────────┘
-               │
-               ▼
-┌─────────────────────────────────────────┐
-│         VPS (51.254.135.247)            │
-│                                         │
-│  ┌──────────────┐  ┌──────────────┐    │
-│  │  Frontend    │  │  Backend     │    │
-│  │  Next.js     │  │  Express     │    │
-│  │  Port 3000   │  │  Port 5000   │    │
-│  │  (PM2)       │  │  (PM2)       │    │
-│  └──────────────┘  └──────┬───────┘    │
-│                           │             │
-└───────────────────────────┼─────────────┘
-                            │
-                            ▼
-                   ┌────────────────┐
-                   │  MongoDB Atlas │
-                   └────────────────┘
-```
-
-## 🛠️ Stack Technique
-
-- **Frontend**: Next.js 14, React, TypeScript
-- **Backend**: Express.js, Node.js
-- **Database**: MongoDB Atlas
-- **Deployment**: GitHub Actions, PM2
-- **Server**: Ubuntu VPS
-
-## 📝 Commandes Utiles
-
-### Développement Local
+## 🛠️ Installation locale
 
 ```bash
 # Backend
 cd backend
 npm install
-npm start
+cp .env.example .env
+# Configurez .env
+npm run dev
 
 # Frontend
 cd frontend
 npm install
+cp .env.example .env.local
+# Configurez .env.local
 npm run dev
 ```
 
-### Production (VPS)
-
-```bash
-# Voir le statut
-ssh ubuntu@51.254.135.247 "pm2 status"
-
-# Voir les logs
-ssh ubuntu@51.254.135.247 "pm2 logs"
-
-# Redémarrer
-ssh ubuntu@51.254.135.247 "pm2 restart all"
-```
-
-## 🔐 Variables d'Environnement
+## 🔧 Configuration
 
 ### Backend (.env)
 ```env
-NODE_ENV=production
+NODE_ENV=development
 PORT=5000
-MONGODB_URI=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
+MONGODB_URI=mongodb://localhost:27017/wstore
+JWT_SECRET=votre_secret
 ```
 
 ### Frontend (.env.local)
 ```env
-NEXT_PUBLIC_API_URL=http://51.254.135.247:5000
+NEXT_PUBLIC_API_URL=http://localhost:5000
 ```
 
-## 📚 Documentation
+## 📊 Monitoring
 
-- [Configuration CI/CD](./SETUP-CI-CD.md) - Guide complet de configuration
-- [Workflow de Déploiement](./.github/workflows/deploy-production.yml)
-- [Docker Setup](./docker-compose.yml) - Configuration Docker (optionnel)
+```bash
+# Statut des services
+ssh ubuntu@51.254.135.247
+pm2 status
 
-## 🎯 Avantages du CI/CD
+# Logs en temps réel
+pm2 logs
 
-| Avant | Après |
-|-------|-------|
-| 15 min de déploiement | 2 min automatique |
-| Risque d'erreurs | Tests automatiques |
-| Pas de rollback | Rollback en 1 clic |
-| 200+ scripts | 1 workflow |
+# Dashboard de monitoring
+bash /var/www/wstore/infrastructure/scripts/monitoring.sh
+```
+
+## 🔄 Rollback
+
+En cas de problème après un déploiement :
+
+```bash
+ssh ubuntu@51.254.135.247
+bash /var/www/wstore/infrastructure/scripts/rollback.sh
+```
+
+## 🏗️ Architecture
+
+```
+Frontend (Next.js) → Nginx → Backend (Node.js) → MongoDB
+                              ↓
+                            PM2 (Process Manager)
+```
+
+## 📝 Scripts disponibles
+
+### Développement
+```bash
+npm run dev      # Démarrer en mode développement
+npm run build    # Build pour production
+npm run start    # Démarrer en production
+npm run lint     # Linter le code
+```
+
+### Production (sur VPS)
+```bash
+pm2 status       # Voir le statut
+pm2 logs         # Voir les logs
+pm2 restart all  # Redémarrer tous les services
+pm2 monit        # Monitoring interactif
+```
+
+## 🔐 Sécurité
+
+- Secrets gérés via GitHub Secrets
+- HTTPS avec Let's Encrypt (recommandé)
+- Firewall UFW configuré
+- Fail2ban actif
+- Headers de sécurité HTTP
+
+## 📈 Performance
+
+- Compression Gzip activée
+- Cache statique optimisé
+- Keep-alive connections
+- PM2 cluster mode disponible
+
+## 🐛 Dépannage
+
+### Application ne démarre pas
+```bash
+pm2 logs --err
+pm2 restart all
+```
+
+### Problème de base de données
+```bash
+sudo systemctl status mongod
+sudo systemctl restart mongod
+```
+
+### Problème Nginx
+```bash
+sudo nginx -t
+sudo systemctl restart nginx
+```
 
 ## 📞 Support
 
-Pour toute question, consultez [SETUP-CI-CD.md](./SETUP-CI-CD.md)
+- Logs : `pm2 logs`
+- Monitoring : `bash infrastructure/scripts/monitoring.sh`
+- Backups : `ls /var/backups/wstore/`
 
 ## 📄 Licence
 
 MIT
+
+## 👥 Contributeurs
+
+Votre équipe
