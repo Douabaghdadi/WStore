@@ -128,16 +128,7 @@ export default function SubcategoryPage() {
             transition: left 0.3s ease !important;
             overflow-y: auto !important;
           }
-          .filters-overlay {
-            display: ${showMobileFilters ? 'block' : 'none'};
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 9998;
-          }
+          
           .mobile-filter-btn {
             display: flex !important;
           }
@@ -150,7 +141,21 @@ export default function SubcategoryPage() {
       `}</style>
 
       {/* Overlay pour mobile */}
-      <div className="filters-overlay" onClick={() => setShowMobileFilters(false)}></div>
+      {showMobileFilters && (
+        <div 
+          className="filters-overlay" 
+          onClick={() => setShowMobileFilters(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.5)',
+            zIndex: 9998
+          }}
+        ></div>
+      )}
 
     <div style={{ marginTop: '80px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
       {/* Hero Section */}
