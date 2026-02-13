@@ -28,7 +28,7 @@ export default function PromotionsPage() {
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('');
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-  const [showFilters, setShowFilters] = useState(false);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const { addToCart } = useCart();
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
@@ -111,7 +111,7 @@ export default function PromotionsPage() {
           .filters-sidebar {
             position: fixed !important;
             top: 0 !important;
-            left: ${showFilters ? '0' : '-100%'} !important;
+            left: ${showMobileFilters ? '0' : '-100%'} !important;
             width: 85% !important;
             max-width: 320px !important;
             height: 100vh !important;
@@ -120,7 +120,7 @@ export default function PromotionsPage() {
             overflow-y: auto !important;
           }
           .filters-overlay {
-            display: ${showFilters ? 'block' : 'none'};
+            display: ${showMobileFilters ? 'block' : 'none'};
             position: fixed;
             top: 0;
             left: 0;
@@ -185,7 +185,7 @@ export default function PromotionsPage() {
       `}</style>
 
       {/* Overlay pour mobile */}
-      <div className="filters-overlay" onClick={() => setShowFilters(false)}></div>
+      <div className="filters-overlay" onClick={() => setShowMobileFilters(false)}></div>
 
       {/* Hero Section */}
       <div className="hero-section" style={{
@@ -287,7 +287,7 @@ export default function PromotionsPage() {
                   <i className="fas fa-filter" style={{ color: '#dc2626' }}></i> Filtres
                 </h5>
                 <button 
-                  onClick={() => setShowFilters(false)}
+                  onClick={() => setShowMobileFilters(false)}
                   style={{
                     background: 'none',
                     border: 'none',
@@ -393,7 +393,7 @@ export default function PromotionsPage() {
                   setSelectedCategory('');
                   setPriceRange({ min: '', max: '' });
                   setSortBy('');
-                  setShowFilters(false);
+                  setShowMobileFilters(false);
                 }}
               >
                 <i className="fas fa-redo"></i> Réinitialiser
@@ -407,7 +407,7 @@ export default function PromotionsPage() {
             {/* Bouton filtres mobile */}
             <button 
               className="mobile-filter-btn mb-3"
-              onClick={() => setShowFilters(true)}
+              onClick={() => setShowMobileFilters(true)}
               style={{
                 width: '100%',
                 padding: '14px',

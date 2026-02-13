@@ -31,6 +31,7 @@ function RechercheContent() {
   const [showDiscountOnly, setShowDiscountOnly] = useState(false);
   const [sortBy, setSortBy] = useState('');
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const { addToCart } = useCart();
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
@@ -104,7 +105,53 @@ function RechercheContent() {
     });
   };
 
+  const resetFilters = () => {
+    setSelectedBrand('');
+    setSelectedCategory('');
+    setPriceRange({ min: '', max: '' });
+    setShowDiscountOnly(false);
+    setSortBy('');
+  };
+
   return (
+    <>
+      <style jsx>{`
+        @media (max-width: 991px) {
+          .filters-sidebar {
+            position: fixed !important;
+            top: 0 !important;
+            left: ${showMobileFilters ? '0' : '-100%'} !important;
+            width: 85% !important;
+            max-width: 320px !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            transition: left 0.3s ease !important;
+            overflow-y: auto !important;
+          }
+          .filters-overlay {
+            display: ${showMobileFilters ? 'block' : 'none'};
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9998;
+          }
+          .mobile-filter-btn {
+            display: flex !important;
+          }
+        }
+        @media (min-width: 992px) {
+          .mobile-filter-btn {
+            display: none !important;
+          }
+        }
+      `}</style>
+
+      {/* Overlay pour mobile */}
+      <div className="filters-overlay" onClick={() => setShowMobileFilters(false)}></div>
+
     <div style={{ marginTop: '80px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
       {/* Hero Section */}
       <div style={{
@@ -149,8 +196,33 @@ function RechercheContent() {
         <div className="row g-4">
           {/* Filtres */}
           <div className="col-lg-3">
-            <div style={{ backgroundColor: 'white', borderRadius: '20px', padding: '25px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', position: 'sticky', top: '180px' }}>
-              <h5 style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div className="filters-sidebar" style={{ backgroundColor: 'white', borderRadius: '20px', padding: '25px', boxShadow: '0 4px 20px rgba(0,0,0,0.06)', position: 'sticky', top: '180px' }}>
+              {/* Bouton fermer pour mobile */}
+              <div className="d-lg-none d-flex justify-content-between align-items-center mb-3">
+                <h5 style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', margin: 0 }}>
+                  <i className="fas fa-filter" style={{ color: '#c53030' }}></i> Filtres
+                </h5>
+                <button 
+                  onClick={() => setShowMobileFilters(false)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontSize: '24px',
+                    color: '#64748b',
+                    cursor: 'pointer',
+                    padding: '0',
+                    width: '30px',
+                    height: '30px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              </div>
+
+              <h5 className="d-none d-lg-flex" style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <i className="fas fa-filter" style={{ color: '#c53030' }}></i> Filtres
               </h5>
 
@@ -196,8 +268,13 @@ function RechercheContent() {
                 </select>
               </div>
 
-              <button style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-                onClick={() => { setSelectedBrand(''); setSelectedCategory(''); setPriceRange({ min: '', max: '' }); setShowDiscountOnly(false); setSortBy(''); }}>
+              <button 
+                onClick={() => {
+                  resetFilters();
+                  setShowMobileFilters(false);
+                }}
+                style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+              >
                 <i className="fas fa-redo"></i> Réinitialiser
               </button>
             </div>
@@ -206,6 +283,30 @@ function RechercheContent() {
 
           {/* Produits */}
           <div className="col-lg-9">
+            {/* Bouton filtres mobile */}
+            <button 
+              className="mobile-filter-btn mb-3"
+              onClick={() => setShowMobileFilters(true)}
+              style={{
+                width: '100%',
+                padding: '14px',
+                background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '14px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                display: 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(197, 48, 48, 0.3)'
+              }}
+            >
+              <i className="fas fa-filter"></i> Filtres et Tri
+            </button>
+
             {loading ? (
               <div style={{ textAlign: 'center', padding: '100px 0' }}>
                 <div className="spinner-border" style={{ color: '#c53030' }} role="status"></div>
@@ -275,6 +376,7 @@ function RechercheContent() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

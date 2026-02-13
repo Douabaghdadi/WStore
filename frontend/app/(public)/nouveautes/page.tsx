@@ -30,7 +30,7 @@ export default function NouveautesPage() {
   const [showDiscountOnly, setShowDiscountOnly] = useState(false);
   const [sortBy, setSortBy] = useState('newest');
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-  const [showFilters, setShowFilters] = useState(false);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const { addToCart } = useCart();
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
@@ -138,7 +138,7 @@ export default function NouveautesPage() {
           .filters-sidebar {
             position: fixed !important;
             top: 0 !important;
-            left: ${showFilters ? '0' : '-100%'} !important;
+            left: ${showMobileFilters ? '0' : '-100%'} !important;
             width: 85% !important;
             max-width: 320px !important;
             height: 100vh !important;
@@ -147,7 +147,7 @@ export default function NouveautesPage() {
             overflow-y: auto !important;
           }
           .filters-overlay {
-            display: ${showFilters ? 'block' : 'none'};
+            display: ${showMobileFilters ? 'block' : 'none'};
             position: fixed;
             top: 0;
             left: 0;
@@ -236,7 +236,7 @@ export default function NouveautesPage() {
       `}</style>
       
       {/* Overlay pour mobile */}
-      <div className="filters-overlay" onClick={() => setShowFilters(false)}></div>
+      <div className="filters-overlay" onClick={() => setShowMobileFilters(false)}></div>
       
       <div className="nouveautes-container" style={{ marginTop: '80px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
         {/* Hero Section */}
@@ -325,7 +325,7 @@ export default function NouveautesPage() {
         <div className="row g-4">
           {/* Filtres */}
           <div className="col-lg-3">
-            <div className={`filters-sidebar ${showFilters ? 'show' : ''}`} style={{
+            <div className={`filters-sidebar ${showMobileFilters ? 'show' : ''}`} style={{
               backgroundColor: 'white',
               borderRadius: '20px',
               padding: '25px',
@@ -339,7 +339,7 @@ export default function NouveautesPage() {
                   <i className="fas fa-filter" style={{ color: '#c53030' }}></i> Filtres
                 </h5>
                 <button 
-                  onClick={() => setShowFilters(false)}
+                  onClick={() => setShowMobileFilters(false)}
                   style={{
                     background: 'none',
                     border: 'none',
@@ -465,7 +465,7 @@ export default function NouveautesPage() {
                   setPriceRange({ min: '', max: '' });
                   setShowDiscountOnly(false);
                   setSortBy('newest');
-                  setShowFilters(false);
+                  setShowMobileFilters(false);
                 }}
               >
                 <i className="fas fa-redo"></i> Réinitialiser
@@ -479,7 +479,7 @@ export default function NouveautesPage() {
             {/* Bouton filtres mobile */}
             <button 
               className="mobile-filter-btn mb-3"
-              onClick={() => setShowFilters(true)}
+              onClick={() => setShowMobileFilters(true)}
               style={{
                 width: '100%',
                 padding: '14px',
