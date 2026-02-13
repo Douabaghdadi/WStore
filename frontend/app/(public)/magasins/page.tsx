@@ -203,7 +203,7 @@ function StoreCard({ store }: { store: typeof stores[0] }) {
 
 export default function MagasinsPage() {
   return (
-    <div style={{ marginTop: '150px', minHeight: '100vh', background: '#f7fafc' }}>
+    <div style={{ marginTop: '80px', minHeight: '100vh', background: '#f7fafc' }}>
       {/* Hero Section */}
       <div style={{
         background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)',

@@ -146,9 +146,128 @@ export default function CategoryPage() {
   };
 
   return (
-    <div style={{ marginTop: '130px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
-      {/* Hero Section */}
-      <div style={{
+    <>
+      <style jsx>{`
+        @media (max-width: 991px) {
+          .category-container {
+            margin-top: 70px !important;
+            padding-bottom: 30px !important;
+          }
+          .hero-section {
+            padding: 20px 0 !important;
+            margin-bottom: 20px !important;
+          }
+          .hero-title {
+            font-size: 1.5rem !important;
+          }
+          .hero-subtitle {
+            font-size: 12px !important;
+          }
+          .hero-icon-box {
+            width: 40px !important;
+            height: 40px !important;
+          }
+          .hero-icon {
+            font-size: 18px !important;
+          }
+          
+          /* Filtres sidebar mobile */
+          .filters-sidebar {
+            position: fixed !important;
+            top: 0 !important;
+            left: ${showMobileFilters ? '0' : '-100%'} !important;
+            width: 85% !important;
+            max-width: 320px !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            transition: left 0.3s ease !important;
+            overflow-y: auto !important;
+          }
+          .filters-overlay {
+            display: ${showMobileFilters ? 'block' : 'none'};
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9998;
+          }
+          .mobile-filter-btn {
+            display: flex !important;
+          }
+          
+          /* Images produits */
+          .product-image-container {
+            height: 200px !important;
+          }
+          .product-image {
+            height: 200px !important;
+            padding: 15px !important;
+          }
+          
+          /* Contenu carte */
+          .product-content {
+            padding: 15px !important;
+          }
+          
+          /* Titre produit */
+          .product-title {
+            font-size: 14px !important;
+            height: 40px !important;
+            margin-bottom: 10px !important;
+          }
+          
+          /* Prix */
+          .product-price-container {
+            margin-bottom: 12px !important;
+          }
+          .product-price {
+            font-size: 18px !important;
+          }
+          
+          /* Actions (quantité + ajouter) */
+          .product-actions {
+            flex-direction: column !important;
+            gap: 10px !important;
+          }
+          
+          /* Sélecteur quantité */
+          .quantity-controls {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+          
+          /* Bouton Ajouter */
+          .add-to-cart-btn {
+            width: 100% !important;
+            padding: 12px 15px !important;
+          }
+        }
+        
+        @media (min-width: 992px) {
+          .mobile-filter-btn {
+            display: none !important;
+          }
+        }
+        
+        @media (max-width: 576px) {
+          .category-container {
+            margin-top: 65px !important;
+          }
+          
+          .filters-sidebar {
+            padding: 15px !important;
+          }
+        }
+      `}</style>
+      
+      {/* Overlay pour mobile */}
+      <div className="filters-overlay" onClick={() => setShowMobileFilters(false)}></div>
+      
+      <div className="category-container" style={{ marginTop: '80px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
+        {/* Hero Section */}
+        <div className="hero-section" style={{
         background: 'linear-gradient(135deg, #0d1b2a 0%, #1a365d 50%, #2d4a7c 100%)',
         padding: '25px 0',
         marginBottom: '30px',
@@ -225,85 +344,10 @@ export default function CategoryPage() {
 
 
       <div className="container">
-        {/* Mobile Filter Button */}
-        <div className="d-lg-none" style={{ marginBottom: '20px' }}>
-          <button 
-            onClick={() => setShowMobileFilters(!showMobileFilters)}
-            style={{
-              width: '100%',
-              padding: '14px 20px',
-              background: 'white',
-              border: '2px solid #e2e8f0',
-              borderRadius: '12px',
-              fontSize: '14px',
-              fontWeight: '600',
-              color: '#1a202c',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}
-          >
-            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <i className="fas fa-sliders-h" style={{ color: '#c53030' }}></i>
-              Filtres et tri
-              {(selectedBrand || selectedSubcategory || showDiscountOnly || priceRange.min || priceRange.max) && (
-                <span style={{ background: '#c53030', color: 'white', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px' }}>!</span>
-              )}
-            </span>
-            <i className={`fas fa-chevron-${showMobileFilters ? 'up' : 'down'}`} style={{ color: '#64748b' }}></i>
-          </button>
-          
-          {showMobileFilters && (
-            <div style={{ marginTop: '15px', backgroundColor: 'white', borderRadius: '16px', padding: '20px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
-              {subcategories.length > 0 && (
-                <div style={{ marginBottom: '15px' }}>
-                  <select style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} value={selectedSubcategory} onChange={(e) => setSelectedSubcategory(e.target.value)}>
-                    <option value="">Toutes les sous-catégories</option>
-                    {subcategories.map((sub: any) => (<option key={sub._id} value={sub._id}>{sub.name}</option>))}
-                  </select>
-                </div>
-              )}
-              
-              <div style={{ marginBottom: '15px' }}>
-                <select style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
-                  <option value="">Toutes les marques</option>
-                  {brands.map((brand: any) => (<option key={brand._id} value={brand._id}>{brand.name}</option>))}
-                </select>
-              </div>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '15px' }}>
-                <input type="number" placeholder="Prix min" value={priceRange.min} onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} />
-                <input type="number" placeholder="Prix max" value={priceRange.max} onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none' }} />
-              </div>
-              
-              <select style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '14px', outline: 'none', marginBottom: '15px' }} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                <option value="">Trier par</option>
-                <option value="price-asc">Prix croissant</option>
-                <option value="price-desc">Prix décroissant</option>
-              </select>
-              
-              <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '12px', background: showDiscountOnly ? '#fee2e2' : '#f8f9fa', borderRadius: '10px', fontSize: '14px', fontWeight: '500', marginBottom: '15px' }}>
-                <input type="checkbox" checked={showDiscountOnly} onChange={(e) => setShowDiscountOnly(e.target.checked)} style={{ accentColor: '#c53030' }} />
-                <i className="fas fa-tag" style={{ color: '#c53030' }}></i> Promotions uniquement
-              </label>
-              
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button onClick={resetFilters} style={{ flex: 1, padding: '12px', background: '#f1f5f9', color: '#64748b', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
-                  <i className="fas fa-redo me-2"></i>Réinitialiser
-                </button>
-                <button onClick={() => setShowMobileFilters(false)} style={{ flex: 1, padding: '12px', background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)', color: 'white', border: 'none', borderRadius: '10px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
-                  Voir {filteredProducts.length} résultats
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-
         <div className="row g-4">
-          {/* Filtres - Hidden on mobile */}
-          <div className="col-lg-3 d-none d-lg-block">
-            <div style={{
+          {/* Filtres */}
+          <div className="col-lg-3">
+            <div className={`filters-sidebar ${showMobileFilters ? 'show' : ''}`} style={{
               backgroundColor: 'white',
               borderRadius: '20px',
               padding: '25px',
@@ -311,14 +355,40 @@ export default function CategoryPage() {
               position: 'sticky',
               top: '180px'
             }}>
-              <h5 style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {/* Bouton fermer pour mobile */}
+              <div className="d-lg-none d-flex justify-content-between align-items-center mb-3">
+                <h5 style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', margin: 0 }}>
+                  <i className="fas fa-filter" style={{ color: '#c53030' }}></i> Filtres
+                </h5>
+                <button 
+                  onClick={() => setShowMobileFilters(false)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontSize: '24px',
+                    color: '#64748b',
+                    cursor: 'pointer',
+                    padding: '0',
+                    width: '30px',
+                    height: '30px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              </div>
+
+              <h5 className="filters-title d-none d-lg-flex" style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <i className="fas fa-filter" style={{ color: '#c53030' }}></i> Filtres
               </h5>
 
               {subcategories.length > 0 && (
-                <div style={{ marginBottom: '25px' }}>
-                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Sous-catégorie</label>
+                <div className="filter-section" style={{ marginBottom: '25px' }}>
+                  <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Sous-catégorie</label>
                   <select 
+                    className="filter-select"
                     style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                     value={selectedSubcategory} 
                     onChange={(e) => setSelectedSubcategory(e.target.value)}
@@ -331,9 +401,10 @@ export default function CategoryPage() {
                 </div>
               )}
               
-              <div style={{ marginBottom: '25px' }}>
-                <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Marque</label>
+              <div className="filter-section" style={{ marginBottom: '25px' }}>
+                <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Marque</label>
                 <select 
+                  className="filter-select"
                   style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={selectedBrand} 
                   onChange={(e) => setSelectedBrand(e.target.value)}
@@ -345,14 +416,15 @@ export default function CategoryPage() {
                 </select>
               </div>
 
-              <div style={{ marginBottom: '25px' }}>
-                <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Prix (DT)</label>
+              <div className="filter-section" style={{ marginBottom: '25px' }}>
+                <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Prix (DT)</label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   <input 
                     type="number" 
                     placeholder="Min" 
                     value={priceRange.min}
                     onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
+                    className="filter-input"
                     style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none' }}
                   />
                   <input 
@@ -360,12 +432,13 @@ export default function CategoryPage() {
                     placeholder="Max" 
                     value={priceRange.max}
                     onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
+                    className="filter-input"
                     style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none' }}
                   />
                 </div>
               </div>
 
-              <div style={{ marginBottom: '25px' }}>
+              <div className="filter-section" style={{ marginBottom: '25px' }}>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: showDiscountOnly ? '#fee2e2' : '#f8f9fa', borderRadius: '12px', transition: 'all 0.3s' }}>
                   <input 
                     type="checkbox" 
@@ -379,9 +452,10 @@ export default function CategoryPage() {
                 </label>
               </div>
 
-              <div style={{ marginBottom: '25px' }}>
-                <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Trier par</label>
+              <div className="filter-section" style={{ marginBottom: '25px' }}>
+                <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Trier par</label>
                 <select 
+                  className="filter-select"
                   style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={sortBy} 
                   onChange={(e) => setSortBy(e.target.value)}
@@ -393,6 +467,7 @@ export default function CategoryPage() {
               </div>
 
               <button 
+                className="reset-filters-btn"
                 style={{
                   width: '100%',
                   padding: '14px',
@@ -408,7 +483,10 @@ export default function CategoryPage() {
                   justifyContent: 'center',
                   gap: '8px'
                 }}
-                onClick={resetFilters}
+                onClick={() => {
+                  resetFilters();
+                  setShowMobileFilters(false);
+                }}
               >
                 <i className="fas fa-redo"></i> Réinitialiser
               </button>
@@ -417,8 +495,32 @@ export default function CategoryPage() {
 
 
           {/* Produits */}
-          <div className="col-12 col-lg-9">
-            <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="col-lg-9">
+            {/* Bouton filtres mobile */}
+            <button 
+              className="mobile-filter-btn mb-3"
+              onClick={() => setShowMobileFilters(true)}
+              style={{
+                width: '100%',
+                padding: '14px',
+                background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '14px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                display: 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(197, 48, 48, 0.3)'
+              }}
+            >
+              <i className="fas fa-filter"></i> Filtres et Tri
+            </button>
+
+            <div className="results-count" style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
                 <span style={{ fontWeight: '700', color: '#1a202c' }}>{filteredProducts.length}</span> produit(s) trouvé(s)
               </p>
@@ -434,13 +536,13 @@ export default function CategoryPage() {
                 <p style={{ fontSize: '18px', color: '#64748b', margin: 0 }}>Aucun produit disponible avec ces filtres</p>
               </div>
             ) : (
-              <div className="row g-4">
+              <div className="row g-3 product-grid">
                 {filteredProducts.map((product) => {
                   const finalPrice = (product.discount ?? 0) > 0 ? product.price * (1 - (product.discount ?? 0) / 100) : product.price;
                   const isFavorite = favorites.includes(product._id);
                   return (
                     <div key={product._id} className="col-6 col-md-6 col-xl-4">
-                      <div style={{
+                      <div className="product-card" style={{
                         backgroundColor: 'white',
                         borderRadius: '20px',
                         overflow: 'hidden',
@@ -451,16 +553,17 @@ export default function CategoryPage() {
                         flexDirection: 'column',
                         transition: 'all 0.3s ease'
                       }}>
-                        <div style={{ position: 'relative', backgroundColor: '#f7fafc', height: '280px' }}>
+                        <div className="product-image-container" style={{ position: 'relative', backgroundColor: '#f7fafc', height: '280px' }}>
                           <Link href={`/product/${product._id}`}>
                             <img 
                               src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
                               alt={product.name}
+                              className="product-image"
                               style={{ width: '100%', height: '280px', objectFit: 'contain', padding: '20px' }}
                             />
                           </Link>
                           {product.brand?.name && (
-                            <span style={{
+                            <span className="product-badge" style={{
                               position: 'absolute', top: '12px', left: '12px',
                               background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)',
                               color: 'white', padding: '6px 12px', borderRadius: '8px',
@@ -471,7 +574,7 @@ export default function CategoryPage() {
                             </span>
                           )}
                           {(product.discount ?? 0) > 0 && (
-                            <span style={{
+                            <span className="product-discount-badge" style={{
                               position: 'absolute', top: '12px', right: '12px',
                               background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)',
                               color: 'white', padding: '6px 10px', borderRadius: '8px',
@@ -487,6 +590,7 @@ export default function CategoryPage() {
                               if (isFavorite) { removeFavorite(product._id); }
                               else { addFavorite(product._id); }
                             }}
+                            className="product-favorite-btn"
                             style={{
                               position: 'absolute', bottom: '12px', right: '12px',
                               width: '40px', height: '40px', borderRadius: '50%', border: 'none',
@@ -495,45 +599,45 @@ export default function CategoryPage() {
                               boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
                             }}
                           >
-                            <i className={isFavorite ? 'fas fa-heart' : 'far fa-heart'} 
+                            <i className={`${isFavorite ? 'fas fa-heart' : 'far fa-heart'} product-favorite-icon`}
                               style={{ color: isFavorite ? '#dc2626' : '#64748b', fontSize: '16px' }}></i>
                           </button>
                         </div>
-                        <div style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <div className="product-content" style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                           <Link href={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-                            <h6 style={{ fontWeight: '600', color: '#1e293b', fontSize: '15px', lineHeight: '1.5', height: '45px', overflow: 'hidden', marginBottom: '12px' }}>
+                            <h6 className="product-title" style={{ fontWeight: '600', color: '#1e293b', fontSize: '15px', lineHeight: '1.5', height: '45px', overflow: 'hidden', marginBottom: '12px' }}>
                               {product.name}
                             </h6>
                           </Link>
-                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '12px',
+                          <div className="product-stock-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '12px',
                             background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2', padding: '4px 10px', borderRadius: '20px', width: 'fit-content' }}>
                             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: (product.stock ?? 0) > 0 ? '#22c55e' : '#ef4444' }}></span>
                             <span style={{ color: (product.stock ?? 0) > 0 ? '#16a34a' : '#dc2626', fontSize: '11px', fontWeight: '600' }}>
                               {(product.stock ?? 0) > 0 ? 'En stock' : 'Rupture'}
                             </span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '16px', marginTop: 'auto' }}>
+                          <div className="product-price-container" style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '16px', marginTop: 'auto' }}>
                             {(product.discount ?? 0) > 0 && (
-                              <span style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toFixed(3)}</span>
+                              <span className="product-old-price" style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toFixed(3)}</span>
                             )}
-                            <span style={{ fontSize: '20px', fontWeight: '800', color: (product.discount ?? 0) > 0 ? '#16a34a' : '#c53030' }}>{finalPrice.toFixed(3)}</span>
-                            <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>DT</span>
+                            <span className="product-price" style={{ fontSize: '20px', fontWeight: '800', color: (product.discount ?? 0) > 0 ? '#16a34a' : '#c53030' }}>{finalPrice.toFixed(3)}</span>
+                            <span className="product-price-currency" style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>DT</span>
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', background: '#f1f5f9', borderRadius: '8px', padding: '3px', flexShrink: 0 }}>
-                              <button onClick={() => handleQuantityChange(product._id, -1)} style={{
+                          <div className="product-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div className="quantity-controls" style={{ display: 'flex', alignItems: 'center', background: '#f1f5f9', borderRadius: '8px', padding: '3px', flexShrink: 0 }}>
+                              <button onClick={() => handleQuantityChange(product._id, -1)} className="quantity-btn" style={{
                                 width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030',
                                 borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                               }}>-</button>
-                              <span style={{ color: '#1e293b', fontWeight: '700', minWidth: '28px', textAlign: 'center', fontSize: '14px' }}>{quantities[product._id] || 1}</span>
-                              <button onClick={() => handleQuantityChange(product._id, 1)} style={{
+                              <span className="quantity-value" style={{ color: '#1e293b', fontWeight: '700', minWidth: '28px', textAlign: 'center', fontSize: '14px' }}>{quantities[product._id] || 1}</span>
+                              <button onClick={() => handleQuantityChange(product._id, 1)} className="quantity-btn" style={{
                                 width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030',
                                 borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                               }}>+</button>
                             </div>
-                            <button onClick={() => handleAddToCart(product)} disabled={(product.stock ?? 0) === 0} style={{
+                            <button onClick={() => handleAddToCart(product)} disabled={(product.stock ?? 0) === 0} className="add-to-cart-btn" style={{
                               flex: 1, border: 'none',
                               background: (product.stock ?? 0) > 0 ? 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)' : '#cbd5e1',
                               color: 'white', borderRadius: '10px', padding: '10px 15px',
@@ -554,6 +658,7 @@ export default function CategoryPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

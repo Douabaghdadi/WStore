@@ -361,12 +361,41 @@ export default function Header() {
               {/* User */}
               {user ? (
                 <div className="dropdown" style={{ position: 'relative' }}>
-                  <a href="#" onClick={(e) => { e.preventDefault(); setShowUserMenu(!showUserMenu); }}
-                    style={{...styles.iconBtn, background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', border: 'none'}}>
+                  <button 
+                    onClick={(e) => { 
+                      e.preventDefault(); 
+                      e.stopPropagation();
+                      // Sur mobile, ouvrir le menu latéral au lieu du dropdown
+                      if (window.innerWidth < 1200) {
+                        setMobileMenuOpen(true);
+                      } else {
+                        setShowUserMenu(!showUserMenu);
+                      }
+                    }}
+                    style={{
+                      ...styles.iconBtn, 
+                      background: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', 
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
                     <i className="fas fa-user" style={{color: 'white', fontSize: '14px'}}></i>
-                  </a>
+                  </button>
+                  {/* Dropdown desktop uniquement */}
                   {showUserMenu && (
-                    <div style={{position: 'absolute', right: 0, top: '100%', marginTop: '10px', minWidth: '250px', backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 15px 50px rgba(0,0,0,0.2)', zIndex: 1050, overflow: 'hidden', border: '1px solid #e2e8f0'}}>
+                    <div className="d-none d-xl-block" style={{
+                      position: 'absolute', 
+                      right: 0, 
+                      top: '100%', 
+                      marginTop: '10px', 
+                      minWidth: '250px', 
+                      backgroundColor: 'white', 
+                      borderRadius: '12px', 
+                      boxShadow: '0 15px 50px rgba(0,0,0,0.2)', 
+                      zIndex: 9999, 
+                      overflow: 'hidden', 
+                      border: '1px solid #e2e8f0'
+                    }}>
                       <div style={{padding: '16px', background: 'linear-gradient(135deg, #1a365d 0%, #2c5282 100%)', color: 'white'}}>
                         <div style={{fontSize: '14px', fontWeight: '700'}}>{user.name || 'Utilisateur'}</div>
                         <div style={{fontSize: '12px', opacity: 0.8}}>{user.email}</div>
@@ -384,17 +413,39 @@ export default function Header() {
                         </Link>
                       </div>
                       <div style={{borderTop: '1px solid #e2e8f0', padding: '8px 0'}}>
-                        <a onClick={handleLogout} style={{display: 'flex', alignItems: 'center', padding: '12px 16px', color: '#c53030', textDecoration: 'none', fontSize: '14px', cursor: 'pointer'}}>
+                        <button onClick={(e) => { e.preventDefault(); handleLogout(); }} style={{
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          padding: '12px 16px', 
+                          color: '#c53030', 
+                          textDecoration: 'none', 
+                          fontSize: '14px', 
+                          cursor: 'pointer',
+                          background: 'none',
+                          border: 'none',
+                          width: '100%',
+                          textAlign: 'left'
+                        }}>
                           <i className="fas fa-sign-out-alt" style={{marginRight: '10px'}}></i>Déconnexion
-                        </a>
+                        </button>
                       </div>
                     </div>
                   )}
                 </div>
               ) : (
-                <Link href="/login" style={styles.iconBtn}>
+                <button
+                  onClick={() => {
+                    // Sur mobile, ouvrir le menu latéral, sur desktop aller à /login
+                    if (window.innerWidth < 1200) {
+                      setMobileMenuOpen(true);
+                    } else {
+                      router.push('/login');
+                    }
+                  }}
+                  style={{...styles.iconBtn, border: 'none', background: 'transparent', cursor: 'pointer'}}
+                >
                   <i className="fas fa-user" style={{color: '#1a1a1a', fontSize: '14px'}}></i>
-                </Link>
+                </button>
               )}
             </div>
           </nav>
@@ -512,31 +563,42 @@ export default function Header() {
 
         {/* Mobile Menu Links */}
         <div style={{flex: 1, padding: '20px 16px', overflowY: 'auto', background: '#fafbfc'}}>
+          {/* Section utilisateur si connecté */}
+          {user && (
+            <div style={{background: 'white', borderRadius: '16px', padding: '16px', marginBottom: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}>
+              <div style={{padding: '12px', background: 'linear-gradient(135deg, #1a365d 0%, #2c5282 100%)', borderRadius: '12px', marginBottom: '12px'}}>
+                <div style={{color: 'white', fontSize: '15px', fontWeight: '700', marginBottom: '4px'}}>{user.name || 'Utilisateur'}</div>
+                <div style={{color: 'rgba(255,255,255,0.8)', fontSize: '12px'}}>{user.email}</div>
+              </div>
+              <Link href={user.role === 'admin' ? '/admin' : '/client'} onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', padding: '12px', color: '#1a202c', textDecoration: 'none', borderRadius: '8px', marginBottom: '4px', background: '#f8fafc'}}>
+                <i className={`fas ${user.role === 'admin' ? 'fa-cog' : 'fa-user-circle'}`} style={{color: '#c53030', fontSize: '16px', width: '24px', marginRight: '12px', textAlign: 'center', flexShrink: 0}}></i>
+                <span style={{fontSize: '14px', fontWeight: '600', lineHeight: '1.5', flex: 1}}>{user.role === 'admin' ? 'Administration' : 'Mon Compte'}</span>
+              </Link>
+              <Link href="/client/orders" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', padding: '12px', color: '#1a202c', textDecoration: 'none', borderRadius: '8px', background: '#f8fafc'}}>
+                <i className="fas fa-box" style={{color: '#c53030', fontSize: '16px', width: '24px', marginRight: '12px', textAlign: 'center', flexShrink: 0}}></i>
+                <span style={{fontSize: '14px', fontWeight: '600', lineHeight: '1.5', flex: 1}}>Mes Commandes</span>
+                {pendingOrdersCount > 0 && <span style={{background: '#c53030', color: 'white', borderRadius: '10px', padding: '2px 8px', fontSize: '11px', fontWeight: '700'}}>{pendingOrdersCount}</span>}
+              </Link>
+            </div>
+          )}
+          
           {/* Navigation principale */}
-          <div style={{background: 'white', borderRadius: '16px', padding: '12px 16px', marginBottom: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}>
-            <Link href="/" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', borderBottom: '1px solid #f1f5f9', minHeight: '48px'}}>
-              <div style={{width: '24px', minWidth: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
-                <i className="fas fa-home" style={{color: '#c53030', fontSize: '16px'}}></i>
-              </div>
-              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5'}}>Accueil</span>
+          <div style={{background: 'white', borderRadius: '16px', padding: '12px 0', marginBottom: '16px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)'}}>
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', padding: '14px 16px', color: '#1a202c', textDecoration: 'none', borderBottom: '1px solid #f1f5f9', minHeight: '48px'}}>
+              <i className="fas fa-home" style={{color: '#c53030', fontSize: '16px', width: '24px', marginRight: '12px', textAlign: 'center', flexShrink: 0}}></i>
+              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5', flex: 1}}>Accueil</span>
             </Link>
-            <Link href="/shop" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', borderBottom: '1px solid #f1f5f9', minHeight: '48px'}}>
-              <div style={{width: '24px', minWidth: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
-                <i className="fas fa-shopping-bag" style={{color: '#1a365d', fontSize: '16px'}}></i>
-              </div>
-              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5'}}>Boutique</span>
+            <Link href="/shop" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', padding: '14px 16px', color: '#1a202c', textDecoration: 'none', borderBottom: '1px solid #f1f5f9', minHeight: '48px'}}>
+              <i className="fas fa-shopping-bag" style={{color: '#1a365d', fontSize: '16px', width: '24px', marginRight: '12px', textAlign: 'center', flexShrink: 0}}></i>
+              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5', flex: 1}}>Boutique</span>
             </Link>
-            <Link href="/magasins" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', borderBottom: '1px solid #f1f5f9', minHeight: '48px'}}>
-              <div style={{width: '24px', minWidth: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
-                <i className="fas fa-map-marker-alt" style={{color: '#16a34a', fontSize: '16px'}}></i>
-              </div>
-              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5'}}>Nos Magasins</span>
+            <Link href="/magasins" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', padding: '14px 16px', color: '#1a202c', textDecoration: 'none', borderBottom: '1px solid #f1f5f9', minHeight: '48px'}}>
+              <i className="fas fa-map-marker-alt" style={{color: '#16a34a', fontSize: '16px', width: '24px', marginRight: '12px', textAlign: 'center', flexShrink: 0}}></i>
+              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5', flex: 1}}>Nos Magasins</span>
             </Link>
-            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 0', color: '#1a202c', textDecoration: 'none', fontSize: '15px', fontWeight: '600', minHeight: '48px'}}>
-              <div style={{width: '24px', minWidth: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0}}>
-                <i className="fas fa-envelope" style={{color: '#d97706', fontSize: '16px'}}></i>
-              </div>
-              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5'}}>Contact</span>
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} style={{display: 'flex', alignItems: 'center', padding: '14px 16px', color: '#1a202c', textDecoration: 'none', minHeight: '48px'}}>
+              <i className="fas fa-envelope" style={{color: '#d97706', fontSize: '16px', width: '24px', marginRight: '12px', textAlign: 'center', flexShrink: 0}}></i>
+              <span style={{fontSize: '15px', fontWeight: '600', lineHeight: '1.5', flex: 1}}>Contact</span>
             </Link>
           </div>
 

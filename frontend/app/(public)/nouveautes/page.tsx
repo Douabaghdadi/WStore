@@ -113,7 +113,7 @@ export default function NouveautesPage() {
       <style jsx>{`
         @media (max-width: 991px) {
           .nouveautes-container {
-            margin-top: 80px !important;
+            margin-top: 70px !important;
             padding-bottom: 30px !important;
           }
           .hero-section {
@@ -222,7 +222,7 @@ export default function NouveautesPage() {
         
         @media (max-width: 576px) {
           .nouveautes-container {
-            margin-top: 70px !important;
+            margin-top: 65px !important;
           }
           
           .hero-title {
@@ -238,7 +238,7 @@ export default function NouveautesPage() {
       {/* Overlay pour mobile */}
       <div className="filters-overlay" onClick={() => setShowFilters(false)}></div>
       
-      <div className="nouveautes-container" style={{ marginTop: '150px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
+      <div className="nouveautes-container" style={{ marginTop: '80px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
         {/* Hero Section */}
         <div className="hero-section" style={{
           background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 50%, #7f1d1d 100%)',
@@ -334,7 +334,7 @@ export default function NouveautesPage() {
               top: '180px'
             }}>
               {/* Bouton fermer pour mobile */}
-              <div style={{ display: 'none' }} className="d-lg-none d-flex justify-content-between align-items-center mb-3">
+              <div className="d-lg-none d-flex justify-content-between align-items-center mb-3">
                 <h5 style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', margin: 0 }}>
                   <i className="fas fa-filter" style={{ color: '#c53030' }}></i> Filtres
                 </h5>
