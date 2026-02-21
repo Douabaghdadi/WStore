@@ -1,4 +1,4 @@
-﻿name: Deploy to Production VPS
+name: Deploy to Production VPS
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '20'
   VPS_HOST: '51.254.135.247'
   VPS_USER: 'ubuntu'
 
