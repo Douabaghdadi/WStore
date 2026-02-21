@@ -7,7 +7,8 @@ interface FacebookLoginProps {
 
 export default function FacebookLogin({ onSuccess, onError }: FacebookLoginProps) {
   const handleFacebookLogin = () => {
-    const facebookAuthUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=1770752150168884&redirect_uri=${encodeURIComponent('http://localhost:3000/login')}&scope=email&response_type=code`;
+    const redirectUri = typeof window !== 'undefined' ? `${window.location.origin}/login` : 'https://wstore.tn/login';
+    const facebookAuthUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=1770752150168884&redirect_uri=${encodeURIComponent(redirectUri)}&scope=email&response_type=code`;
     window.location.href = facebookAuthUrl;
   };
 

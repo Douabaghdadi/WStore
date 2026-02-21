@@ -82,7 +82,7 @@ exports.facebookLogin = async (req, res) => {
     }
     
     // Échanger le code contre un token d'accès
-    const tokenUrl = `https://graph.facebook.com/v18.0/oauth/access_token?client_id=${process.env.FACEBOOK_APP_ID}&client_secret=${process.env.FACEBOOK_APP_SECRET}&redirect_uri=${encodeURIComponent('http://localhost:3000/login')}&code=${code}`;
+    const tokenUrl = `https://graph.facebook.com/v18.0/oauth/access_token?client_id=${process.env.FACEBOOK_APP_ID}&client_secret=${process.env.FACEBOOK_APP_SECRET}&redirect_uri=${encodeURIComponent(process.env.FRONTEND_URL + '/login')}&code=${code}`;
     
     https.get(tokenUrl, (tokenResponse) => {
       let tokenData = '';
@@ -189,7 +189,7 @@ exports.googleLogin = async (req, res) => {
       client_secret: process.env.GOOGLE_CLIENT_SECRET,
       code: code,
       grant_type: 'authorization_code',
-      redirect_uri: 'http://localhost:3000/login'
+      redirect_uri: process.env.FRONTEND_URL + '/login'
     };
     
     const tokenResponse = await fetch(tokenUrl, {
@@ -275,7 +275,7 @@ exports.forgotPassword = async (req, res) => {
     await user.save();
     
     // Temporaire : retourner le lien directement au lieu d'envoyer un email
-    const resetUrl = `http://localhost:3000/reset-password?token=${resetToken}`;
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
     console.log('Lien de récupération généré:', resetUrl);
     
     res.json({ 
