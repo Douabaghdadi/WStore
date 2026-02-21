@@ -68,6 +68,34 @@ jobs:
         run: |
           ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cd /home/ubuntu/wstore/backend && npm install --production && cd /home/ubuntu/wstore/frontend && npm install'
 
+      - name: Configure Backend Environment
+        run: |
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cat > /home/ubuntu/wstore/backend/.env << EOF
+          PORT=5000
+          MONGODB_URI=${{ secrets.MONGODB_URI }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          FACEBOOK_APP_ID=1770752150168884
+          FACEBOOK_APP_SECRET=${{ secrets.FACEBOOK_APP_SECRET }}
+          GOOGLE_CLIENT_ID=890386873007-astu30t1t91ptutf2e6asqoibb1jfnrp.apps.googleusercontent.com
+          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+          FRONTEND_URL=https://wstore.tn
+          BACKEND_URL=http://51.254.135.247
+          EMAIL_HOST=smtp.gmail.com
+          EMAIL_PORT=587
+          EMAIL_USER=douabaghdadi89@gmail.com
+          EMAIL_PASS=${{ secrets.EMAIL_PASS }}
+          PAYMEE_API_KEY=${{ secrets.PAYMEE_API_KEY }}
+          PAYMEE_ENV=sandbox
+          EOF'
+
+      - name: Configure Frontend Environment
+        run: |
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cat > /home/ubuntu/wstore/frontend/.env.production << EOF
+          NEXT_PUBLIC_API_URL=http://51.254.135.247:5000
+          NEXT_PUBLIC_GOOGLE_CLIENT_ID=890386873007-astu30t1t91ptutf2e6asqoibb1jfnrp.apps.googleusercontent.com
+          NEXT_PUBLIC_FACEBOOK_APP_ID=1770752150168884
+          EOF
+
       - name: Build Frontend
         run: |
           ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cd /home/ubuntu/wstore/frontend && npm run build'
