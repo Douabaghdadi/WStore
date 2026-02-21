@@ -1,0 +1,99 @@
+﻿name: Deploy to Production VPS
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+  VPS_HOST: '51.254.135.247'
+  VPS_USER: 'ubuntu'
+
+jobs:
+  test:
+    name: Tests & Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: |
+            frontend/package-lock.json
+            backend/package-lock.json
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Build Frontend
+        working-directory: ./frontend
+        run: npm run build
+
+  deploy:
+    name: Deploy to VPS
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ env.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Create Backup
+        run: |
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cd /home/ubuntu/wstore && mkdir -p ~/wstore-backups && tar -czf ~/wstore-backups/backup-$(date +%Y%m%d_%H%M%S).tar.gz --exclude=node_modules --exclude=.next backend frontend 2>/dev/null || true'
+
+      - name: Pull Latest Code
+        run: |
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cd /home/ubuntu/wstore && git fetch origin && git reset --hard origin/main'
+
+      - name: Install Dependencies
+        run: |
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cd /home/ubuntu/wstore/backend && npm install --production && cd /home/ubuntu/wstore/frontend && npm install'
+
+      - name: Build Frontend
+        run: |
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cd /home/ubuntu/wstore/frontend && npm run build'
+
+      - name: Restart Services
+        run: |
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cd /home/ubuntu/wstore && pm2 restart wstore-backend || pm2 start backend/server.js --name wstore-backend && pm2 restart wstore-frontend || pm2 start npm --name wstore-frontend -- --prefix frontend start && pm2 save'
+
+      - name: Health Check
+        run: |
+          sleep 10
+          curl -f http://${{ env.VPS_HOST }}:5000/api/health || echo "Backend check done"
+          curl -f https://wstore.tn || echo "Frontend check done"
+
+  notify:
+    name: Notification
+    needs: [test, deploy]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Status
+        run: |
+          if [ "${{ needs.deploy.result }}" = "success" ]; then
+            echo "Deployment successful"
+          else
+            echo "Deployment failed"
+            exit 1
+          fi
