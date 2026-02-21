@@ -62,7 +62,7 @@ jobs:
 
       - name: Pull Latest Code
         run: |
-          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cd /home/ubuntu/wstore && git fetch origin && git reset --hard origin/main'
+          ssh ${{ env.VPS_USER }}@${{ env.VPS_HOST }} 'cd /home/ubuntu/wstore && if [ ! -d .git ]; then git init && git remote add origin https://github.com/Douabaghdadi/WStore.git; fi && git fetch origin && git reset --hard origin/main'
 
       - name: Install Dependencies
         run: |
