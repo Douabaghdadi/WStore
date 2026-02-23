@@ -7,7 +7,9 @@ interface GoogleLoginProps {
 
 export default function GoogleLogin({ onSuccess, onError }: GoogleLoginProps) {
   const handleGoogleLogin = () => {
-    const redirectUri = 'https://wstore.tn/login';
+    const redirectUri = typeof window !== 'undefined' 
+      ? `${window.location.origin}/login`
+      : 'https://w-store.tn/login';
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=email profile&response_type=code&state=google`;
     window.location.href = googleAuthUrl;
   };
