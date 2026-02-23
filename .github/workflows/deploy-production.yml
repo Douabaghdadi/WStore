@@ -1,0 +1,88 @@
+﻿name: Deploy to Production VPS
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  test:
+    name: Tests & Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            frontend/package-lock.json
+            backend/package-lock.json
+      - run: cd frontend && npm ci && npm run build
+      - run: cd backend && npm ci
+
+  deploy:
+    name: Deploy to VPS
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 51.254.135.247 >> ~/.ssh/known_hosts
+      
+      - name: Deploy to VPS
+        run: |
+          ssh ubuntu@51.254.135.247 << 'ENDSSH'
+          set -e
+          
+          echo "Deploiement sur VPS..."
+          cd /home/ubuntu/wstore
+          
+          if [ ! -d .git ]; then
+            git init
+            git remote add origin https://github.com/Douabaghdadi/WStore.git
+          fi
+          git fetch origin
+          git reset --hard origin/main || git reset --hard origin/master
+          
+          echo "Configuration backend avec HTTPS..."
+          sed -i 's|FRONTEND_URL=.*|FRONTEND_URL=https://w-store.tn|' backend/.env
+          sed -i 's|BACKEND_URL=.*|BACKEND_URL=https://w-store.tn|' backend/.env
+          
+          echo "Configuration frontend avec HTTPS..."
+          sed -i 's|NEXT_PUBLIC_API_URL=.*|NEXT_PUBLIC_API_URL=https://w-store.tn|' frontend/.env.production
+          
+          echo "Nettoyage du cache..."
+          cd frontend
+          rm -rf .next node_modules/.cache
+          
+          echo "Installation backend..."
+          cd /home/ubuntu/wstore/backend
+          npm install --production
+          
+          echo "Installation frontend..."
+          cd /home/ubuntu/wstore/frontend
+          npm install
+          
+          echo "Build frontend..."
+          npm run build
+          
+          echo "Redemarrage PM2..."
+          pm2 restart wstore-backend || pm2 start /home/ubuntu/wstore/backend/server.js --name wstore-backend
+          pm2 restart wstore-frontend || pm2 start npm --name wstore-frontend -- start
+          pm2 save
+          
+          echo "Deploiement termine!"
+          
+          sleep 5
+          curl -f http://localhost:5000/api/health || echo "Backend check failed"
+          curl -f http://localhost:3000 || echo "Frontend check failed"
+          ENDSSH
