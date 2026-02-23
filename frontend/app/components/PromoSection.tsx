@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
 import { API_URL } from '../../lib/api';
 
-interface Product {
+interface Product {//aziz
   _id: string;
   name: string;
   price: number;
