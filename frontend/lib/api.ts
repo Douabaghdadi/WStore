@@ -1,10 +1,10 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://51.254.135.247';
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://w-store.tn';
 
 export const getApiUrl = () => {
   if (typeof window !== 'undefined') {
-    return process.env.NEXT_PUBLIC_API_URL || 'http://51.254.135.247';
+    return process.env.NEXT_PUBLIC_API_URL || 'https://w-store.tn';
   }
-  return process.env.NEXT_PUBLIC_API_URL || 'http://51.254.135.247';
+  return process.env.NEXT_PUBLIC_API_URL || 'https://w-store.tn';
 };
 
 export const fetchProducts = async () => {
