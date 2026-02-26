@@ -52,10 +52,12 @@ backend/uploads/
 *.ps1
 deploy-*.sh
 fix-*.sh
+corriger-*.sh
 corriger-*.ps1
 deployer-*.ps1
 tester-*.ps1
 verifier-*.ps1
+rebuild-*.sh
 *.bat
 
 # Documentation (too many files)
