@@ -54,7 +54,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div style={{ position: 'relative', background: '#f7fafc', height: '240px' }}>
         <Link href={`/product/${product._id}`}>
           <img 
-            src={product.image?.startsWith('http') ? product.image : product.image ? `${process.env.NEXT_PUBLIC_API_URL || "http://51.254.135.247"}${product.image}` : '/img/product-placeholder.jpg'}
+            src={product.image?.startsWith('http') ? product.image : product.image ? `${process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn"}${product.image}` : '/img/product-placeholder.jpg'}
             alt={product.name} 
             style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} 
           />

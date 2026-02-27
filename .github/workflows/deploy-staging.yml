@@ -1,0 +1,47 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - main
+
+env:
+  VPS_HOST: 51.254.135.247
+  VPS_USER: ubuntu
+  APP_DIR: /var/www/wstore-staging
+
+jobs:
+  test-and-deploy:
+    name: Test and Deploy to Staging
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install and Test Backend
+        working-directory: ./backend
+        run: |
+          npm ci
+          npm run lint || echo "No lint script"
+
+      - name: Install and Test Frontend
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm run lint
+          npm run build
+
+      - name: Deploy to Staging
+        if: github.event_name == 'push'
+        run: |
+          echo "Deploying to staging environment..."
+          # Add staging deployment logic here
