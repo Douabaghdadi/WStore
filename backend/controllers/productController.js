@@ -28,12 +28,12 @@ exports.createProduct = async (req, res) => {
     }
     subcategoryIds = Array.isArray(subcategoryIds) ? subcategoryIds : [subcategoryIds];
     const firstSubcategory = await Subcategory.findById(subcategoryIds[0]);
-    
+
     const productData = {
       ...req.body,
       subcategories: subcategoryIds,
       category: firstSubcategory.category,
-      image: req.file ? `http://localhost:5000/uploads/${req.file.filename}` : req.body.image
+      image: req.file ? `/uploads/${req.file.filename}` : req.body.image
     };
     const product = new Product(productData);
     await product.save();
@@ -52,12 +52,12 @@ exports.updateProduct = async (req, res) => {
     }
     subcategoryIds = Array.isArray(subcategoryIds) ? subcategoryIds : [subcategoryIds];
     const firstSubcategory = await Subcategory.findById(subcategoryIds[0]);
-    
+
     const updateData = {
       ...req.body,
       subcategories: subcategoryIds,
       category: firstSubcategory.category,
-      image: req.file ? `http://localhost:5000/uploads/${req.file.filename}` : req.body.image
+      image: req.file ? `/uploads/${req.file.filename}` : req.body.image
     };
     const product = await Product.findByIdAndUpdate(req.params.id, updateData, { new: true, runValidators: true });
     if (!product) return res.status(404).json({ error: 'Produit non trouvé' });

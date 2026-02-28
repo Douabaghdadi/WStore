@@ -53,11 +53,33 @@ jobs:
           git fetch origin
           git reset --hard origin/main || git reset --hard origin/master
           
+          echo "=== Nettoyage URLs localhost dans MongoDB ==="
+          mongosh --quiet wstore --eval '
+            var result1 = db.products.updateMany(
+              { image: { $regex: "^http://localhost:5000" } },
+              [{ $set: { image: { $replaceOne: { input: "$image", find: "http://localhost:5000", replacement: "" } } } }]
+            );
+            print("Products fixed: " + result1.modifiedCount);
+            var result2 = db.categories.updateMany(
+              { image: { $regex: "^http://localhost:5000" } },
+              [{ $set: { image: { $replaceOne: { input: "$image", find: "http://localhost:5000", replacement: "" } } } }]
+            );
+            print("Categories fixed: " + result2.modifiedCount);
+            var result3 = db.subcategories.updateMany(
+              { image: { $regex: "^http://localhost:5000" } },
+              [{ $set: { image: { $replaceOne: { input: "$image", find: "http://localhost:5000", replacement: "" } } } }]
+            );
+            print("Subcategories fixed: " + result3.modifiedCount);
+          ' || echo "MongoDB cleanup skipped (mongosh not found or DB not accessible)"
+          
           echo "Configuration backend avec HTTPS..."
           sed -i 's|FRONTEND_URL=.*|FRONTEND_URL=https://w-store.tn|' backend/.env
           sed -i 's|BACKEND_URL=.*|BACKEND_URL=https://w-store.tn|' backend/.env
           
           echo "Configuration frontend avec HTTPS..."
+          cat > frontend/.env.production << 'EOF'
+          NEXT_PUBLIC_API_URL=https://w-store.tn
+          EOF
           sed -i 's|NEXT_PUBLIC_API_URL=.*|NEXT_PUBLIC_API_URL=https://w-store.tn|' frontend/.env.production
           
           echo "Nettoyage du cache..."
@@ -73,7 +95,7 @@ jobs:
           npm install
           
           echo "Build frontend..."
-          npm run build
+          NEXT_PUBLIC_API_URL=https://w-store.tn npm run build
           
           echo "Redemarrage PM2..."
           pm2 restart wstore-backend || pm2 start /home/ubuntu/wstore/backend/server.js --name wstore-backend
@@ -86,3 +108,4 @@ jobs:
           curl -f http://localhost:5000/api/health || echo "Backend check failed"
           curl -f http://localhost:3000 || echo "Frontend check failed"
           ENDSSH
+
