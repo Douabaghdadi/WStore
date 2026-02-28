@@ -54,7 +54,7 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && echo "Node: $(node -v)" && cd /home/ubuntu/wstore/backend && npm install --production'
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || true; echo "Node: $(which node) $(node -v 2>/dev/null || echo NOT_FOUND)"; cd /home/ubuntu/wstore/backend && npm install --production'
 
       - name: Setup frontend env
         run: |
@@ -66,15 +66,15 @@ jobs:
 
       - name: Install frontend dependencies
         run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && echo "Node: $(node -v)" && cd /home/ubuntu/wstore/frontend && npm install'
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || true; echo "Node: $(which node) $(node -v 2>/dev/null || echo NOT_FOUND)"; cd /home/ubuntu/wstore/frontend && npm install'
 
       - name: Build frontend
         run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && export NEXT_PUBLIC_API_URL=https://w-store.tn && cd /home/ubuntu/wstore/frontend && npm run build'
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || true; export NEXT_PUBLIC_API_URL=https://w-store.tn; cd /home/ubuntu/wstore/frontend && npm run build'
 
       - name: Restart PM2 services
         run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && pm2 delete wstore-backend 2>/dev/null; pm2 delete wstore-frontend 2>/dev/null; cd /home/ubuntu/wstore/backend && pm2 start server.js --name wstore-backend; cd /home/ubuntu/wstore/frontend && pm2 start npm --name wstore-frontend -- start; pm2 save'
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || true; pm2 delete wstore-backend 2>/dev/null; pm2 delete wstore-frontend 2>/dev/null; cd /home/ubuntu/wstore/backend && pm2 start server.js --name wstore-backend; cd /home/ubuntu/wstore/frontend && pm2 start npm --name wstore-frontend -- start; pm2 save'
 
       - name: Health check
         run: |
