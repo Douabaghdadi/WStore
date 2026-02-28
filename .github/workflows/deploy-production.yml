@@ -39,44 +39,96 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 51.254.135.247 >> ~/.ssh/known_hosts
 
+      - name: Diagnose VPS environment
+        run: |
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 bash -l -c '
+            echo "=== Environment ==="
+            echo "PATH: $PATH"
+            echo "Node: $(which node 2>/dev/null || echo NOT_FOUND)"
+            echo "Node version: $(node -v 2>/dev/null || echo NOT_FOUND)"
+            echo "NPM: $(which npm 2>/dev/null || echo NOT_FOUND)"
+            echo "PM2: $(which pm2 2>/dev/null || echo NOT_FOUND)"
+            echo "Mongosh: $(which mongosh 2>/dev/null || echo NOT_FOUND)"
+            echo "NVM_DIR: $NVM_DIR"
+            ls -la $HOME/.nvm/nvm.sh 2>/dev/null || echo "nvm.sh NOT FOUND"
+            echo "=== Disk space ==="
+            df -h /home/ubuntu
+          '
+
       - name: Git pull on VPS
         run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'cd /home/ubuntu/wstore && git fetch origin && git reset --hard origin/main || git reset --hard origin/master'
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 bash -l -c '
+            cd /home/ubuntu/wstore
+            git fetch origin
+            git reset --hard origin/main || git reset --hard origin/master
+          '
 
       - name: Fix MongoDB URLs
         continue-on-error: true
         run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'mongosh --quiet wstore --eval "db.products.updateMany({image:/^http:\\/\\/localhost:5000/},[{\$set:{image:{\$replaceOne:{input:\"\$image\",find:\"http://localhost:5000\",replacement:\"\"}}}}]);db.products.updateMany({image:/^http:\\/\\/51\\.254/},[{\$set:{image:{\$replaceOne:{input:\"\$image\",find:\"http://51.254.135.247:5000\",replacement:\"\"}}}}]);db.categories.updateMany({image:/^http:\\/\\//},[{\$set:{image:{\$replaceOne:{input:\"\$image\",find:\"http://localhost:5000\",replacement:\"\"}}}}]);db.categories.updateMany({image:/^http:\\/\\/51/},[{\$set:{image:{\$replaceOne:{input:\"\$image\",find:\"http://51.254.135.247:5000\",replacement:\"\"}}}}]);db.subcategories.updateMany({image:/^http:\\/\\//},[{\$set:{image:{\$replaceOne:{input:\"\$image\",find:\"http://localhost:5000\",replacement:\"\"}}}}]);db.subcategories.updateMany({image:/^http:\\/\\/51/},[{\$set:{image:{\$replaceOne:{input:\"\$image\",find:\"http://51.254.135.247:5000\",replacement:\"\"}}}}]);db.brands.updateMany({image:/^http:\\/\\//},[{\$set:{image:{\$replaceOne:{input:\"\$image\",find:\"http://localhost:5000\",replacement:\"\"}}}}]);db.brands.updateMany({image:/^http:\\/\\/51/},[{\$set:{image:{\$replaceOne:{input:\"\$image\",find:\"http://51.254.135.247:5000\",replacement:\"\"}}}}]);print(\"done\")"'
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 bash -l -c '
+            mongosh --quiet wstore --eval "
+              db.products.updateMany({image:/^http:\/\/localhost:5000/},[{\\\$set:{image:{\\\$replaceOne:{input:\"\\\$image\",find:\"http://localhost:5000\",replacement:\"\"}}}}]);
+              db.products.updateMany({image:/^http:\/\/51\.254/},[{\\\$set:{image:{\\\$replaceOne:{input:\"\\\$image\",find:\"http://51.254.135.247:5000\",replacement:\"\"}}}}]);
+              db.categories.updateMany({image:/^http:\/\//},[{\\\$set:{image:{\\\$replaceOne:{input:\"\\\$image\",find:\"http://localhost:5000\",replacement:\"\"}}}}]);
+              db.categories.updateMany({image:/^http:\/\/51/},[{\\\$set:{image:{\\\$replaceOne:{input:\"\\\$image\",find:\"http://51.254.135.247:5000\",replacement:\"\"}}}}]);
+              db.subcategories.updateMany({image:/^http:\/\//},[{\\\$set:{image:{\\\$replaceOne:{input:\"\\\$image\",find:\"http://localhost:5000\",replacement:\"\"}}}}]);
+              db.subcategories.updateMany({image:/^http:\/\/51/},[{\\\$set:{image:{\\\$replaceOne:{input:\"\\\$image\",find:\"http://51.254.135.247:5000\",replacement:\"\"}}}}]);
+              db.brands.updateMany({image:/^http:\/\//},[{\\\$set:{image:{\\\$replaceOne:{input:\"\\\$image\",find:\"http://localhost:5000\",replacement:\"\"}}}}]);
+              db.brands.updateMany({image:/^http:\/\/51/},[{\\\$set:{image:{\\\$replaceOne:{input:\"\\\$image\",find:\"http://51.254.135.247:5000\",replacement:\"\"}}}}]);
+              print(\"MongoDB cleanup done\");
+            "
+          '
 
-      - name: Setup backend env
+      - name: Setup backend
         run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'cd /home/ubuntu/wstore/backend && ls -la .env && sed -i "s|FRONTEND_URL=.*|FRONTEND_URL=https://w-store.tn|" .env && sed -i "s|BACKEND_URL=.*|BACKEND_URL=https://w-store.tn|" .env && echo "Backend .env updated" && cat .env'
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 bash -l -c '
+            cd /home/ubuntu/wstore/backend
+            sed -i "s|FRONTEND_URL=.*|FRONTEND_URL=https://w-store.tn|" .env
+            sed -i "s|BACKEND_URL=.*|BACKEND_URL=https://w-store.tn|" .env
+            echo "=== Backend .env ==="
+            cat .env
+            echo "=== Installing backend ==="
+            npm install --production
+            echo "Backend setup OK"
+          '
 
-      - name: Install backend dependencies
+      - name: Setup and build frontend
         run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || true; echo "Node: $(which node) $(node -v 2>/dev/null || echo NOT_FOUND)"; cd /home/ubuntu/wstore/backend && npm install --production'
-
-      - name: Setup frontend env
-        run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'cd /home/ubuntu/wstore/frontend && echo "NEXT_PUBLIC_API_URL=https://w-store.tn" > .env.production && echo "NEXT_PUBLIC_FACEBOOK_APP_ID=1770752150168884" >> .env.production && echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=890386873007-astu30t1t91ptutf2e6asqoibb1jfnrp.apps.googleusercontent.com" >> .env.production && cat .env.production'
-
-      - name: Clean frontend cache
-        run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'cd /home/ubuntu/wstore/frontend && rm -rf .next node_modules/.cache && echo "Cache cleaned"'
-
-      - name: Install frontend dependencies
-        run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || true; echo "Node: $(which node) $(node -v 2>/dev/null || echo NOT_FOUND)"; cd /home/ubuntu/wstore/frontend && npm install'
-
-      - name: Build frontend
-        run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || true; export NEXT_PUBLIC_API_URL=https://w-store.tn; cd /home/ubuntu/wstore/frontend && npm run build'
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 bash -l -c '
+            cd /home/ubuntu/wstore/frontend
+            echo "NEXT_PUBLIC_API_URL=https://w-store.tn" > .env.production
+            echo "NEXT_PUBLIC_FACEBOOK_APP_ID=1770752150168884" >> .env.production
+            echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=890386873007-astu30t1t91ptutf2e6asqoibb1jfnrp.apps.googleusercontent.com" >> .env.production
+            echo "=== .env.production ==="
+            cat .env.production
+            echo "=== Cleaning cache ==="
+            rm -rf .next node_modules/.cache
+            echo "=== Installing dependencies ==="
+            npm install
+            echo "=== Building frontend ==="
+            export NEXT_PUBLIC_API_URL=https://w-store.tn
+            npm run build
+            echo "Frontend build OK"
+          '
 
       - name: Restart PM2 services
         run: |
-          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" || true; pm2 delete wstore-backend 2>/dev/null; pm2 delete wstore-frontend 2>/dev/null; cd /home/ubuntu/wstore/backend && pm2 start server.js --name wstore-backend; cd /home/ubuntu/wstore/frontend && pm2 start npm --name wstore-frontend -- start; pm2 save'
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 bash -l -c '
+            pm2 delete wstore-backend 2>/dev/null || true
+            pm2 delete wstore-frontend 2>/dev/null || true
+            cd /home/ubuntu/wstore/backend
+            pm2 start server.js --name wstore-backend
+            cd /home/ubuntu/wstore/frontend
+            pm2 start npm --name wstore-frontend -- start
+            pm2 save
+            echo "PM2 restart OK"
+          '
 
       - name: Health check
         run: |
           sleep 5
-          ssh ubuntu@51.254.135.247 'curl -s -o /dev/null -w "Backend: %{http_code}\n" http://localhost:5000/api/products; curl -s -o /dev/null -w "Frontend: %{http_code}\n" http://localhost:3000'
+          ssh ubuntu@51.254.135.247 bash -l -c '
+            echo "Backend: $(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/api/products)"
+            echo "Frontend: $(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000)"
+          '
