@@ -38,10 +38,14 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 51.254.135.247 >> ~/.ssh/known_hosts
       
-      - name: Copy deploy script to VPS
+      - name: Fix line endings and copy deploy script
         run: |
+          sed -i 's/\r$//' infrastructure/deploy-vps.sh
+          chmod +x infrastructure/deploy-vps.sh
           scp infrastructure/deploy-vps.sh ubuntu@51.254.135.247:/tmp/deploy-vps.sh
+          ssh ubuntu@51.254.135.247 'chmod +x /tmp/deploy-vps.sh'
       
       - name: Execute deploy script on VPS
+        timeout-minutes: 15
         run: |
-          ssh ubuntu@51.254.135.247 'bash /tmp/deploy-vps.sh'
+          ssh -o ServerAliveInterval=30 ubuntu@51.254.135.247 'bash -l /tmp/deploy-vps.sh 2>&1'
