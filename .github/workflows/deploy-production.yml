@@ -41,11 +41,15 @@ jobs:
       - name: Deploy to VPS
         run: |
           ssh ubuntu@51.254.135.247 << 'ENDSSH'
-          set -e
+          export PATH="/home/ubuntu/.nvm/versions/node/v20.11.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
           
-          echo "Deploiement sur VPS..."
+          echo "========================================="
+          echo "=== DEPLOIEMENT WSTORE ==="
+          echo "========================================="
+          
           cd /home/ubuntu/wstore
           
+          # --- Git pull ---
           if [ ! -d .git ]; then
             git init
             git remote add origin https://github.com/Douabaghdadi/WStore.git
@@ -53,59 +57,100 @@ jobs:
           git fetch origin
           git reset --hard origin/main || git reset --hard origin/master
           
-          echo "=== Nettoyage URLs localhost dans MongoDB ==="
+          # --- Nettoyage URLs dans MongoDB ---
+          echo "=== Nettoyage URLs HTTP dans MongoDB ==="
           mongosh --quiet wstore --eval '
-            var result1 = db.products.updateMany(
+            // Fix localhost URLs
+            var r1 = db.products.updateMany(
               { image: { $regex: "^http://localhost:5000" } },
               [{ $set: { image: { $replaceOne: { input: "$image", find: "http://localhost:5000", replacement: "" } } } }]
             );
-            print("Products fixed: " + result1.modifiedCount);
-            var result2 = db.categories.updateMany(
+            print("Products localhost fixed: " + r1.modifiedCount);
+            
+            // Fix IP-based URLs
+            var r2 = db.products.updateMany(
+              { image: { $regex: "^http://51\\.254\\.135\\.247:5000" } },
+              [{ $set: { image: { $replaceOne: { input: "$image", find: "http://51.254.135.247:5000", replacement: "" } } } }]
+            );
+            print("Products IP fixed: " + r2.modifiedCount);
+            
+            // Fix categories
+            var r3 = db.categories.updateMany(
+              { image: { $regex: "^http://" } },
+              [{ $set: { image: { $replaceOne: { input: "$image", find: "http://localhost:5000", replacement: "" } } } }]
+            );
+            db.categories.updateMany(
+              { image: { $regex: "^http://51" } },
+              [{ $set: { image: { $replaceOne: { input: "$image", find: "http://51.254.135.247:5000", replacement: "" } } } }]
+            );
+            print("Categories fixed: " + r3.modifiedCount);
+            
+            // Fix subcategories
+            db.subcategories.updateMany(
               { image: { $regex: "^http://localhost:5000" } },
               [{ $set: { image: { $replaceOne: { input: "$image", find: "http://localhost:5000", replacement: "" } } } }]
             );
-            print("Categories fixed: " + result2.modifiedCount);
-            var result3 = db.subcategories.updateMany(
+            db.subcategories.updateMany(
+              { image: { $regex: "^http://51" } },
+              [{ $set: { image: { $replaceOne: { input: "$image", find: "http://51.254.135.247:5000", replacement: "" } } } }]
+            );
+            
+            // Fix brands
+            db.brands.updateMany(
               { image: { $regex: "^http://localhost:5000" } },
               [{ $set: { image: { $replaceOne: { input: "$image", find: "http://localhost:5000", replacement: "" } } } }]
             );
-            print("Subcategories fixed: " + result3.modifiedCount);
-          ' || echo "MongoDB cleanup skipped (mongosh not found or DB not accessible)"
+            db.brands.updateMany(
+              { image: { $regex: "^http://51" } },
+              [{ $set: { image: { $replaceOne: { input: "$image", find: "http://51.254.135.247:5000", replacement: "" } } } }]
+            );
+            print("MongoDB cleanup done!");
+          ' || echo "MongoDB cleanup skipped"
           
-          echo "Configuration backend avec HTTPS..."
+          # --- Backend ---
+          echo "=== Configuration backend ==="
           sed -i 's|FRONTEND_URL=.*|FRONTEND_URL=https://w-store.tn|' backend/.env
           sed -i 's|BACKEND_URL=.*|BACKEND_URL=https://w-store.tn|' backend/.env
-          
-          echo "Configuration frontend avec HTTPS..."
-          cat > frontend/.env.production << 'EOF'
-          NEXT_PUBLIC_API_URL=https://w-store.tn
-          EOF
-          sed -i 's|NEXT_PUBLIC_API_URL=.*|NEXT_PUBLIC_API_URL=https://w-store.tn|' frontend/.env.production
-          
-          echo "Nettoyage du cache..."
-          cd frontend
-          rm -rf .next node_modules/.cache
-          
-          echo "Installation backend..."
           cd /home/ubuntu/wstore/backend
           npm install --production
           
-          echo "Installation frontend..."
+          # --- Frontend ---
+          echo "=== Configuration frontend ==="
           cd /home/ubuntu/wstore/frontend
+          
+          # Ecrire .env.production sans espaces
+          echo "NEXT_PUBLIC_API_URL=https://w-store.tn" > .env.production
+          echo "NEXT_PUBLIC_FACEBOOK_APP_ID=1770752150168884" >> .env.production
+          echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=890386873007-astu30t1t91ptutf2e6asqoibb1jfnrp.apps.googleusercontent.com" >> .env.production
+          
+          echo "=== Nettoyage complet du cache frontend ==="
+          rm -rf .next
+          rm -rf node_modules/.cache
+          
+          echo "=== Installation frontend ==="
           npm install
           
-          echo "Build frontend..."
-          NEXT_PUBLIC_API_URL=https://w-store.tn npm run build
+          echo "=== Build frontend (HTTPS) ==="
+          export NEXT_PUBLIC_API_URL=https://w-store.tn
+          npm run build
           
-          echo "Redemarrage PM2..."
-          pm2 restart wstore-backend || pm2 start /home/ubuntu/wstore/backend/server.js --name wstore-backend
-          pm2 restart wstore-frontend || pm2 start npm --name wstore-frontend -- start
+          echo "=== Redemarrage PM2 ==="
+          pm2 delete wstore-backend 2>/dev/null || true
+          pm2 delete wstore-frontend 2>/dev/null || true
+          cd /home/ubuntu/wstore/backend
+          pm2 start server.js --name wstore-backend
+          cd /home/ubuntu/wstore/frontend
+          pm2 start npm --name wstore-frontend -- start
           pm2 save
           
-          echo "Deploiement termine!"
-          
+          echo "=== Verification ==="
           sleep 5
-          curl -f http://localhost:5000/api/health || echo "Backend check failed"
-          curl -f http://localhost:3000 || echo "Frontend check failed"
+          curl -s -o /dev/null -w "%{http_code}" http://localhost:5000/api/products && echo " - Backend OK" || echo " - Backend FAILED"
+          curl -s -o /dev/null -w "%{http_code}" http://localhost:3000 && echo " - Frontend OK" || echo " - Frontend FAILED"
+          
+          echo "========================================="
+          echo "=== DEPLOIEMENT TERMINE! ==="
+          echo "========================================="
           ENDSSH
+
 
