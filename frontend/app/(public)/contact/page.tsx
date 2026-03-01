@@ -1,6 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
+
 export default function ContactPage() {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -24,7 +27,7 @@ export default function ContactPage() {
     setLoading(true);
     
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://w-store.tn'}/api/contacts`, {
+      const response = await fetch(`${API_URL}/api/contacts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

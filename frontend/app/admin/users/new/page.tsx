@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
-import { API_URL } from "../../../../lib/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
 
 export default function NewUserPage() {
   const router = useRouter();

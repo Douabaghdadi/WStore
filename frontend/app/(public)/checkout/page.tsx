@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { useRouter } from 'next/navigation';
-import { API_URL } from '../../../lib/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
 
 export default function CheckoutPage() {
   const { cart, getCartTotal, clearCart } = useCart();

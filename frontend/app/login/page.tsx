@@ -1,9 +1,11 @@
 "use client";
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { API_URL } from "../../lib/api";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
 
 const FacebookLogin = dynamic(() => import("../components/FacebookLogin"), {
   ssr: false,

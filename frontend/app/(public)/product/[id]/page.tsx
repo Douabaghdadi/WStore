@@ -6,7 +6,8 @@ import ProductReviews from '../../../components/ProductReviews';
 import StarRating from '../../../components/StarRating';
 import { useCart } from '../../../context/CartContext';
 import { useFavorites } from '../../../context/FavoritesContext';
-import { API_URL } from '../../../../lib/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
 
 export default function ProductPage() {
   const params = useParams();

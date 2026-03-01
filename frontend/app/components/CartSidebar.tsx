@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import Link from 'next/link';
-import { API_URL } from '../../lib/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
 
 interface CartSidebarProps {
   isOpen: boolean;

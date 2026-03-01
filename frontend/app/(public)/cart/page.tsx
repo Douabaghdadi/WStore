@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
 import Link from 'next/link';
-import { API_URL } from '../../../lib/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();

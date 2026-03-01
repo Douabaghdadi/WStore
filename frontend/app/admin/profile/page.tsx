@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
-import { API_URL } from "../../../lib/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
 
 export default function ProfilePage() {
   const router = useRouter();

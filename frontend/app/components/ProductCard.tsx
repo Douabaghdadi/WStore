@@ -4,6 +4,9 @@ import { useCart } from '../context/CartContext';
 import { useFavorites } from '../context/FavoritesContext';
 import { useState } from 'react';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
+
 interface ProductCardProps {
   product: {
     _id: string;

@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import StarRating from "./StarRating";
-import { API_URL } from "../../lib/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
 
 interface Review {
   _id: string;

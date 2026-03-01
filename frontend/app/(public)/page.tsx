@@ -6,7 +6,8 @@ import Link from 'next/link';
 import BrandCarousel from '../components/BrandCarousel';
 import CategoryCarousel from '../components/CategoryCarousel';
 import PromoSection from '../components/PromoSection';
-import { API_URL } from '../../lib/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
 
 interface Product {
   _id: string;

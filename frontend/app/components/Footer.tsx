@@ -2,7 +2,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { API_URL } from '../../lib/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn";
+
 
 export default function Footer() {
   const [categories, setCategories] = useState<any[]>([]);
