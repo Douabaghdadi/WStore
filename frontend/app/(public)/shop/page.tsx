@@ -124,7 +124,7 @@ export default function ShopPage() {
             width: 85% !important;
             max-width: 320px !important;
             height: 100vh !important;
-            z-index: 10001 !important;
+            z-index: 10002 !important;
             transition: left 0.3s ease !important;
             overflow-y: auto !important;
             background: white !important;
@@ -137,10 +137,11 @@ export default function ShopPage() {
             right: 0 !important;
             bottom: 0 !important;
             background: rgba(0,0,0,0.5) !important;
-            z-index: 10000 !important;
+            z-index: 10001 !important;
             opacity: ${showMobileFilters ? '1' : '0'} !important;
+            visibility: ${showMobileFilters ? 'visible' : 'hidden'} !important;
             pointer-events: ${showMobileFilters ? 'auto' : 'none'} !important;
-            transition: opacity 0.3s ease !important;
+            transition: opacity 0.3s ease, visibility 0.3s ease !important;
           }
           .mobile-filter-btn {
             display: flex !important;
