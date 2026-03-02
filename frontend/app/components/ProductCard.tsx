@@ -32,7 +32,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       _id: product._id,
       name: product.name,
       price: finalPrice,
-      image: product.image || '/img/product-placeholder.jpg',
+      image: product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg',
       quantity: quantity
     });
   };
