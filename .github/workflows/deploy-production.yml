@@ -1,4 +1,4 @@
-﻿name: Deploy to Production VPS
+name: Deploy to Production VPS
 
 on:
   push:
@@ -120,6 +120,10 @@ jobs:
         run: |
           ssh ubuntu@51.254.135.247 'curl -f http://localhost:3000 || exit 1'
 
+      - name: Configure Nginx
+        run: |
+          echo 'Configuring Nginx...'
+
       - name: Save PM2 and restart Nginx
         run: |
           ssh ubuntu@51.254.135.247 'bash -s' << 'ENDSSH'
@@ -148,11 +152,11 @@ jobs:
       - name: Deployment summary
         if: success()
         run: |
-          echo "✅ DEPLOYMENT SUCCESSFUL!"
-          echo "🌐 Site: https://w-store.tn"
+          echo "? DEPLOYMENT SUCCESSFUL!"
+          echo "?? Site: https://w-store.tn"
           
       - name: Rollback on failure
         if: failure()
         run: |
-          echo "❌ DEPLOYMENT FAILED - Attempting rollback"
+          echo "? DEPLOYMENT FAILED - Attempting rollback"
           ssh ubuntu@51.254.135.247 '. $HOME/.nvm/nvm.sh 2>/dev/null; pm2 restart all || true'
