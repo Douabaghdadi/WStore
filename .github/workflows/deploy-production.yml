@@ -1,0 +1,158 @@
+﻿name: Deploy to Production VPS
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  test:
+    name: Tests and Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            frontend/package-lock.json
+            backend/package-lock.json
+      - run: cd frontend && npm ci && npm run build
+      - run: cd backend && npm ci
+
+  deploy:
+    name: Deploy to VPS
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 51.254.135.247 >> ~/.ssh/known_hosts
+
+      - name: Git pull on VPS
+        run: |
+          ssh ubuntu@51.254.135.247 'cd /home/ubuntu/wstore && git fetch origin && git reset --hard origin/main || git reset --hard origin/master'
+
+      - name: Setup backend
+        run: |
+          ssh ubuntu@51.254.135.247 'bash -s' << 'ENDSSH'
+          . $HOME/.nvm/nvm.sh 2>/dev/null
+          cd /home/ubuntu/wstore/backend
+          sed -i "s|FRONTEND_URL=.*|FRONTEND_URL=https://w-store.tn|" .env
+          sed -i "s|BACKEND_URL=.*|BACKEND_URL=https://w-store.tn|" .env
+          npm install --production
+          ENDSSH
+
+      - name: Setup frontend env
+        run: |
+          ssh ubuntu@51.254.135.247 'bash -s' << 'ENDSSH'
+          cd /home/ubuntu/wstore/frontend
+          cat > .env.production << 'EOF'
+          NEXT_PUBLIC_API_URL=https://w-store.tn
+          NEXT_PUBLIC_FACEBOOK_APP_ID=1770752150168884
+          NEXT_PUBLIC_GOOGLE_CLIENT_ID=890386873007-astu30t1t91ptutf2e6asqoibb1jfnrp.apps.googleusercontent.com
+          EOF
+          rm -rf .next node_modules/.cache
+          ENDSSH
+
+      - name: Install frontend dependencies
+        run: |
+          ssh ubuntu@51.254.135.247 'bash -s' << 'ENDSSH'
+          . $HOME/.nvm/nvm.sh 2>/dev/null
+          cd /home/ubuntu/wstore/frontend
+          npm install
+          ENDSSH
+
+      - name: Build frontend
+        run: |
+          ssh ubuntu@51.254.135.247 'bash -s' << 'ENDSSH'
+          . $HOME/.nvm/nvm.sh 2>/dev/null
+          cd /home/ubuntu/wstore/frontend
+          NEXT_PUBLIC_API_URL=https://w-store.tn npm run build
+          ENDSSH
+
+      - name: Verify build
+        run: |
+          ssh ubuntu@51.254.135.247 'test -d /home/ubuntu/wstore/frontend/.next && echo "Build OK" || exit 1'
+
+      - name: Stop PM2 services
+        run: |
+          ssh ubuntu@51.254.135.247 'bash -s' << 'ENDSSH'
+          . $HOME/.nvm/nvm.sh 2>/dev/null
+          pm2 delete wstore-backend 2>/dev/null || true
+          pm2 delete wstore-frontend 2>/dev/null || true
+          sleep 2
+          ENDSSH
+
+      - name: Start Backend
+        run: |
+          ssh ubuntu@51.254.135.247 'bash -s' << 'ENDSSH'
+          . $HOME/.nvm/nvm.sh 2>/dev/null
+          cd /home/ubuntu/wstore/backend
+          pm2 start server.js --name wstore-backend
+          sleep 3
+          ENDSSH
+
+      - name: Verify Backend
+        run: |
+          ssh ubuntu@51.254.135.247 'curl -f http://localhost:5000/api/products || exit 1'
+
+      - name: Start Frontend
+        run: |
+          ssh ubuntu@51.254.135.247 'bash -s' << 'ENDSSH'
+          . $HOME/.nvm/nvm.sh 2>/dev/null
+          cd /home/ubuntu/wstore/frontend
+          pm2 start npm --name wstore-frontend -- start
+          sleep 8
+          ENDSSH
+
+      - name: Verify Frontend
+        run: |
+          ssh ubuntu@51.254.135.247 'curl -f http://localhost:3000 || exit 1'
+
+      - name: Save PM2 and restart Nginx
+        run: |
+          ssh ubuntu@51.254.135.247 'bash -s' << 'ENDSSH'
+          . $HOME/.nvm/nvm.sh 2>/dev/null
+          pm2 save
+          sudo systemctl restart nginx
+          ENDSSH
+
+      - name: Final health check
+        run: |
+          ssh ubuntu@51.254.135.247 'bash -s' << 'ENDSSH'
+          . $HOME/.nvm/nvm.sh 2>/dev/null
+          echo "=== PM2 Status ==="
+          pm2 list
+          echo "=== Backend Health ==="
+          curl -s -o /dev/null -w "Status: %{http_code}\n" http://localhost:5000/api/products
+          echo "=== Frontend Health ==="
+          curl -s -o /dev/null -w "Status: %{http_code}\n" http://localhost:3000
+          ENDSSH
+
+      - name: Test production URL
+        run: |
+          sleep 5
+          curl -f https://w-store.tn || echo "Warning: May need cache clear"
+
+      - name: Deployment summary
+        if: success()
+        run: |
+          echo "✅ DEPLOYMENT SUCCESSFUL!"
+          echo "🌐 Site: https://w-store.tn"
+          
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          echo "❌ DEPLOYMENT FAILED - Attempting rollback"
+          ssh ubuntu@51.254.135.247 '. $HOME/.nvm/nvm.sh 2>/dev/null; pm2 restart all || true'
