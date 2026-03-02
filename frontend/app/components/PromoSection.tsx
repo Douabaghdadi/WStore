@@ -122,7 +122,7 @@ export default function PromoSection() {
       _id: product._id,
       name: product.name,
       price: discountedPrice,
-      image: product.image || '/img/product-placeholder.jpg',
+      image: product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg',
       quantity: quantities[product._id] || 1
     });
   };
@@ -312,9 +312,13 @@ export default function PromoSection() {
                       <div style={{ position: 'relative', background: '#f7fafc', height: '180px' }}>
                         <Link href={`/product/${product._id}`}>
                           <img 
-                            src={product.image || '/img/product-placeholder.jpg'}
+                            src={product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
                             alt={product.name}
                             style={{ width: '100%', height: '180px', objectFit: 'contain', padding: '15px' }}
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = '/img/product-placeholder.jpg';
+                            }}
                           />
                         </Link>
                         
