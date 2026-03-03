@@ -14,6 +14,7 @@ git push origin main
 
 Le déploiement se fait automatiquement via GitHub Actions.
 Le workflow configure automatiquement Nginx et les permissions des uploads.
+Dernière mise à jour : 2026-03-03
 
 ### Documentation
 
