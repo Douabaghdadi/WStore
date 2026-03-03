@@ -34,6 +34,18 @@ export default function ShopPage() {
   const { addToCart } = useCart();
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
+  // Bloquer le scroll du body quand les filtres sont ouverts
+  useEffect(() => {
+    if (showMobileFilters) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showMobileFilters]);
+
   useEffect(() => {
     fetch(`${API_URL}/api/brands`).then(r => r.json()).then(setBrands);
     fetch(`${API_URL}/api/categories`).then(r => r.json()).then(setCategories);
@@ -124,7 +136,7 @@ export default function ShopPage() {
             width: 85% !important;
             max-width: 320px !important;
             height: 100vh !important;
-            z-index: 10002 !important;
+            z-index: 99999 !important;
             transition: left 0.3s ease !important;
             overflow-y: auto !important;
             background: white !important;
@@ -138,7 +150,7 @@ export default function ShopPage() {
             right: 0 !important;
             bottom: 0 !important;
             background: rgba(0,0,0,0.5) !important;
-            z-index: 10001 !important;
+            z-index: 99998 !important;
             opacity: ${showMobileFilters ? '1' : '0'} !important;
             visibility: ${showMobileFilters ? 'visible' : 'hidden'} !important;
             pointer-events: ${showMobileFilters ? 'auto' : 'none'} !important;
@@ -146,6 +158,11 @@ export default function ShopPage() {
           }
           .mobile-filter-btn {
             display: flex !important;
+          }
+          
+          /* Empêcher le scroll du body quand les filtres sont ouverts */
+          body.filters-open {
+            overflow: hidden !important;
           }
         }
         @media (min-width: 992px) {
