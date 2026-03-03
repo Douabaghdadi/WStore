@@ -13,6 +13,7 @@ git push origin main
 ```
 
 Le déploiement se fait automatiquement via GitHub Actions.
+Le workflow configure automatiquement Nginx et les permissions des uploads.
 
 ### Documentation
 
