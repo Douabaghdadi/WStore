@@ -150,29 +150,6 @@ export default function CategoryPage() {
     <>
       <style jsx>{`
         @media (max-width: 991px) {
-          .category-container {
-            margin-top: 70px !important;
-            padding-bottom: 30px !important;
-          }
-          .hero-section {
-            padding: 20px 0 !important;
-            margin-bottom: 20px !important;
-          }
-          .hero-title {
-            font-size: 1.5rem !important;
-          }
-          .hero-subtitle {
-            font-size: 12px !important;
-          }
-          .hero-icon-box {
-            width: 40px !important;
-            height: 40px !important;
-          }
-          .hero-icon {
-            font-size: 18px !important;
-          }
-          
-          /* Filtres sidebar mobile */
           .filters-sidebar {
             position: fixed !important;
             top: 0 !important;
@@ -180,79 +157,38 @@ export default function CategoryPage() {
             width: 85% !important;
             max-width: 320px !important;
             height: 100vh !important;
-            z-index: 9999 !important;
+            z-index: 10002 !important;
             transition: left 0.3s ease !important;
             overflow-y: auto !important;
+            background: white !important;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.3) !important;
+            padding: 20px !important;
           }
-          
+          .filters-overlay {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background: rgba(0,0,0,0.5) !important;
+            z-index: 10001 !important;
+            opacity: ${showMobileFilters ? '1' : '0'} !important;
+            visibility: ${showMobileFilters ? 'visible' : 'hidden'} !important;
+            pointer-events: ${showMobileFilters ? 'auto' : 'none'} !important;
+            transition: opacity 0.3s ease, visibility 0.3s ease !important;
+          }
           .mobile-filter-btn {
             display: flex !important;
           }
-          
-          /* Images produits */
-          .product-image-container {
-            height: 200px !important;
-          }
-          .product-image {
-            height: 200px !important;
-            padding: 15px !important;
-          }
-          
-          /* Contenu carte */
-          .product-content {
-            padding: 15px !important;
-          }
-          
-          /* Titre produit */
-          .product-title {
-            font-size: 14px !important;
-            height: 40px !important;
-            margin-bottom: 10px !important;
-          }
-          
-          /* Prix */
-          .product-price-container {
-            margin-bottom: 12px !important;
-          }
-          .product-price {
-            font-size: 18px !important;
-          }
-          
-          /* Actions (quantité + ajouter) */
-          .product-actions {
-            flex-direction: column !important;
-            gap: 10px !important;
-          }
-          
-          /* Sélecteur quantité */
-          .quantity-controls {
-            width: 100% !important;
-            justify-content: center !important;
-          }
-          
-          /* Bouton Ajouter */
-          .add-to-cart-btn {
-            width: 100% !important;
-            padding: 12px 15px !important;
-          }
         }
-        
         @media (min-width: 992px) {
           .mobile-filter-btn {
             display: none !important;
           }
-        }
-        
-        @media (max-width: 576px) {
-          .category-container {
-            margin-top: 65px !important;
+          .filters-overlay {
+            display: none !important;
           }
-          
-          .filters-sidebar {
-            padding: 15px !important;
-          }
-        }
-      `}</style>
+        }`}</style>
       
       {/* Overlay pour mobile */}
       {showMobileFilters && (
@@ -397,7 +333,12 @@ export default function CategoryPage() {
                     className="filter-select"
                     style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                     value={selectedSubcategory} 
-                    onChange={(e) => setSelectedSubcategory(e.target.value)}
+                    onChange={(e) => {
+                    setSelectedSubcategory(e.target.value);
+                    if (window.innerWidth < 992) {
+                      setTimeout(() => setShowMobileFilters(false), 300);
+                    }
+                  }}
                   >
                     <option value="">Toutes les sous-catégories</option>
                     {subcategories.map((sub) => (
@@ -413,7 +354,12 @@ export default function CategoryPage() {
                   className="filter-select"
                   style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={selectedBrand} 
-                  onChange={(e) => setSelectedBrand(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedBrand(e.target.value);
+                    if (window.innerWidth < 992) {
+                      setTimeout(() => setShowMobileFilters(false), 300);
+                    }
+                  }}
                 >
                   <option value="">Toutes les marques</option>
                   {brands.map((brand) => (
@@ -464,7 +410,12 @@ export default function CategoryPage() {
                   className="filter-select"
                   style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={sortBy} 
-                  onChange={(e) => setSortBy(e.target.value)}
+                  onChange={(e) => {
+                    setSortBy(e.target.value);
+                    if (window.innerWidth < 992) {
+                      setTimeout(() => setShowMobileFilters(false), 300);
+                    }
+                  }}
                 >
                   <option value="">Par défaut</option>
                   <option value="price-asc">Prix croissant</option>
@@ -472,28 +423,10 @@ export default function CategoryPage() {
                 </select>
               </div>
 
-              <button 
-                className="reset-filters-btn"
-                style={{
-                  width: '100%',
-                  padding: '14px',
-                  background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '12px',
-                  fontSize: '14px',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px'
-                }}
-                onClick={() => {
-                  resetFilters();
-                  setShowMobileFilters(false);
-                }}
-              >
+              <button onClick={() => {
+                resetFilters();
+                setShowMobileFilters(false);
+              }} style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                 <i className="fas fa-redo"></i> Réinitialiser
               </button>
             </div>

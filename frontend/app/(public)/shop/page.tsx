@@ -129,6 +129,7 @@ export default function ShopPage() {
             overflow-y: auto !important;
             background: white !important;
             box-shadow: 2px 0 20px rgba(0,0,0,0.3) !important;
+            padding: 20px !important;
           }
           .filters-overlay {
             position: fixed !important;
@@ -154,8 +155,7 @@ export default function ShopPage() {
           .filters-overlay {
             display: none !important;
           }
-        }
-      `}</style>
+        }`}</style>
 
     <div style={{ marginTop: '80px', backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
       {/* Overlay pour mobile */}

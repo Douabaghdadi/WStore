@@ -125,11 +125,26 @@ export default function SubcategoryPage() {
             width: 85% !important;
             max-width: 320px !important;
             height: 100vh !important;
-            z-index: 9999 !important;
+            z-index: 10002 !important;
             transition: left 0.3s ease !important;
             overflow-y: auto !important;
+            background: white !important;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.3) !important;
+            padding: 20px !important;
           }
-          
+          .filters-overlay {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background: rgba(0,0,0,0.5) !important;
+            z-index: 10001 !important;
+            opacity: ${showMobileFilters ? '1' : '0'} !important;
+            visibility: ${showMobileFilters ? 'visible' : 'hidden'} !important;
+            pointer-events: ${showMobileFilters ? 'auto' : 'none'} !important;
+            transition: opacity 0.3s ease, visibility 0.3s ease !important;
+          }
           .mobile-filter-btn {
             display: flex !important;
           }
@@ -138,8 +153,10 @@ export default function SubcategoryPage() {
           .mobile-filter-btn {
             display: none !important;
           }
-        }
-      `}</style>
+          .filters-overlay {
+            display: none !important;
+          }
+        }`}</style>
 
       {/* Overlay pour mobile */}
       {showMobileFilters && (
@@ -284,7 +301,12 @@ export default function SubcategoryPage() {
                 <select 
                   style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={selectedBrand} 
-                  onChange={(e) => setSelectedBrand(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedBrand(e.target.value);
+                    if (window.innerWidth < 992) {
+                      setTimeout(() => setShowMobileFilters(false), 300);
+                    }
+                  }}
                 >
                   <option value="">Toutes les marques</option>
                   {brands.map((brand: any) => (
@@ -332,7 +354,12 @@ export default function SubcategoryPage() {
                 <select 
                   style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={sortBy} 
-                  onChange={(e) => setSortBy(e.target.value)}
+                  onChange={(e) => {
+                    setSortBy(e.target.value);
+                    if (window.innerWidth < 992) {
+                      setTimeout(() => setShowMobileFilters(false), 300);
+                    }
+                  }}
                 >
                   <option value="">Par défaut</option>
                   <option value="price-asc">Prix croissant</option>

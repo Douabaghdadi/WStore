@@ -116,65 +116,38 @@ export default function PromotionsPage() {
             width: 85% !important;
             max-width: 320px !important;
             height: 100vh !important;
-            z-index: 9999 !important;
+            z-index: 10002 !important;
             transition: left 0.3s ease !important;
             overflow-y: auto !important;
+            background: white !important;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.3) !important;
+            padding: 20px !important;
           }
-          
+          .filters-overlay {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background: rgba(0,0,0,0.5) !important;
+            z-index: 10001 !important;
+            opacity: ${showMobileFilters ? '1' : '0'} !important;
+            visibility: ${showMobileFilters ? 'visible' : 'hidden'} !important;
+            pointer-events: ${showMobileFilters ? 'auto' : 'none'} !important;
+            transition: opacity 0.3s ease, visibility 0.3s ease !important;
+          }
           .mobile-filter-btn {
             display: flex !important;
-          }
-          .hero-section {
-            padding: 20px 0 !important;
-          }
-          .hero-title {
-            font-size: 1.5rem !important;
-          }
-          .hero-icon {
-            width: 40px !important;
-            height: 40px !important;
-          }
-          .hero-icon i {
-            font-size: 18px !important;
-          }
-          .product-card-img {
-            height: 200px !important;
-          }
-          .product-card-img img {
-            height: 200px !important;
-            padding: 15px !important;
-          }
-          .product-card-content {
-            padding: 15px !important;
-          }
-          .product-card-title {
-            font-size: 14px !important;
-            height: 40px !important;
-            margin-bottom: 10px !important;
-          }
-          .product-card-price {
-            font-size: 18px !important;
-            margin-bottom: 12px !important;
-          }
-          .product-card-actions {
-            flex-direction: column !important;
-            gap: 10px !important;
-          }
-          .product-card-quantity {
-            width: 100% !important;
-            justify-content: center !important;
-          }
-          .product-card-add-btn {
-            width: 100% !important;
-            padding: 12px 15px !important;
           }
         }
         @media (min-width: 992px) {
           .mobile-filter-btn {
             display: none !important;
           }
-        }
-      `}</style>
+          .filters-overlay {
+            display: none !important;
+          }
+        }`}</style>
 
       {/* Overlay pour mobile */}
       {showMobileFilters && (
@@ -290,7 +263,7 @@ export default function PromotionsPage() {
               {/* Bouton fermer pour mobile */}
               <div className="d-lg-none d-flex justify-content-between align-items-center mb-3">
                 <h5 style={{ fontSize: '18px', fontWeight: '700', color: '#1a202c', margin: 0 }}>
-                  <i className="fas fa-filter" style={{ color: '#dc2626' }}></i> Filtres
+                  <i className="fas fa-filter" style={{ color: '#c53030' }}></i> Filtres
                 </h5>
                 <button 
                   onClick={() => setShowMobileFilters(false)}
@@ -321,7 +294,12 @@ export default function PromotionsPage() {
                 <select 
                   style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={selectedCategory} 
-                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedCategory(e.target.value);
+                    if (window.innerWidth < 992) {
+                      setTimeout(() => setShowMobileFilters(false), 300);
+                    }
+                  }}
                 >
                   <option value="">Toutes les catégories</option>
                   {categories.map((cat: any) => (
@@ -335,7 +313,12 @@ export default function PromotionsPage() {
                 <select 
                   style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={selectedBrand} 
-                  onChange={(e) => setSelectedBrand(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedBrand(e.target.value);
+                    if (window.innerWidth < 992) {
+                      setTimeout(() => setShowMobileFilters(false), 300);
+                    }
+                  }}
                 >
                   <option value="">Toutes les marques</option>
                   {brands.map((brand: any) => (
@@ -369,7 +352,12 @@ export default function PromotionsPage() {
                 <select 
                   style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={sortBy} 
-                  onChange={(e) => setSortBy(e.target.value)}
+                  onChange={(e) => {
+                    setSortBy(e.target.value);
+                    if (window.innerWidth < 992) {
+                      setTimeout(() => setShowMobileFilters(false), 300);
+                    }
+                  }}
                 >
                   <option value="">Par défaut</option>
                   <option value="discount-desc">Réduction (+ élevée)</option>
@@ -417,7 +405,7 @@ export default function PromotionsPage() {
               style={{
                 width: '100%',
                 padding: '14px',
-                background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '12px',
@@ -428,7 +416,7 @@ export default function PromotionsPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 4px 12px rgba(220, 38, 38, 0.3)'
+                boxShadow: '0 4px 12px rgba(197, 48, 48, 0.3)'
               }}
             >
               <i className="fas fa-filter"></i> Filtres et Tri
