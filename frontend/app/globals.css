@@ -3663,6 +3663,11 @@ footer::before {
 /* ---- TABLET & MOBILE (≤767px) ---- */
 @media (max-width: 767.98px) {
 
+  /* === HIDE CAROUSEL NAVIGATION ARROWS ON MOBILE === */
+  .carousel-nav-btn {
+    display: none !important;
+  }
+
   /* === CAROUSEL CONTAINER === */
   .mobile-carousel {
     gap: 12px !important;
@@ -3680,8 +3685,8 @@ footer::before {
 
   /* === PRODUCT CARDS === */
   .mobile-product-card {
-    min-width: calc(44vw) !important;
-    max-width: calc(44vw) !important;
+    min-width: calc(47vw) !important;
+    max-width: calc(47vw) !important;
     border-radius: 16px !important;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
     border: 1px solid rgba(0, 0, 0, 0.06) !important;
@@ -3697,13 +3702,13 @@ footer::before {
 
   /* --- Image container --- */
   .mobile-product-card>div:first-child {
-    height: 155px !important;
+    height: 185px !important;
     background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%) !important;
   }
 
   .mobile-product-card>div:first-child img {
-    height: 155px !important;
-    padding: 12px !important;
+    height: 185px !important;
+    padding: 8px !important;
     object-fit: contain !important;
     transition: transform 0.3s ease !important;
   }
@@ -3738,8 +3743,8 @@ footer::before {
   /* --- Product title --- */
   .mobile-product-card>div:last-child h6,
   .mobile-product-card>div:last-child a h6 {
-    font-size: 12px !important;
-    height: 34px !important;
+    font-size: 12.5px !important;
+    height: 36px !important;
     line-height: 1.4 !important;
     margin-bottom: 6px !important;
     font-weight: 600 !important;
@@ -3780,7 +3785,7 @@ footer::before {
 
   /* Main price */
   .mobile-product-card>div:last-child>div[style*="baseline"]>span[style*="fontWeight"] {
-    font-size: 16px !important;
+    font-size: 17px !important;
     font-weight: 800 !important;
   }
 
@@ -3843,18 +3848,18 @@ footer::before {
 /* ---- SMALL MOBILE (≤480px) ---- */
 @media (max-width: 480px) {
   .mobile-product-card {
-    min-width: calc(45vw) !important;
-    max-width: calc(45vw) !important;
+    min-width: calc(47vw) !important;
+    max-width: calc(47vw) !important;
     border-radius: 14px !important;
   }
 
   .mobile-product-card>div:first-child {
-    height: 135px !important;
+    height: 165px !important;
   }
 
   .mobile-product-card>div:first-child img {
-    height: 135px !important;
-    padding: 10px !important;
+    height: 165px !important;
+    padding: 6px !important;
   }
 
   .mobile-product-card>div:last-child {
@@ -3863,13 +3868,13 @@ footer::before {
 
   .mobile-product-card>div:last-child h6,
   .mobile-product-card>div:last-child a h6 {
-    font-size: 11px !important;
-    height: 30px !important;
+    font-size: 11.5px !important;
+    height: 32px !important;
     margin-bottom: 5px !important;
   }
 
   .mobile-product-card>div:last-child>div[style*="baseline"]>span[style*="fontWeight"] {
-    font-size: 15px !important;
+    font-size: 16px !important;
   }
 
   .mobile-product-card .add-to-cart-btn,
@@ -3888,18 +3893,18 @@ footer::before {
 /* ---- EXTRA SMALL MOBILE (≤375px) ---- */
 @media (max-width: 375px) {
   .mobile-product-card {
-    min-width: calc(43vw) !important;
-    max-width: calc(43vw) !important;
+    min-width: calc(46vw) !important;
+    max-width: calc(46vw) !important;
     border-radius: 12px !important;
   }
 
   .mobile-product-card>div:first-child {
-    height: 120px !important;
+    height: 145px !important;
   }
 
   .mobile-product-card>div:first-child img {
-    height: 120px !important;
-    padding: 8px !important;
+    height: 145px !important;
+    padding: 6px !important;
   }
 
   .mobile-product-card>div:last-child {
@@ -3908,8 +3913,8 @@ footer::before {
 
   .mobile-product-card>div:last-child h6,
   .mobile-product-card>div:last-child a h6 {
-    font-size: 10px !important;
-    height: 28px !important;
+    font-size: 11px !important;
+    height: 30px !important;
     margin-bottom: 4px !important;
   }
 
@@ -3919,7 +3924,7 @@ footer::before {
   }
 
   .mobile-product-card>div:last-child>div[style*="baseline"]>span[style*="fontWeight"] {
-    font-size: 14px !important;
+    font-size: 15px !important;
   }
 
   .mobile-product-card .add-to-cart-btn,

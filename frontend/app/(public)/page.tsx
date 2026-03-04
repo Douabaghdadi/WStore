@@ -359,7 +359,7 @@ export default function Home() {
 
                 {/* Carrousel */}
                 <div style={{ position: 'relative' }}>
-                  <button onClick={() => scrollAccessoires('left')} style={{
+                  <button className="carousel-nav-btn" onClick={() => scrollAccessoires('left')} style={{
                     position: 'absolute', left: '-15px', top: '50%', transform: 'translateY(-50%)',
                     width: '40px', height: '40px', borderRadius: '50%', border: 'none', background: 'white',
                     boxShadow: '0 4px 15px rgba(0,0,0,0.1)', cursor: 'pointer', zIndex: 10,
@@ -367,7 +367,7 @@ export default function Home() {
                   }}>
                     <i className="fas fa-chevron-left" style={{ color: '#1a202c' }}></i>
                   </button>
-                  <button onClick={() => scrollAccessoires('right')} style={{
+                  <button className="carousel-nav-btn" onClick={() => scrollAccessoires('right')} style={{
                     position: 'absolute', right: '-15px', top: '50%', transform: 'translateY(-50%)',
                     width: '40px', height: '40px', borderRadius: '50%', border: 'none', background: 'white',
                     boxShadow: '0 4px 15px rgba(0,0,0,0.1)', cursor: 'pointer', zIndex: 10,
@@ -457,7 +457,7 @@ export default function Home() {
 
                             {/* Sélecteur de quantité + Bouton Ajouter */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <div style={{
+                              <div className="quantity-selector" style={{
                                 display: 'flex', alignItems: 'center', background: '#f1f5f9',
                                 borderRadius: '8px', padding: '3px', flexShrink: 0
                               }}>
@@ -613,7 +613,7 @@ export default function Home() {
 
                 {/* Carrousel */}
                 <div style={{ position: 'relative' }}>
-                  <button onClick={() => scrollSmartphones('left')} style={{
+                  <button className="carousel-nav-btn" onClick={() => scrollSmartphones('left')} style={{
                     position: 'absolute', left: '-15px', top: '50%', transform: 'translateY(-50%)',
                     width: '40px', height: '40px', borderRadius: '50%', border: 'none', background: 'white',
                     boxShadow: '0 4px 15px rgba(0,0,0,0.1)', cursor: 'pointer', zIndex: 10,
@@ -621,7 +621,7 @@ export default function Home() {
                   }}>
                     <i className="fas fa-chevron-left" style={{ color: '#1a202c' }}></i>
                   </button>
-                  <button onClick={() => scrollSmartphones('right')} style={{
+                  <button className="carousel-nav-btn" onClick={() => scrollSmartphones('right')} style={{
                     position: 'absolute', right: '-15px', top: '50%', transform: 'translateY(-50%)',
                     width: '40px', height: '40px', borderRadius: '50%', border: 'none', background: 'white',
                     boxShadow: '0 4px 15px rgba(0,0,0,0.1)', cursor: 'pointer', zIndex: 10,
@@ -711,7 +711,7 @@ export default function Home() {
 
                             {/* Sélecteur de quantité + Bouton Ajouter */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                              <div style={{
+                              <div className="quantity-selector" style={{
                                 display: 'flex', alignItems: 'center', background: '#f1f5f9',
                                 borderRadius: '8px', padding: '3px', flexShrink: 0
                               }}>
@@ -773,7 +773,7 @@ export default function Home() {
             </div>
           ) : (
             <div style={{ position: 'relative' }}>
-              <button onClick={() => scrollNouveautes('left')} style={{
+              <button className="carousel-nav-btn" onClick={() => scrollNouveautes('left')} style={{
                 position: 'absolute', left: '-15px', top: '50%', transform: 'translateY(-50%)',
                 width: '40px', height: '40px', borderRadius: '50%', border: 'none', background: 'white',
                 boxShadow: '0 4px 15px rgba(0,0,0,0.1)', cursor: 'pointer', zIndex: 10,
@@ -781,7 +781,7 @@ export default function Home() {
               }}>
                 <i className="fas fa-chevron-left" style={{ color: '#1a202c' }}></i>
               </button>
-              <button onClick={() => scrollNouveautes('right')} style={{
+              <button className="carousel-nav-btn" onClick={() => scrollNouveautes('right')} style={{
                 position: 'absolute', right: '-15px', top: '50%', transform: 'translateY(-50%)',
                 width: '40px', height: '40px', borderRadius: '50%', border: 'none', background: 'white',
                 boxShadow: '0 4px 15px rgba(0,0,0,0.1)', cursor: 'pointer', zIndex: 10,
@@ -876,7 +876,7 @@ export default function Home() {
 
                         {/* Sélecteur de quantité + Bouton Ajouter */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <div style={{
+                          <div className="quantity-selector" style={{
                             display: 'flex', alignItems: 'center', background: '#f1f5f9',
                             borderRadius: '8px', padding: '3px', flexShrink: 0
                           }}>
