@@ -42,18 +42,18 @@ export default function PromoSection() {
       .then(data => {
         console.log('PromoSection - Tous les produits:', data);
         setDebugInfo(`Total produits: ${data.length}`);
-        
+
         // Filtrer les produits avec une promotion (discount > 0)
         const productsWithDiscount = data.filter((p: Product) => {
           const hasDiscount = p.discount && p.discount > 0;
           console.log(`Produit ${p.name}: discount = ${p.discount}, hasDiscount = ${hasDiscount}`);
           return hasDiscount;
         });
-        
+
         console.log('PromoSection - Produits en promo:', productsWithDiscount.length);
         setDebugInfo(`Total: ${data.length}, En promo: ${productsWithDiscount.length}`);
         setPromoProducts(productsWithDiscount);
-        
+
         // Initialiser les quantités
         const initialQuantities: { [key: string]: number } = {};
         productsWithDiscount.forEach((p: Product) => {
@@ -114,10 +114,10 @@ export default function PromoSection() {
   };
 
   const handleAddToCart = (product: Product) => {
-    const discountedPrice = product.discount 
-      ? product.price * (1 - product.discount / 100) 
+    const discountedPrice = product.discount
+      ? product.price * (1 - product.discount / 100)
       : product.price;
-    
+
     addToCart({
       _id: product._id,
       name: product.name,
@@ -168,17 +168,17 @@ export default function PromoSection() {
                 backgroundPosition: 'center'
               }}></div>
               <div style={{ position: 'relative', zIndex: 2 }}>
-                <h3 style={{ 
-                  color: 'white', 
-                  fontSize: '1.8rem', 
+                <h3 style={{
+                  color: 'white',
+                  fontSize: '1.8rem',
                   fontWeight: '800',
                   marginBottom: '15px',
                   textShadow: '0 2px 10px rgba(0,0,0,0.3)'
                 }}>
                   Promotions
                 </h3>
-                <p style={{ 
-                  color: 'rgba(255,255,255,0.85)', 
+                <p style={{
+                  color: 'rgba(255,255,255,0.85)',
                   fontSize: '14px',
                   marginBottom: '20px'
                 }}>
@@ -226,7 +226,7 @@ export default function PromoSection() {
             {/* Carrousel de produits */}
             <div style={{ position: 'relative' }}>
               {/* Boutons de navigation */}
-              <button 
+              <button
                 onClick={() => scroll('left')}
                 style={{
                   position: 'absolute',
@@ -248,7 +248,7 @@ export default function PromoSection() {
               >
                 <i className="fas fa-chevron-left" style={{ color: '#1a202c' }}></i>
               </button>
-              <button 
+              <button
                 onClick={() => scroll('right')}
                 style={{
                   position: 'absolute',
@@ -272,8 +272,9 @@ export default function PromoSection() {
               </button>
 
               {/* Container scrollable */}
-              <div 
+              <div
                 ref={scrollRef}
+                className="mobile-carousel"
                 style={{
                   display: 'flex',
                   gap: '20px',
@@ -287,10 +288,11 @@ export default function PromoSection() {
                   const discountedPrice = product.price * (1 - product.discount / 100);
                   const isFavorite = favorites.includes(product._id);
                   const isHovered = hoveredCard === product._id;
-                  
+
                   return (
-                    <div 
+                    <div
                       key={product._id}
+                      className="mobile-product-card"
                       onMouseEnter={() => setHoveredCard(product._id)}
                       onMouseLeave={() => setHoveredCard(null)}
                       style={{
@@ -299,8 +301,8 @@ export default function PromoSection() {
                         background: 'white',
                         borderRadius: '20px',
                         overflow: 'hidden',
-                        boxShadow: isHovered 
-                          ? '0 20px 40px rgba(26, 54, 93, 0.15)' 
+                        boxShadow: isHovered
+                          ? '0 20px 40px rgba(26, 54, 93, 0.15)'
                           : '0 4px 20px rgba(0,0,0,0.06)',
                         border: '1px solid #e2e8f0',
                         flexShrink: 0,
@@ -311,7 +313,7 @@ export default function PromoSection() {
                       {/* Image du produit */}
                       <div style={{ position: 'relative', background: '#f7fafc', height: '180px' }}>
                         <Link href={`/product/${product._id}`}>
-                          <img 
+                          <img
                             src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
                             alt={product.name}
                             style={{ width: '100%', height: '180px', objectFit: 'contain', padding: '15px' }}
@@ -321,7 +323,7 @@ export default function PromoSection() {
                             }}
                           />
                         </Link>
-                        
+
                         {/* Badges container */}
                         <div style={{
                           position: 'absolute',
@@ -348,7 +350,7 @@ export default function PromoSection() {
                             Promo
                           </span>
                         </div>
-                        
+
                         {/* Badge pourcentage */}
                         <span style={{
                           position: 'absolute',
@@ -392,9 +394,9 @@ export default function PromoSection() {
                             transition: 'all 0.2s ease'
                           }}
                         >
-                          <i 
-                            className={isFavorite ? 'fas fa-heart' : 'far fa-heart'} 
-                            style={{ 
+                          <i
+                            className={isFavorite ? 'fas fa-heart' : 'far fa-heart'}
+                            style={{
                               color: isFavorite ? '#dc2626' : '#64748b',
                               fontSize: '14px'
                             }}
@@ -406,10 +408,10 @@ export default function PromoSection() {
                       <div style={{ padding: '18px' }}>
                         {/* Nom du produit */}
                         <Link href={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-                          <h6 style={{ 
-                            fontWeight: '600', 
-                            color: '#1e293b', 
-                            fontSize: '14px', 
+                          <h6 style={{
+                            fontWeight: '600',
+                            color: '#1e293b',
+                            fontSize: '14px',
                             lineHeight: '1.5',
                             height: '42px',
                             overflow: 'hidden',
@@ -423,9 +425,9 @@ export default function PromoSection() {
                         </Link>
 
                         {/* Stock indicator */}
-                        <div style={{ 
-                          display: 'inline-flex', 
-                          alignItems: 'center', 
+                        <div style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
                           gap: '6px',
                           marginBottom: '12px',
                           background: product.stock > 0 ? '#dcfce7' : '#fee2e2',
@@ -439,7 +441,7 @@ export default function PromoSection() {
                             borderRadius: '50%',
                             background: product.stock > 0 ? '#22c55e' : '#ef4444'
                           }}></span>
-                          <span style={{ 
+                          <span style={{
                             color: product.stock > 0 ? '#16a34a' : '#dc2626',
                             fontSize: '11px',
                             fontWeight: '600'
@@ -449,9 +451,9 @@ export default function PromoSection() {
                         </div>
 
                         {/* Marque - hauteur fixe */}
-                        <p style={{ 
-                          color: '#64748b', 
-                          fontSize: '11px', 
+                        <p style={{
+                          color: '#64748b',
+                          fontSize: '11px',
                           fontWeight: '600',
                           textTransform: 'uppercase',
                           letterSpacing: '0.5px',
@@ -461,29 +463,29 @@ export default function PromoSection() {
                         </p>
 
                         {/* Prix */}
-                        <div style={{ 
-                          display: 'flex', 
-                          alignItems: 'baseline', 
-                          gap: '10px', 
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'baseline',
+                          gap: '10px',
                           marginBottom: '16px'
                         }}>
-                          <span style={{ 
-                            fontSize: '13px', 
-                            color: '#94a3b8', 
+                          <span style={{
+                            fontSize: '13px',
+                            color: '#94a3b8',
                             textDecoration: 'line-through',
                             fontWeight: '500'
                           }}>
                             {product.price.toFixed(3)}
                           </span>
-                          <span style={{ 
-                            fontSize: '20px', 
-                            fontWeight: '800', 
+                          <span style={{
+                            fontSize: '20px',
+                            fontWeight: '800',
                             color: '#16a34a'
                           }}>
                             {discountedPrice.toFixed(3)}
                           </span>
-                          <span style={{ 
-                            fontSize: '12px', 
+                          <span style={{
+                            fontSize: '12px',
                             color: '#64748b',
                             fontWeight: '600'
                           }}>
@@ -492,9 +494,9 @@ export default function PromoSection() {
                         </div>
 
                         {/* Quantité et Ajouter au panier */}
-                        <div style={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
                           gap: '8px',
                           flexWrap: 'nowrap'
                         }}>
@@ -507,7 +509,7 @@ export default function PromoSection() {
                             padding: '3px',
                             flexShrink: 0
                           }}>
-                            <button 
+                            <button
                               onClick={() => handleQuantityChange(product._id, -1)}
                               style={{
                                 width: '26px',
@@ -527,8 +529,8 @@ export default function PromoSection() {
                             >
                               -
                             </button>
-                            <span style={{ 
-                              color: '#1e293b', 
+                            <span style={{
+                              color: '#1e293b',
                               fontWeight: '700',
                               minWidth: '24px',
                               textAlign: 'center',
@@ -536,7 +538,7 @@ export default function PromoSection() {
                             }}>
                               {quantities[product._id] || 1}
                             </span>
-                            <button 
+                            <button
                               onClick={() => handleQuantityChange(product._id, 1)}
                               style={{
                                 width: '26px',
@@ -559,15 +561,15 @@ export default function PromoSection() {
                           </div>
 
                           {/* Bouton Ajouter */}
-                          <button 
+                          <button
                             onClick={() => handleAddToCart(product)}
                             disabled={product.stock === 0}
                             style={{
                               flex: 1,
                               minWidth: 0,
                               border: 'none',
-                              background: product.stock > 0 
-                                ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' 
+                              background: product.stock > 0
+                                ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'
                                 : '#cbd5e1',
                               color: 'white',
                               borderRadius: '8px',
@@ -579,8 +581,8 @@ export default function PromoSection() {
                               alignItems: 'center',
                               justifyContent: 'center',
                               gap: '5px',
-                              boxShadow: product.stock > 0 
-                                ? '0 4px 12px rgba(220, 38, 38, 0.3)' 
+                              boxShadow: product.stock > 0
+                                ? '0 4px 12px rgba(220, 38, 38, 0.3)'
                                 : 'none',
                               transition: 'all 0.2s ease',
                               whiteSpace: 'nowrap'
@@ -599,7 +601,7 @@ export default function PromoSection() {
           </div>
         </div>
       </div>
-      
+
       {/* Styles responsives mobile */}
       <style jsx>{`
         @media (max-width: 768px) {

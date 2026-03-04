@@ -77,17 +77,17 @@ export default function Home() {
 
   // Filtrer les produits par catégorie
   const accessoiresCategory = categories.find(c => c.name?.toLowerCase().includes('accessoire'));
-  const smartphonesCategory = categories.find(c => 
-    c.name?.toLowerCase().includes('smartphone') || 
+  const smartphonesCategory = categories.find(c =>
+    c.name?.toLowerCase().includes('smartphone') ||
     c.name?.toLowerCase().includes('phone') ||
     c.name?.toLowerCase().includes('téléphone')
   );
-  
-  const accessoiresProducts = products.filter(p => 
+
+  const accessoiresProducts = products.filter(p =>
     p.category?.name?.toLowerCase().includes('accessoire')
   );
-  const smartphonesProducts = products.filter(p => 
-    p.category?.name?.toLowerCase().includes('smartphone') || 
+  const smartphonesProducts = products.filter(p =>
+    p.category?.name?.toLowerCase().includes('smartphone') ||
     p.category?.name?.toLowerCase().includes('phone') ||
     p.category?.name?.toLowerCase().includes('téléphone')
   );
@@ -376,12 +376,12 @@ export default function Home() {
                     <i className="fas fa-chevron-right" style={{ color: '#1a202c' }}></i>
                   </button>
 
-                  <div ref={accessoiresScrollRef} style={{ display: 'flex', gap: '20px', overflowX: 'auto', scrollbarWidth: 'none', padding: '10px 5px' }}>
+                  <div ref={accessoiresScrollRef} className="mobile-carousel" style={{ display: 'flex', gap: '20px', overflowX: 'auto', scrollbarWidth: 'none', padding: '10px 5px' }}>
                     {accessoiresProducts.slice(0, 8).map((product) => {
                       const finalPrice = product.discount ? product.price * (1 - product.discount / 100) : product.price;
                       const isFav = favorites.includes(product._id);
                       return (
-                        <div key={product._id} style={{
+                        <div key={product._id} className="mobile-product-card" style={{
                           minWidth: '280px', maxWidth: '280px', background: 'white',
                           borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
                           border: '1px solid #e2e8f0', flexShrink: 0
@@ -392,7 +392,8 @@ export default function Home() {
                                 alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} />
                             </Link>
                             {(product.discount ?? 0) > 0 && (
-                              <span style={{ position: 'absolute', top: '12px', right: '12px', background: '#1a365d',
+                              <span style={{
+                                position: 'absolute', top: '12px', right: '12px', background: '#1a365d',
                                 color: 'white', padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: '800'
                               }}>-{product.discount}%</span>
                             )}
@@ -423,9 +424,9 @@ export default function Home() {
                                 transition: 'all 0.2s ease'
                               }}
                             >
-                              <i 
-                                className={isFav ? 'fas fa-heart' : 'far fa-heart'} 
-                                style={{ 
+                              <i
+                                className={isFav ? 'fas fa-heart' : 'far fa-heart'}
+                                style={{
                                   color: isFav ? '#dc2626' : '#64748b',
                                   fontSize: '14px'
                                 }}
@@ -436,8 +437,10 @@ export default function Home() {
                             <Link href={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
                               <h6 style={{ fontWeight: '600', color: '#1e293b', fontSize: '14px', height: '42px', overflow: 'hidden', marginBottom: '10px' }}>{product.name}</h6>
                             </Link>
-                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '12px',
-                              background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2', padding: '4px 10px', borderRadius: '20px' }}>
+                            <div style={{
+                              display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '12px',
+                              background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2', padding: '4px 10px', borderRadius: '20px'
+                            }}>
                               <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: (product.stock ?? 0) > 0 ? '#22c55e' : '#ef4444' }}></span>
                               <span style={{ color: (product.stock ?? 0) > 0 ? '#16a34a' : '#dc2626', fontSize: '11px', fontWeight: '600' }}>
                                 {(product.stock ?? 0) > 0 ? 'En stock' : 'Rupture'}
@@ -451,7 +454,7 @@ export default function Home() {
                               <span style={{ fontSize: '20px', fontWeight: '800', color: (product.discount ?? 0) > 0 ? '#16a34a' : '#1a365d' }}>{finalPrice.toFixed(3)}</span>
                               <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>DT</span>
                             </div>
-                            
+
                             {/* Sélecteur de quantité + Bouton Ajouter */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                               <div style={{
@@ -501,8 +504,8 @@ export default function Home() {
                   background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)'
                 }}>
                   {/* Image de fond - Ajoute ton image dans /public/img/accessoires-banner.jpg */}
-                  <img 
-                    src="/img/accessoires-banner.jpg" 
+                  <img
+                    src="/img/accessoires-banner.jpg"
                     alt="Accessoires"
                     style={{
                       position: 'absolute',
@@ -557,8 +560,8 @@ export default function Home() {
                   background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)'
                 }}>
                   {/* Image de fond - Ajoute ton image dans /public/img/smartphones-banner.jpg */}
-                  <img 
-                    src="/img/smartphones-banner.jpg" 
+                  <img
+                    src="/img/smartphones-banner.jpg"
                     alt="Smartphones"
                     style={{
                       position: 'absolute',
@@ -627,12 +630,12 @@ export default function Home() {
                     <i className="fas fa-chevron-right" style={{ color: '#1a202c' }}></i>
                   </button>
 
-                  <div ref={smartphonesScrollRef} style={{ display: 'flex', gap: '20px', overflowX: 'auto', scrollbarWidth: 'none', padding: '10px 5px' }}>
+                  <div ref={smartphonesScrollRef} className="mobile-carousel" style={{ display: 'flex', gap: '20px', overflowX: 'auto', scrollbarWidth: 'none', padding: '10px 5px' }}>
                     {smartphonesProducts.slice(0, 8).map((product) => {
                       const finalPrice = product.discount ? product.price * (1 - product.discount / 100) : product.price;
                       const isFav = favorites.includes(product._id);
                       return (
-                        <div key={product._id} style={{
+                        <div key={product._id} className="mobile-product-card" style={{
                           minWidth: '280px', maxWidth: '280px', background: 'white',
                           borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
                           border: '1px solid #e2e8f0', flexShrink: 0
@@ -643,7 +646,8 @@ export default function Home() {
                                 alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} />
                             </Link>
                             {(product.discount ?? 0) > 0 && (
-                              <span style={{ position: 'absolute', top: '12px', right: '12px', background: '#c53030',
+                              <span style={{
+                                position: 'absolute', top: '12px', right: '12px', background: '#c53030',
                                 color: 'white', padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: '800'
                               }}>-{product.discount}%</span>
                             )}
@@ -674,9 +678,9 @@ export default function Home() {
                                 transition: 'all 0.2s ease'
                               }}
                             >
-                              <i 
-                                className={isFav ? 'fas fa-heart' : 'far fa-heart'} 
-                                style={{ 
+                              <i
+                                className={isFav ? 'fas fa-heart' : 'far fa-heart'}
+                                style={{
                                   color: isFav ? '#dc2626' : '#64748b',
                                   fontSize: '14px'
                                 }}
@@ -687,8 +691,10 @@ export default function Home() {
                             <Link href={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
                               <h6 style={{ fontWeight: '600', color: '#1e293b', fontSize: '14px', height: '42px', overflow: 'hidden', marginBottom: '10px' }}>{product.name}</h6>
                             </Link>
-                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '12px',
-                              background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2', padding: '4px 10px', borderRadius: '20px' }}>
+                            <div style={{
+                              display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '12px',
+                              background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2', padding: '4px 10px', borderRadius: '20px'
+                            }}>
                               <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: (product.stock ?? 0) > 0 ? '#22c55e' : '#ef4444' }}></span>
                               <span style={{ color: (product.stock ?? 0) > 0 ? '#16a34a' : '#dc2626', fontSize: '11px', fontWeight: '600' }}>
                                 {(product.stock ?? 0) > 0 ? 'En stock' : 'Rupture'}
@@ -702,7 +708,7 @@ export default function Home() {
                               <span style={{ fontSize: '20px', fontWeight: '800', color: (product.discount ?? 0) > 0 ? '#16a34a' : '#c53030' }}>{finalPrice.toFixed(3)}</span>
                               <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>DT</span>
                             </div>
-                            
+
                             {/* Sélecteur de quantité + Bouton Ajouter */}
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                               <div style={{
@@ -784,12 +790,12 @@ export default function Home() {
                 <i className="fas fa-chevron-right" style={{ color: '#1a202c' }}></i>
               </button>
 
-              <div ref={nouveautesScrollRef} style={{ display: 'flex', gap: '20px', overflowX: 'auto', scrollbarWidth: 'none', padding: '10px 5px' }}>
+              <div ref={nouveautesScrollRef} className="mobile-carousel" style={{ display: 'flex', gap: '20px', overflowX: 'auto', scrollbarWidth: 'none', padding: '10px 5px' }}>
                 {nouveautesProducts.map((product) => {
                   const finalPrice = product.discount ? product.price * (1 - product.discount / 100) : product.price;
                   const isFav = favorites.includes(product._id);
                   return (
-                    <div key={product._id} style={{
+                    <div key={product._id} className="mobile-product-card" style={{
                       minWidth: '280px', maxWidth: '280px', background: 'white',
                       borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
                       border: '1px solid #e2e8f0', flexShrink: 0
@@ -799,12 +805,14 @@ export default function Home() {
                           <img src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
                             alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} />
                         </Link>
-                        <span style={{ position: 'absolute', top: '12px', left: '12px', background: '#c53030',
+                        <span style={{
+                          position: 'absolute', top: '12px', left: '12px', background: '#c53030',
                           color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '11px', fontWeight: '700',
                           display: 'flex', alignItems: 'center', gap: '5px'
                         }}><i className="fas fa-star" style={{ fontSize: '9px' }}></i> NOUVEAU</span>
                         {(product.discount ?? 0) > 0 && (
-                          <span style={{ position: 'absolute', top: '12px', right: '12px', background: '#1a365d',
+                          <span style={{
+                            position: 'absolute', top: '12px', right: '12px', background: '#1a365d',
                             color: 'white', padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: '800'
                           }}>-{product.discount}%</span>
                         )}
@@ -835,9 +843,9 @@ export default function Home() {
                             transition: 'all 0.2s ease'
                           }}
                         >
-                          <i 
-                            className={isFav ? 'fas fa-heart' : 'far fa-heart'} 
-                            style={{ 
+                          <i
+                            className={isFav ? 'fas fa-heart' : 'far fa-heart'}
+                            style={{
                               color: isFav ? '#dc2626' : '#64748b',
                               fontSize: '14px'
                             }}
@@ -848,8 +856,10 @@ export default function Home() {
                         <Link href={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
                           <h6 style={{ fontWeight: '600', color: '#1e293b', fontSize: '14px', height: '42px', overflow: 'hidden', marginBottom: '10px' }}>{product.name}</h6>
                         </Link>
-                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '12px',
-                          background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2', padding: '4px 10px', borderRadius: '20px' }}>
+                        <div style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '12px',
+                          background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2', padding: '4px 10px', borderRadius: '20px'
+                        }}>
                           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: (product.stock ?? 0) > 0 ? '#22c55e' : '#ef4444' }}></span>
                           <span style={{ color: (product.stock ?? 0) > 0 ? '#16a34a' : '#dc2626', fontSize: '11px', fontWeight: '600' }}>
                             {(product.stock ?? 0) > 0 ? 'En stock' : 'Rupture'}
@@ -863,7 +873,7 @@ export default function Home() {
                           <span style={{ fontSize: '20px', fontWeight: '800', color: (product.discount ?? 0) > 0 ? '#16a34a' : '#c53030' }}>{finalPrice.toFixed(3)}</span>
                           <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>DT</span>
                         </div>
-                        
+
                         {/* Sélecteur de quantité + Bouton Ajouter */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                           <div style={{
@@ -934,22 +944,22 @@ export default function Home() {
               { icon: 'fa-headset', title: 'Support 24/7', desc: 'À votre écoute', gradient: 'linear-gradient(135deg, #c53030 0%, #e53e3e 100%)', shadow: 'rgba(197, 48, 48, 0.4)' }
             ].map((f, i) => (
               <div key={i} className="col-6 col-md-3">
-                <div className="feature-card" style={{ 
-                  background: 'white', 
-                  borderRadius: '24px', 
-                  padding: '40px 20px', 
+                <div className="feature-card" style={{
+                  background: 'white',
+                  borderRadius: '24px',
+                  padding: '40px 20px',
                   textAlign: 'center',
-                  boxShadow: '0 10px 40px rgba(0,0,0,0.06)', 
+                  boxShadow: '0 10px 40px rgba(0,0,0,0.06)',
                   border: '1px solid rgba(0,0,0,0.04)',
                   height: '100%'
                 }}>
-                  <div className="feature-icon" style={{ 
-                    width: '80px', 
-                    height: '80px', 
-                    background: f.gradient, 
-                    borderRadius: '24px', 
-                    display: 'flex', 
-                    alignItems: 'center', 
+                  <div className="feature-icon" style={{
+                    width: '80px',
+                    height: '80px',
+                    background: f.gradient,
+                    borderRadius: '24px',
+                    display: 'flex',
+                    alignItems: 'center',
                     justifyContent: 'center',
                     margin: '0 auto 25px',
                     boxShadow: `0 15px 35px ${f.shadow}`

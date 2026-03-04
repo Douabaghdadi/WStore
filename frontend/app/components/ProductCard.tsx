@@ -23,7 +23,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
   const { favorites, addFavorite, removeFavorite } = useFavorites();
-  
+
   const finalPrice = product.discount ? product.price * (1 - product.discount / 100) : product.price;
   const isFav = favorites.includes(product._id);
 
@@ -42,8 +42,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div 
-      className="product-card"
+    <div
+      className="product-card mobile-product-card"
       style={{
         background: 'white',
         borderRadius: '16px',
@@ -56,30 +56,30 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Image Container */}
       <div style={{ position: 'relative', background: '#f7fafc', height: '240px' }}>
         <Link href={`/product/${product._id}`}>
-          <img 
+          <img
             src={product.image?.startsWith('http') ? product.image : product.image ? `${process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn"}${product.image}` : '/img/product-placeholder.jpg'}
-            alt={product.name} 
-            style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} 
+            alt={product.name}
+            style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }}
           />
         </Link>
-        
+
         {/* Discount Badge */}
         {(product.discount ?? 0) > 0 && (
-          <span style={{ 
-            position: 'absolute', 
-            top: '12px', 
-            right: '12px', 
+          <span style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
             background: '#1a365d',
-            color: 'white', 
-            padding: '6px 10px', 
-            borderRadius: '8px', 
-            fontSize: '12px', 
+            color: 'white',
+            padding: '6px 10px',
+            borderRadius: '8px',
+            fontSize: '12px',
             fontWeight: '800'
           }}>
             -{product.discount}%
           </span>
         )}
-        
+
         {/* Favorite Button */}
         <button
           onClick={(e) => {
@@ -107,9 +107,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             transition: 'all 0.2s ease'
           }}
         >
-          <i 
-            className={isFav ? 'fas fa-heart' : 'far fa-heart'} 
-            style={{ 
+          <i
+            className={isFav ? 'fas fa-heart' : 'far fa-heart'}
+            style={{
               color: isFav ? '#dc2626' : '#64748b',
               fontSize: '14px'
             }}
@@ -120,12 +120,12 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Product Info */}
       <div style={{ padding: '18px' }}>
         <Link href={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-          <h6 style={{ 
-            fontWeight: '600', 
-            color: '#1e293b', 
-            fontSize: '14px', 
-            height: '42px', 
-            overflow: 'hidden', 
+          <h6 style={{
+            fontWeight: '600',
+            color: '#1e293b',
+            fontSize: '14px',
+            height: '42px',
+            overflow: 'hidden',
             marginBottom: '10px',
             display: '-webkit-box',
             WebkitLineClamp: 2,
@@ -134,156 +134,156 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </h6>
         </Link>
-        
+
         {/* Stock Badge */}
-        <div style={{ 
-          display: 'inline-flex', 
-          alignItems: 'center', 
-          gap: '6px', 
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '6px',
           marginBottom: '12px',
-          background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2', 
-          padding: '4px 10px', 
-          borderRadius: '20px' 
+          background: (product.stock ?? 0) > 0 ? '#dcfce7' : '#fee2e2',
+          padding: '4px 10px',
+          borderRadius: '20px'
         }}>
-          <span style={{ 
-            width: '6px', 
-            height: '6px', 
-            borderRadius: '50%', 
-            background: (product.stock ?? 0) > 0 ? '#22c55e' : '#ef4444' 
+          <span style={{
+            width: '6px',
+            height: '6px',
+            borderRadius: '50%',
+            background: (product.stock ?? 0) > 0 ? '#22c55e' : '#ef4444'
           }}></span>
-          <span style={{ 
-            color: (product.stock ?? 0) > 0 ? '#16a34a' : '#dc2626', 
-            fontSize: '11px', 
-            fontWeight: '600' 
+          <span style={{
+            color: (product.stock ?? 0) > 0 ? '#16a34a' : '#dc2626',
+            fontSize: '11px',
+            fontWeight: '600'
           }}>
             {(product.stock ?? 0) > 0 ? 'En stock' : 'Rupture'}
           </span>
         </div>
-        
+
         {/* Brand */}
-        <p style={{ 
-          color: '#64748b', 
-          fontSize: '11px', 
-          fontWeight: '600', 
-          textTransform: 'uppercase', 
-          marginBottom: '8px' 
+        <p style={{
+          color: '#64748b',
+          fontSize: '11px',
+          fontWeight: '600',
+          textTransform: 'uppercase',
+          marginBottom: '8px'
         }}>
           {product.brand?.name || '\u00A0'}
         </p>
-        
+
         {/* Price */}
-        <div className="price" style={{ 
-          display: 'flex', 
-          alignItems: 'baseline', 
-          gap: '10px', 
-          marginBottom: '16px' 
+        <div className="price" style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          gap: '10px',
+          marginBottom: '16px'
         }}>
           {(product.discount ?? 0) > 0 && (
-            <span style={{ 
-              fontSize: '13px', 
-              color: '#94a3b8', 
-              textDecoration: 'line-through' 
+            <span style={{
+              fontSize: '13px',
+              color: '#94a3b8',
+              textDecoration: 'line-through'
             }}>
               {product.price.toFixed(3)}
             </span>
           )}
-          <span style={{ 
-            fontSize: '20px', 
-            fontWeight: '800', 
-            color: (product.discount ?? 0) > 0 ? '#16a34a' : '#1a365d' 
+          <span style={{
+            fontSize: '20px',
+            fontWeight: '800',
+            color: (product.discount ?? 0) > 0 ? '#16a34a' : '#1a365d'
           }}>
             {finalPrice.toFixed(3)}
           </span>
-          <span style={{ 
-            fontSize: '12px', 
-            color: '#64748b', 
-            fontWeight: '600' 
+          <span style={{
+            fontSize: '12px',
+            color: '#64748b',
+            fontWeight: '600'
           }}>
             DT
           </span>
         </div>
-        
+
         {/* Quantity Selector + Add to Cart */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div 
+          <div
             className="quantity-selector"
             style={{
-              display: 'flex', 
-              alignItems: 'center', 
+              display: 'flex',
+              alignItems: 'center',
               background: '#f1f5f9',
-              borderRadius: '8px', 
-              padding: '3px', 
+              borderRadius: '8px',
+              padding: '3px',
               flexShrink: 0
             }}
           >
-            <button 
-              onClick={() => handleQuantityChange(-1)} 
+            <button
+              onClick={() => handleQuantityChange(-1)}
               style={{
-                width: '28px', 
-                height: '28px', 
-                border: 'none', 
+                width: '28px',
+                height: '28px',
+                border: 'none',
                 background: 'white',
-                color: '#1a365d', 
-                borderRadius: '6px', 
+                color: '#1a365d',
+                borderRadius: '6px',
                 cursor: 'pointer',
-                display: 'flex', 
-                alignItems: 'center', 
+                display: 'flex',
+                alignItems: 'center',
                 justifyContent: 'center',
-                fontWeight: '700', 
-                fontSize: '14px', 
+                fontWeight: '700',
+                fontSize: '14px',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
               }}
             >
               -
             </button>
-            <span style={{ 
-              color: '#1e293b', 
-              fontWeight: '700', 
-              minWidth: '28px', 
-              textAlign: 'center', 
-              fontSize: '13px' 
+            <span style={{
+              color: '#1e293b',
+              fontWeight: '700',
+              minWidth: '28px',
+              textAlign: 'center',
+              fontSize: '13px'
             }}>
               {quantity}
             </span>
-            <button 
-              onClick={() => handleQuantityChange(1)} 
+            <button
+              onClick={() => handleQuantityChange(1)}
               style={{
-                width: '28px', 
-                height: '28px', 
-                border: 'none', 
+                width: '28px',
+                height: '28px',
+                border: 'none',
                 background: 'white',
-                color: '#1a365d', 
-                borderRadius: '6px', 
+                color: '#1a365d',
+                borderRadius: '6px',
                 cursor: 'pointer',
-                display: 'flex', 
-                alignItems: 'center', 
+                display: 'flex',
+                alignItems: 'center',
                 justifyContent: 'center',
-                fontWeight: '700', 
-                fontSize: '14px', 
+                fontWeight: '700',
+                fontSize: '14px',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
               }}
             >
               +
             </button>
           </div>
-          
-          <button 
-            onClick={handleAddToCart} 
-            disabled={(product.stock ?? 0) === 0} 
+
+          <button
+            onClick={handleAddToCart}
+            disabled={(product.stock ?? 0) === 0}
             className="add-to-cart-btn"
             style={{
-              flex: 1, 
-              border: 'none', 
+              flex: 1,
+              border: 'none',
               background: (product.stock ?? 0) > 0 ? '#1a365d' : '#cbd5e1',
-              color: 'white', 
-              borderRadius: '8px', 
-              padding: '10px', 
+              color: 'white',
+              borderRadius: '8px',
+              padding: '10px',
               cursor: (product.stock ?? 0) > 0 ? 'pointer' : 'not-allowed',
-              fontSize: '11px', 
-              fontWeight: '700', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
+              fontSize: '11px',
+              fontWeight: '700',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               gap: '6px'
             }}
           >

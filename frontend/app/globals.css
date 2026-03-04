@@ -3169,3 +3169,686 @@ footer::before {
     transform: scale(0.9) !important;
   }
 }
+
+/* ============================================
+   AMÉLIORATION DESIGN LUXE - CARTES PAGE D'ACCUEIL
+   ============================================ */
+
+/* Cartes produits - Design Premium Élégant */
+.homepage-product-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Effet hover luxueux - Desktop */
+@media (min-width: 769px) {
+  .homepage-product-card:hover {
+    transform: translateY(-12px) scale(1.02) !important;
+    box-shadow: 0 25px 60px rgba(26, 54, 93, 0.2) !important;
+    border-color: rgba(26, 54, 93, 0.15) !important;
+  }
+  
+  .homepage-product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: left 0.6s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .homepage-product-card:hover::before {
+    left: 100%;
+  }
+  
+  /* Image zoom élégant au hover */
+  .homepage-product-card:hover img {
+    transform: scale(1.1) rotate(2deg) !important;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  
+  /* Badge discount animation */
+  .homepage-product-card:hover [style*="position: absolute"][style*="top: '12px'"][style*="right: '12px'"] {
+    transform: scale(1.15) rotate(-5deg) !important;
+    box-shadow: 0 8px 20px rgba(197, 48, 48, 0.4) !important;
+  }
+  
+  /* Bouton favoris animation */
+  .homepage-product-card:hover button[style*="position: absolute"][style*="bottom: '12px'"] {
+    transform: scale(1.15) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
+/* Effet active/touch - Mobile */
+@media (max-width: 768px) {
+  .homepage-product-card:active {
+    transform: translateY(-6px) scale(0.98) !important;
+    box-shadow: 0 15px 40px rgba(26, 54, 93, 0.15) !important;
+    transition: all 0.2s ease !important;
+  }
+}
+
+/* Amélioration des images produits */
+.homepage-product-card img {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  filter: brightness(1) contrast(1.05) !important;
+}
+
+/* Badges discount - Style Premium */
+.homepage-product-card [style*="position: absolute"][style*="top: '12px'"][style*="right: '12px'"],
+.homepage-product-card [style*="position: absolute"][style*="top: '12px'"][style*="left: '12px'"] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(8px) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Bouton favoris - Animation élégante */
+.homepage-product-card button[style*="position: absolute"][style*="bottom: '12px'"] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.homepage-product-card button[style*="position: absolute"][style*="bottom: '12px'"]:hover {
+  transform: scale(1.2) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+.homepage-product-card button[style*="position: absolute"][style*="bottom: '12px'"]:active {
+  transform: scale(1.05) !important;
+}
+
+/* Titres produits - Typographie élégante */
+.homepage-product-card h6 {
+  font-weight: 700 !important;
+  letter-spacing: -0.3px !important;
+  line-height: 1.4 !important;
+  color: #1a202c !important;
+  transition: color 0.3s ease !important;
+}
+
+.homepage-product-card:hover h6 {
+  color: #1a365d !important;
+}
+
+/* Badge stock - Design Premium */
+.homepage-product-card [style*="borderRadius: '20px'"][style*="padding: '4px 10px'"] {
+  backdrop-filter: blur(8px) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3px !important;
+}
+
+/* Prix - Typographie Premium */
+.homepage-product-card [style*="fontSize: '20px'"][style*="fontWeight: '800'"] {
+  font-weight: 900 !important;
+  letter-spacing: -0.5px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Ancien prix barré - Style élégant */
+.homepage-product-card [style*="textDecoration: 'line-through'"] {
+  opacity: 0.6 !important;
+  font-weight: 600 !important;
+}
+
+/* Sélecteur de quantité - Design Premium */
+.homepage-product-card [style*="background: '#f1f5f9'"] {
+  backdrop-filter: blur(10px) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease !important;
+}
+
+.homepage-product-card [style*="background: '#f1f5f9'"]:hover {
+  background: rgba(241, 245, 249, 0.9) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Boutons quantité - Style Luxe */
+.homepage-product-card [style*="background: '#f1f5f9'"] button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-weight: 800 !important;
+}
+
+.homepage-product-card [style*="background: '#f1f5f9'"] button:hover {
+  transform: scale(1.1) !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15) !important;
+  background: white !important;
+}
+
+.homepage-product-card [style*="background: '#f1f5f9'"] button:active {
+  transform: scale(0.95) !important;
+}
+
+/* Bouton Ajouter au panier - Design Premium */
+.homepage-product-card button[style*="flex: 1"] {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.3px !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.homepage-product-card button[style*="flex: 1"]::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.homepage-product-card button[style*="flex: 1"]:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.homepage-product-card button[style*="flex: 1"]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(197, 48, 48, 0.35) !important;
+}
+
+.homepage-product-card button[style*="flex: 1"]:active {
+  transform: translateY(0) scale(0.98) !important;
+  box-shadow: 0 4px 12px rgba(197, 48, 48, 0.25) !important;
+}
+
+/* Icône panier - Animation */
+.homepage-product-card button[style*="flex: 1"] i {
+  transition: transform 0.3s ease !important;
+}
+
+.homepage-product-card button[style*="flex: 1"]:hover i {
+  transform: scale(1.2) rotate(10deg) !important;
+}
+
+/* Effet de brillance sur les cartes */
+@keyframes card-shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.homepage-product-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    110deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (min-width: 769px) {
+  .homepage-product-card:hover::after {
+    animation: card-shine 1.5s ease-in-out;
+  }
+}
+
+/* Amélioration du fond des images */
+.homepage-product-card [style*="background: '#f7fafc'"] {
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.homepage-product-card [style*="background: '#f7fafc'"]::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.8) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+@media (min-width: 769px) {
+  .homepage-product-card:hover [style*="background: '#f7fafc'"]::before {
+    opacity: 1;
+  }
+}
+
+/* Bordure élégante au hover */
+.homepage-product-card {
+  border: 1px solid #e2e8f0 !important;
+  transition: border-color 0.4s ease !important;
+}
+
+@media (min-width: 769px) {
+  .homepage-product-card:hover {
+    border-color: rgba(26, 54, 93, 0.3) !important;
+  }
+}
+
+/* Ombre portée progressive */
+.homepage-product-card {
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.03),
+    0 10px 20px rgba(0, 0, 0, 0.04) !important;
+}
+
+@media (min-width: 769px) {
+  .homepage-product-card:hover {
+    box-shadow: 
+      0 10px 20px rgba(26, 54, 93, 0.1),
+      0 20px 40px rgba(26, 54, 93, 0.15),
+      0 30px 60px rgba(26, 54, 93, 0.1) !important;
+  }
+}
+
+/* Responsive - Mobile Premium */
+@media (max-width: 768px) {
+  .homepage-product-card {
+    border-radius: 20px !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  .homepage-product-card:active {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12) !important;
+  }
+  
+  /* Badges plus visibles sur mobile */
+  .homepage-product-card [style*="position: absolute"][style*="top: '12px'"] {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  }
+  
+  /* Boutons plus touch-friendly */
+  .homepage-product-card button {
+    min-height: 44px !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .homepage-product-card {
+    border-radius: 18px !important;
+  }
+  
+  .homepage-product-card [style*="background: '#f7fafc'"] {
+    border-radius: 18px 18px 0 0 !important;
+  }
+}
+
+/* Animation d'apparition des cartes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.homepage-product-card {
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+/* Délai progressif pour l'animation */
+.homepage-product-card:nth-child(1) { animation-delay: 0.05s; }
+.homepage-product-card:nth-child(2) { animation-delay: 0.1s; }
+.homepage-product-card:nth-child(3) { animation-delay: 0.15s; }
+.homepage-product-card:nth-child(4) { animation-delay: 0.2s; }
+.homepage-product-card:nth-child(5) { animation-delay: 0.25s; }
+.homepage-product-card:nth-child(6) { animation-delay: 0.3s; }
+.homepage-product-card:nth-child(7) { animation-delay: 0.35s; }
+.homepage-product-card:nth-child(8) { animation-delay: 0.4s; }
+
+/* Désactiver les animations si l'utilisateur préfère */
+@media (prefers-reduced-motion: reduce) {
+  .homepage-product-card,
+  .homepage-product-card *,
+  .homepage-product-card::before,
+  .homepage-product-card::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Amélioration de la lisibilité des textes */
+.homepage-product-card * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optimisation des performances */
+.homepage-product-card {
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Effet de focus pour l'accessibilité */
+.homepage-product-card:focus-within {
+  outline: 3px solid rgba(26, 54, 93, 0.4);
+  outline-offset: 2px;
+}
+
+/* Amélioration des liens */
+.homepage-product-card a {
+  position: relative;
+  z-index: 2;
+}
+
+.homepage-product-card a:focus {
+  outline: 2px solid rgba(26, 54, 93, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ============================================================================
+   MOBILE PRODUCT CARDS & CAROUSELS - LUXE & PROFESSIONAL
+   Uses CSS classes added to components for RELIABLE targeting.
+   All styles wrapped in max-width media queries — ZERO desktop impact.
+   ============================================================================ */
+
+/* ---- TABLET & MOBILE (≤767px) ---- */
+@media (max-width: 767.98px) {
+
+  /* === CAROUSEL CONTAINER === */
+  .mobile-carousel {
+    gap: 12px !important;
+    padding: 8px 16px 12px 16px !important;
+    margin-left: -12px !important;
+    margin-right: -12px !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .mobile-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* === PRODUCT CARDS === */
+  .mobile-product-card {
+    min-width: calc(44vw) !important;
+    max-width: calc(44vw) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    scroll-snap-align: start;
+    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+    overflow: hidden !important;
+  }
+
+  .mobile-product-card:active {
+    transform: translateY(-4px) scale(0.98) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14) !important;
+  }
+
+  /* --- Image container --- */
+  .mobile-product-card > div:first-child {
+    height: 155px !important;
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%) !important;
+  }
+
+  .mobile-product-card > div:first-child img {
+    height: 155px !important;
+    padding: 12px !important;
+    object-fit: contain !important;
+    transition: transform 0.3s ease !important;
+  }
+
+  /* --- Discount badge --- */
+  .mobile-product-card > div:first-child > span {
+    padding: 4px 8px !important;
+    font-size: 10px !important;
+    border-radius: 6px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.3px !important;
+  }
+
+  /* --- Favorite button --- */
+  .mobile-product-card > div:first-child > button {
+    width: 32px !important;
+    height: 32px !important;
+    bottom: 8px !important;
+    right: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+  }
+
+  .mobile-product-card > div:first-child > button i {
+    font-size: 12px !important;
+  }
+
+  /* --- Content area --- */
+  .mobile-product-card > div:last-child {
+    padding: 12px !important;
+  }
+
+  /* --- Product title --- */
+  .mobile-product-card > div:last-child h6,
+  .mobile-product-card > div:last-child a h6 {
+    font-size: 12px !important;
+    height: 34px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 6px !important;
+    font-weight: 600 !important;
+    -webkit-line-clamp: 2 !important;
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  /* --- Stock badge --- */
+  .mobile-product-card > div:last-child > div[style*="inline-flex"],
+  .mobile-product-card > div:last-child > a + div {
+    padding: 3px 8px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .mobile-product-card > div:last-child > div[style*="inline-flex"] span:last-child {
+    font-size: 10px !important;
+  }
+
+  /* --- Brand name --- */
+  .mobile-product-card > div:last-child > p {
+    font-size: 10px !important;
+    margin-bottom: 5px !important;
+  }
+
+  /* --- Price area --- */
+  .mobile-product-card .price,
+  .mobile-product-card > div:last-child > div[style*="baseline"] {
+    margin-bottom: 10px !important;
+    gap: 6px !important;
+  }
+
+  /* Old price (strikethrough) */
+  .mobile-product-card > div:last-child > div[style*="baseline"] > span[style*="line-through"] {
+    font-size: 11px !important;
+  }
+
+  /* Main price */
+  .mobile-product-card > div:last-child > div[style*="baseline"] > span[style*="fontWeight"] {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+  }
+
+  /* DT currency label */
+  .mobile-product-card > div:last-child > div[style*="baseline"] > span:last-child {
+    font-size: 10px !important;
+  }
+
+  /* --- Quantity selector: HIDE on mobile to save space --- */
+  .mobile-product-card .quantity-selector,
+  .mobile-product-card > div:last-child > div:last-child > div[style*="f1f5f9"] {
+    display: none !important;
+  }
+
+  /* --- Add to cart button: FULL WIDTH on mobile --- */
+  .mobile-product-card .add-to-cart-btn,
+  .mobile-product-card > div:last-child > div:last-child > button {
+    width: 100% !important;
+    flex: 1 !important;
+    padding: 10px 12px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    border-radius: 10px !important;
+    gap: 5px !important;
+    letter-spacing: 0.3px !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12) !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .mobile-product-card > div:last-child > div:last-child > button:active {
+    transform: scale(0.96) !important;
+  }
+
+  .mobile-product-card > div:last-child > div:last-child > button i {
+    font-size: 11px !important;
+  }
+
+  /* --- Promo badges (PromoSection specific) --- */
+  .mobile-product-card > div:first-child > div[style*="flex-direction"] {
+    top: 8px !important;
+    left: 8px !important;
+  }
+
+  .mobile-product-card > div:first-child > div[style*="flex-direction"] span {
+    padding: 4px 8px !important;
+    font-size: 9px !important;
+    border-radius: 6px !important;
+  }
+
+  /* --- NOUVEAU badge (Nouveautés section) --- */
+  .mobile-product-card > div:first-child > span[style*="left: 12px"] {
+    padding: 4px 8px !important;
+    font-size: 9px !important;
+    top: 8px !important;
+    left: 8px !important;
+    border-radius: 6px !important;
+  }
+}
+
+/* ---- SMALL MOBILE (≤480px) ---- */
+@media (max-width: 480px) {
+  .mobile-product-card {
+    min-width: calc(45vw) !important;
+    max-width: calc(45vw) !important;
+    border-radius: 14px !important;
+  }
+
+  .mobile-product-card > div:first-child {
+    height: 135px !important;
+  }
+
+  .mobile-product-card > div:first-child img {
+    height: 135px !important;
+    padding: 10px !important;
+  }
+
+  .mobile-product-card > div:last-child {
+    padding: 10px !important;
+  }
+
+  .mobile-product-card > div:last-child h6,
+  .mobile-product-card > div:last-child a h6 {
+    font-size: 11px !important;
+    height: 30px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .mobile-product-card > div:last-child > div[style*="baseline"] > span[style*="fontWeight"] {
+    font-size: 15px !important;
+  }
+
+  .mobile-product-card .add-to-cart-btn,
+  .mobile-product-card > div:last-child > div:last-child > button {
+    padding: 9px 10px !important;
+    font-size: 11px !important;
+    border-radius: 8px !important;
+  }
+
+  .mobile-carousel {
+    gap: 10px !important;
+    padding: 6px 12px 10px 12px !important;
+  }
+}
+
+/* ---- EXTRA SMALL MOBILE (≤375px) ---- */
+@media (max-width: 375px) {
+  .mobile-product-card {
+    min-width: calc(43vw) !important;
+    max-width: calc(43vw) !important;
+    border-radius: 12px !important;
+  }
+
+  .mobile-product-card > div:first-child {
+    height: 120px !important;
+  }
+
+  .mobile-product-card > div:first-child img {
+    height: 120px !important;
+    padding: 8px !important;
+  }
+
+  .mobile-product-card > div:last-child {
+    padding: 8px !important;
+  }
+
+  .mobile-product-card > div:last-child h6,
+  .mobile-product-card > div:last-child a h6 {
+    font-size: 10px !important;
+    height: 28px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .mobile-product-card > div:last-child > p {
+    font-size: 9px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .mobile-product-card > div:last-child > div[style*="baseline"] > span[style*="fontWeight"] {
+    font-size: 14px !important;
+  }
+
+  .mobile-product-card .add-to-cart-btn,
+  .mobile-product-card > div:last-child > div:last-child > button {
+    padding: 8px 8px !important;
+    font-size: 10px !important;
+  }
+
+  .mobile-carousel {
+    gap: 8px !important;
+    padding: 4px 10px 8px 10px !important;
+  }
+}
