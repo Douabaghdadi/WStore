@@ -389,7 +389,7 @@ export default function Home() {
                           <div style={{ position: 'relative', background: '#f7fafc', height: '240px' }}>
                             <Link href={`/product/${product._id}`}>
                               <img src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
-                                alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} />
+                                alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'cover' }} />
                             </Link>
                             {(product.discount ?? 0) > 0 && (
                               <span style={{
@@ -415,7 +415,7 @@ export default function Home() {
                                 height: '36px',
                                 borderRadius: '50%',
                                 border: 'none',
-                                background: isFav ? '#fee2e2' : 'white',
+                                background: isFav ? '#fee2e2' : 'rgba(255,255,255,0.9)',
                                 cursor: 'pointer',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -643,7 +643,7 @@ export default function Home() {
                           <div style={{ position: 'relative', background: '#f7fafc', height: '240px' }}>
                             <Link href={`/product/${product._id}`}>
                               <img src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
-                                alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} />
+                                alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'cover' }} />
                             </Link>
                             {(product.discount ?? 0) > 0 && (
                               <span style={{
@@ -669,7 +669,7 @@ export default function Home() {
                                 height: '36px',
                                 borderRadius: '50%',
                                 border: 'none',
-                                background: isFav ? '#fee2e2' : 'white',
+                                background: isFav ? '#fee2e2' : 'rgba(255,255,255,0.9)',
                                 cursor: 'pointer',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -803,7 +803,7 @@ export default function Home() {
                       <div style={{ position: 'relative', background: '#f7fafc', height: '240px' }}>
                         <Link href={`/product/${product._id}`}>
                           <img src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
-                            alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }} />
+                            alt={product.name} style={{ width: '100%', height: '240px', objectFit: 'cover' }} />
                         </Link>
                         <span style={{
                           position: 'absolute', top: '12px', left: '12px', background: '#c53030',
@@ -834,7 +834,7 @@ export default function Home() {
                             height: '36px',
                             borderRadius: '50%',
                             border: 'none',
-                            background: isFav ? '#fee2e2' : 'white',
+                            background: isFav ? '#fee2e2' : 'rgba(255,255,255,0.9)',
                             cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',

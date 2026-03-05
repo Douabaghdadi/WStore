@@ -59,7 +59,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <img
             src={product.image?.startsWith('http') ? product.image : product.image ? `${process.env.NEXT_PUBLIC_API_URL || "https://w-store.tn"}${product.image}` : '/img/product-placeholder.jpg'}
             alt={product.name}
-            style={{ width: '100%', height: '240px', objectFit: 'contain', padding: '20px' }}
+            style={{ width: '100%', height: '240px', objectFit: 'cover' }}
           />
         </Link>
 
@@ -94,17 +94,20 @@ export default function ProductCard({ product }: ProductCardProps) {
             position: 'absolute',
             bottom: '12px',
             right: '12px',
-            width: '36px',
-            height: '36px',
+            width: '38px',
+            height: '38px',
             borderRadius: '50%',
-            border: 'none',
-            background: isFav ? '#fee2e2' : 'white',
+            border: '1px solid rgba(255,255,255,0.5)',
+            background: isFav ? '#fee2e2' : 'rgba(255,255,255,0.9)',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-            transition: 'all 0.2s ease'
+            boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            transition: 'all 0.2s ease',
+            zIndex: 5
           }}
         >
           <i

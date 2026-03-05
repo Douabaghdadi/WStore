@@ -227,6 +227,7 @@ export default function PromoSection() {
             <div style={{ position: 'relative' }}>
               {/* Boutons de navigation */}
               <button
+                className="carousel-nav-btn"
                 onClick={() => scroll('left')}
                 style={{
                   position: 'absolute',
@@ -249,6 +250,7 @@ export default function PromoSection() {
                 <i className="fas fa-chevron-left" style={{ color: '#1a202c' }}></i>
               </button>
               <button
+                className="carousel-nav-btn"
                 onClick={() => scroll('right')}
                 style={{
                   position: 'absolute',
@@ -316,7 +318,7 @@ export default function PromoSection() {
                           <img
                             src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'}
                             alt={product.name}
-                            style={{ width: '100%', height: '180px', objectFit: 'contain', padding: '15px' }}
+                            style={{ width: '100%', height: '180px', objectFit: 'cover' }}
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               target.src = '/img/product-placeholder.jpg';
@@ -381,17 +383,20 @@ export default function PromoSection() {
                             position: 'absolute',
                             bottom: '12px',
                             right: '12px',
-                            width: '36px',
-                            height: '36px',
+                            width: '38px',
+                            height: '38px',
                             borderRadius: '50%',
-                            border: 'none',
-                            background: isFavorite ? '#fee2e2' : 'white',
+                            border: '1px solid rgba(255,255,255,0.5)',
+                            background: isFavorite ? '#fee2e2' : 'rgba(255,255,255,0.9)',
                             cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-                            transition: 'all 0.2s ease'
+                            boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+                            backdropFilter: 'blur(8px)',
+                            WebkitBackdropFilter: 'blur(8px)',
+                            transition: 'all 0.2s ease',
+                            zIndex: 5
                           }}
                         >
                           <i
@@ -501,7 +506,7 @@ export default function PromoSection() {
                           flexWrap: 'nowrap'
                         }}>
                           {/* Sélecteur de quantité */}
-                          <div style={{
+                          <div className="quantity-selector" style={{
                             display: 'flex',
                             alignItems: 'center',
                             background: '#f1f5f9',

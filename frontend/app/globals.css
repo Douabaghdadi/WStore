@@ -3708,8 +3708,8 @@ footer::before {
 
   .mobile-product-card>div:first-child img {
     height: 185px !important;
-    padding: 8px !important;
-    object-fit: contain !important;
+    padding: 0 !important;
+    object-fit: cover !important;
     transition: transform 0.3s ease !important;
   }
 
@@ -3724,15 +3724,20 @@ footer::before {
 
   /* --- Favorite button --- */
   .mobile-product-card>div:first-child>button {
-    width: 32px !important;
-    height: 32px !important;
-    bottom: 8px !important;
-    right: 8px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+    width: 36px !important;
+    height: 36px !important;
+    bottom: 10px !important;
+    right: 10px !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    z-index: 5 !important;
   }
 
   .mobile-product-card>div:first-child>button i {
-    font-size: 12px !important;
+    font-size: 14px !important;
   }
 
   /* --- Content area --- */
@@ -3859,7 +3864,8 @@ footer::before {
 
   .mobile-product-card>div:first-child img {
     height: 165px !important;
-    padding: 6px !important;
+    padding: 0 !important;
+    object-fit: cover !important;
   }
 
   .mobile-product-card>div:last-child {
@@ -3904,7 +3910,8 @@ footer::before {
 
   .mobile-product-card>div:first-child img {
     height: 145px !important;
-    padding: 6px !important;
+    padding: 0 !important;
+    object-fit: cover !important;
   }
 
   .mobile-product-card>div:last-child {
