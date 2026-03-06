@@ -301,7 +301,7 @@ export default function NouveautesPage() {
               <h1 className="hero-title" style={{ fontSize: '2rem', fontWeight: '800', color: 'white', margin: 0 }}>
                 Nouveautés
               </h1>
-              <p className="hero-subtitle" style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', margin: 0 }}>
+              <p className="hero-subtitle" style={{ color: 'rgba(255,255,255,0.8)', fontSize: '16px', margin: 0 }}>
                 Découvrez nos derniers arrivages !
               </p>
             </div>
@@ -313,7 +313,7 @@ export default function NouveautesPage() {
               color: 'white', 
               padding: '6px 14px', 
               borderRadius: '20px', 
-              fontSize: '13px', 
+              fontSize: '15px', 
               fontWeight: '600',
               display: 'flex',
               alignItems: 'center',
@@ -369,10 +369,10 @@ export default function NouveautesPage() {
               </h5>
 
               <div className="filter-section" style={{ marginBottom: '25px' }}>
-                <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Catégorie</label>
+                <label className="filter-label" style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Catégorie</label>
                 <select 
                   className="filter-select"
-                  style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
+                  style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={selectedCategory} 
                   onChange={(e) => setSelectedCategory(e.target.value)}
                 >
@@ -384,10 +384,10 @@ export default function NouveautesPage() {
               </div>
               
               <div className="filter-section" style={{ marginBottom: '25px' }}>
-                <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Marque</label>
+                <label className="filter-label" style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Marque</label>
                 <select 
                   className="filter-select"
-                  style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
+                  style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={selectedBrand} 
                   onChange={(e) => setSelectedBrand(e.target.value)}
                 >
@@ -399,7 +399,7 @@ export default function NouveautesPage() {
               </div>
 
               <div className="filter-section" style={{ marginBottom: '25px' }}>
-                <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Prix (DT)</label>
+                <label className="filter-label" style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Prix (DT)</label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   <input 
                     type="number" 
@@ -407,7 +407,7 @@ export default function NouveautesPage() {
                     value={priceRange.min}
                     onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
                     className="filter-input"
-                    style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none' }}
+                    style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none' }}
                   />
                   <input 
                     type="number" 
@@ -415,7 +415,7 @@ export default function NouveautesPage() {
                     value={priceRange.max}
                     onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
                     className="filter-input"
-                    style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none' }}
+                    style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none' }}
                   />
                 </div>
               </div>
@@ -428,17 +428,17 @@ export default function NouveautesPage() {
                     onChange={(e) => setShowDiscountOnly(e.target.checked)}
                     style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#c53030' }}
                   />
-                  <span style={{ fontSize: '14px', color: showDiscountOnly ? '#c53030' : '#64748b', fontWeight: '600' }}>
+                  <span style={{ fontSize: '16px', color: showDiscountOnly ? '#c53030' : '#64748b', fontWeight: '600' }}>
                     <i className="fas fa-tag me-2"></i>Promotions uniquement
                   </span>
                 </label>
               </div>
 
               <div className="filter-section" style={{ marginBottom: '25px' }}>
-                <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Trier par</label>
+                <label className="filter-label" style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Trier par</label>
                 <select 
                   className="filter-select"
-                  style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
+                  style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={sortBy} 
                   onChange={(e) => setSortBy(e.target.value)}
                 >
@@ -457,7 +457,7 @@ export default function NouveautesPage() {
                   color: 'white',
                   border: 'none',
                   borderRadius: '12px',
-                  fontSize: '14px',
+                  fontSize: '16px',
                   fontWeight: '700',
                   cursor: 'pointer',
                   display: 'flex',
@@ -493,7 +493,7 @@ export default function NouveautesPage() {
                 color: 'white',
                 border: 'none',
                 borderRadius: '12px',
-                fontSize: '14px',
+                fontSize: '16px',
                 fontWeight: '700',
                 cursor: 'pointer',
                 display: 'none',
@@ -507,7 +507,7 @@ export default function NouveautesPage() {
             </button>
 
             <div className="results-count" style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
+              <p style={{ margin: 0, color: '#64748b', fontSize: '16px' }}>
                 <span style={{ fontWeight: '700', color: '#1a202c' }}>{filteredProducts.length}</span> produit(s) trouvé(s)
               </p>
             </div>
@@ -550,7 +550,7 @@ export default function NouveautesPage() {
                           </Link>
                           {/* Badge Nouveau */}
                           <span className="product-badge" style={{
-                            position: 'absolute', top: '12px', left: '12px',
+                            position: 'absolute', top: (product.discount ?? 0) > 0 ? '60px' : '12px', left: '12px',
                             background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)',
                             color: 'white', padding: '6px 12px', borderRadius: '8px',
                             fontSize: '11px', fontWeight: '700',
@@ -561,7 +561,7 @@ export default function NouveautesPage() {
                           </span>
                           {(product.discount ?? 0) > 0 && (
                             <span className="product-discount-badge" style={{
-                              position: 'absolute', top: '12px', right: '12px',
+                              position: 'absolute', top: '12px', left: '12px',
                               background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
                               color: 'white', padding: '6px 10px', borderRadius: '8px',
                               fontSize: '12px', fontWeight: '800',
@@ -578,9 +578,9 @@ export default function NouveautesPage() {
                             }}
                             className="product-favorite-btn"
                             style={{
-                              position: 'absolute', bottom: '12px', right: '12px',
+                              position: 'absolute', bottom: '12px', left: '12px',
                               width: '40px', height: '40px', borderRadius: '50%', border: 'none',
-                              background: isFavorite ? '#fee2e2' : 'white', cursor: 'pointer',
+                              background: isFavorite ? '#fee2e2' : 'rgba(255,255,255,0.9)', cursor: 'pointer',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
                               boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
                             }}
@@ -605,7 +605,7 @@ export default function NouveautesPage() {
                           <p className="product-brand" style={{ color: '#64748b', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', marginBottom: '8px' }}>{product.brand?.name || '\u00A0'}</p>
                           <div className="product-price-container" style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '16px', marginTop: 'auto' }}>
                             {(product.discount ?? 0) > 0 && (
-                              <span className="product-old-price" style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toFixed(3)}</span>
+                              <span className="product-old-price" style={{ fontSize: '15px', color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toFixed(3)}</span>
                             )}
                             <span className="product-price" style={{ fontSize: '20px', fontWeight: '800', color: (product.discount ?? 0) > 0 ? '#16a34a' : '#c53030' }}>{finalPrice.toFixed(3)}</span>
                             <span className="product-price-currency" style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>DT</span>
@@ -615,13 +615,13 @@ export default function NouveautesPage() {
                               <button onClick={() => handleQuantityChange(product._id, -1)} className="quantity-btn" style={{
                                 width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030',
                                 borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                                fontWeight: '700', fontSize: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                               }}>-</button>
-                              <span className="quantity-value" style={{ color: '#1e293b', fontWeight: '700', minWidth: '28px', textAlign: 'center', fontSize: '14px' }}>{quantities[product._id] || 1}</span>
+                              <span className="quantity-value" style={{ color: '#1e293b', fontWeight: '700', minWidth: '28px', textAlign: 'center', fontSize: '16px' }}>{quantities[product._id] || 1}</span>
                               <button onClick={() => handleQuantityChange(product._id, 1)} className="quantity-btn" style={{
                                 width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030',
                                 borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                                fontWeight: '700', fontSize: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                               }}>+</button>
                             </div>
                             <button onClick={() => handleAddToCart(product)} disabled={(product.stock ?? 0) === 0} className="add-to-cart-btn" style={{
@@ -629,7 +629,7 @@ export default function NouveautesPage() {
                               background: (product.stock ?? 0) > 0 ? 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)' : '#cbd5e1',
                               color: 'white', borderRadius: '10px', padding: '10px 15px',
                               cursor: (product.stock ?? 0) > 0 ? 'pointer' : 'not-allowed',
-                              fontSize: '13px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                              fontSize: '15px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                               boxShadow: (product.stock ?? 0) > 0 ? '0 4px 12px rgba(197, 48, 48, 0.3)' : 'none'
                             }}>
                               <i className="fas fa-shopping-cart"></i> Ajouter

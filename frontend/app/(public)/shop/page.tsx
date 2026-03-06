@@ -213,18 +213,18 @@ export default function ShopPage() {
                 <h1 style={{ fontSize: '2rem', fontWeight: '800', color: 'white', margin: 0 }}>
                   Notre Boutique
                 </h1>
-                <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', margin: 0 }}>
+                <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '16px', margin: 0 }}>
                   Découvrez tous nos produits
                 </p>
               </div>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '15px', flexWrap: 'wrap' }}>
-              <span style={{ background: 'rgba(255,255,255,0.2)', color: 'white', padding: '6px 14px', borderRadius: '20px', fontSize: '13px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ background: 'rgba(255,255,255,0.2)', color: 'white', padding: '6px 14px', borderRadius: '20px', fontSize: '15px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <i className="fas fa-box" style={{ fontSize: '12px' }}></i>
                 {products.length} articles disponibles
               </span>
-              <span style={{ background: 'rgba(197, 48, 48, 0.3)', color: 'white', padding: '6px 14px', borderRadius: '20px', fontSize: '13px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ background: 'rgba(197, 48, 48, 0.3)', color: 'white', padding: '6px 14px', borderRadius: '20px', fontSize: '15px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <i className="fas fa-tags" style={{ fontSize: '12px' }}></i>
                 {products.filter(p => (p.discount ?? 0) > 0).length} en promotion
               </span>
@@ -268,9 +268,9 @@ export default function ShopPage() {
                 </h5>
 
                 <div style={{ marginBottom: '25px' }}>
-                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Catégorie</label>
+                  <label style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Catégorie</label>
                   <select
-                    style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
+                    style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                     value={selectedCategory}
                     onChange={(e) => {
                       setSelectedCategory(e.target.value);
@@ -285,9 +285,9 @@ export default function ShopPage() {
                 </div>
 
                 <div style={{ marginBottom: '25px' }}>
-                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Marque</label>
+                  <label style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Marque</label>
                   <select
-                    style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
+                    style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                     value={selectedBrand}
                     onChange={(e) => {
                       setSelectedBrand(e.target.value);
@@ -302,17 +302,17 @@ export default function ShopPage() {
                 </div>
 
                 <div style={{ marginBottom: '25px' }}>
-                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Prix (DT)</label>
+                  <label style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Prix (DT)</label>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                    <input type="number" placeholder="Min" value={priceRange.min} onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none' }} />
-                    <input type="number" placeholder="Max" value={priceRange.max} onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none' }} />
+                    <input type="number" placeholder="Min" value={priceRange.min} onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none' }} />
+                    <input type="number" placeholder="Max" value={priceRange.max} onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none' }} />
                   </div>
                 </div>
 
                 <div style={{ marginBottom: '15px' }}>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: showDiscountOnly ? '#fee2e2' : '#f8f9fa', borderRadius: '12px', transition: 'all 0.3s' }}>
                     <input type="checkbox" checked={showDiscountOnly} onChange={(e) => setShowDiscountOnly(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#c53030' }} />
-                    <span style={{ fontSize: '14px', color: showDiscountOnly ? '#c53030' : '#64748b', fontWeight: '600' }}>
+                    <span style={{ fontSize: '16px', color: showDiscountOnly ? '#c53030' : '#64748b', fontWeight: '600' }}>
                       <i className="fas fa-tag me-2"></i>Promotions uniquement
                     </span>
                   </label>
@@ -321,16 +321,16 @@ export default function ShopPage() {
                 <div style={{ marginBottom: '25px' }}>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: showInStockOnly ? '#dcfce7' : '#f8f9fa', borderRadius: '12px', transition: 'all 0.3s' }}>
                     <input type="checkbox" checked={showInStockOnly} onChange={(e) => setShowInStockOnly(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#16a34a' }} />
-                    <span style={{ fontSize: '14px', color: showInStockOnly ? '#16a34a' : '#64748b', fontWeight: '600' }}>
+                    <span style={{ fontSize: '16px', color: showInStockOnly ? '#16a34a' : '#64748b', fontWeight: '600' }}>
                       <i className="fas fa-check-circle me-2"></i>En stock uniquement
                     </span>
                   </label>
                 </div>
 
                 <div style={{ marginBottom: '25px' }}>
-                  <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Trier par</label>
+                  <label style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Trier par</label>
                   <select
-                    style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
+                    style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                     value={sortBy}
                     onChange={(e) => {
                       setSortBy(e.target.value);
@@ -350,7 +350,7 @@ export default function ShopPage() {
                 <button onClick={() => {
                   resetFilters();
                   setShowMobileFilters(false);
-                }} style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                }} style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                   <i className="fas fa-redo"></i> Réinitialiser
                 </button>
               </div>
@@ -370,7 +370,7 @@ export default function ShopPage() {
                   color: 'white',
                   border: 'none',
                   borderRadius: '12px',
-                  fontSize: '14px',
+                  fontSize: '16px',
                   fontWeight: '700',
                   cursor: 'pointer',
                   display: 'none',
@@ -383,11 +383,11 @@ export default function ShopPage() {
                 <i className="fas fa-filter"></i> Filtres et Tri
               </button>
               <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
-                <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
+                <p style={{ margin: 0, color: '#64748b', fontSize: '16px' }}>
                   <span style={{ fontWeight: '700', color: '#1a202c' }}>{filteredProducts.length}</span> produit(s) trouvé(s)
                 </p>
                 {(selectedBrand || selectedCategory || showDiscountOnly || showInStockOnly || priceRange.min || priceRange.max) && (
-                  <button onClick={resetFilters} style={{ background: '#fee2e2', color: '#c53030', border: 'none', padding: '8px 16px', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <button onClick={resetFilters} style={{ background: '#fee2e2', color: '#c53030', border: 'none', padding: '8px 16px', borderRadius: '8px', fontSize: '15px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <i className="fas fa-times"></i> Effacer les filtres
                   </button>
                 )}
@@ -429,7 +429,7 @@ export default function ShopPage() {
                               <span style={{
                                 position: 'absolute',
                                 top: '8px',
-                                right: '8px',
+                                left: '8px',
                                 background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
                                 color: 'white',
                                 padding: '4px 8px',
@@ -450,24 +450,25 @@ export default function ShopPage() {
                               }}
                               style={{
                                 position: 'absolute',
-                                bottom: '8px',
-                                right: '8px',
-                                width: '32px',
-                                height: '32px',
+                                top: '8px',
+                                left: '8px',
+                                width: '36px',
+                                height: '36px',
                                 borderRadius: '50%',
                                 border: 'none',
-                                background: isFavorite ? '#fee2e2' : 'white',
+                                background: isFavorite ? '#fee2e2' : 'rgba(255,255,255,0.9)',
                                 cursor: 'pointer',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                                transition: 'all 0.2s ease'
+                                transition: 'all 0.2s ease',
+                                zIndex: 10
                               }}
                             >
                               <i
                                 className={isFavorite ? 'fas fa-heart' : 'far fa-heart'}
-                                style={{ color: isFavorite ? '#dc2626' : '#64748b', fontSize: '13px' }}
+                                style={{ color: isFavorite ? '#dc2626' : '#64748b', fontSize: '15px' }}
                               ></i>
                             </button>
                           </div>
@@ -478,7 +479,7 @@ export default function ShopPage() {
                               <h6 style={{
                                 fontWeight: '600',
                                 color: '#1e293b',
-                                fontSize: '13px',
+                                fontSize: '15px',
                                 lineHeight: '1.4',
                                 height: '36px',
                                 overflow: 'hidden',
@@ -574,7 +575,7 @@ export default function ShopPage() {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     fontWeight: '700',
-                                    fontSize: '13px',
+                                    fontSize: '15px',
                                     boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
                                   }}
                                 >
@@ -603,7 +604,7 @@ export default function ShopPage() {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     fontWeight: '700',
-                                    fontSize: '13px',
+                                    fontSize: '15px',
                                     boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
                                   }}
                                 >

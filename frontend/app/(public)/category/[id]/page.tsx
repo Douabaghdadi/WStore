@@ -345,10 +345,10 @@ export default function CategoryPage() {
 
               {subcategories.length > 0 && (
                 <div className="filter-section" style={{ marginBottom: '25px' }}>
-                  <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Sous-catégorie</label>
+                  <label className="filter-label" style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Sous-catégorie</label>
                   <select 
                     className="filter-select"
-                    style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
+                    style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                     value={selectedSubcategory} 
                     onChange={(e) => {
                     setSelectedSubcategory(e.target.value);
@@ -366,10 +366,10 @@ export default function CategoryPage() {
               )}
               
               <div className="filter-section" style={{ marginBottom: '25px' }}>
-                <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Marque</label>
+                <label className="filter-label" style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Marque</label>
                 <select 
                   className="filter-select"
-                  style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
+                  style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={selectedBrand} 
                   onChange={(e) => {
                     setSelectedBrand(e.target.value);
@@ -386,7 +386,7 @@ export default function CategoryPage() {
               </div>
 
               <div className="filter-section" style={{ marginBottom: '25px' }}>
-                <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Prix (DT)</label>
+                <label className="filter-label" style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Prix (DT)</label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   <input 
                     type="number" 
@@ -394,7 +394,7 @@ export default function CategoryPage() {
                     value={priceRange.min}
                     onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
                     className="filter-input"
-                    style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none' }}
+                    style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none' }}
                   />
                   <input 
                     type="number" 
@@ -402,7 +402,7 @@ export default function CategoryPage() {
                     value={priceRange.max}
                     onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
                     className="filter-input"
-                    style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none' }}
+                    style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none' }}
                   />
                 </div>
               </div>
@@ -415,17 +415,17 @@ export default function CategoryPage() {
                     onChange={(e) => setShowDiscountOnly(e.target.checked)}
                     style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#c53030' }}
                   />
-                  <span style={{ fontSize: '14px', color: showDiscountOnly ? '#c53030' : '#64748b', fontWeight: '600' }}>
+                  <span style={{ fontSize: '16px', color: showDiscountOnly ? '#c53030' : '#64748b', fontWeight: '600' }}>
                     <i className="fas fa-tag me-2"></i>Promotions uniquement
                   </span>
                 </label>
               </div>
 
               <div className="filter-section" style={{ marginBottom: '25px' }}>
-                <label className="filter-label" style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Trier par</label>
+                <label className="filter-label" style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Trier par</label>
                 <select 
                   className="filter-select"
-                  style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
+                  style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer', color: '#1a202c' }}
                   value={sortBy} 
                   onChange={(e) => {
                     setSortBy(e.target.value);
@@ -443,7 +443,7 @@ export default function CategoryPage() {
               <button onClick={() => {
                 resetFilters();
                 setShowMobileFilters(false);
-              }} style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+              }} style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                 <i className="fas fa-redo"></i> Réinitialiser
               </button>
             </div>
@@ -463,7 +463,7 @@ export default function CategoryPage() {
                 color: 'white',
                 border: 'none',
                 borderRadius: '12px',
-                fontSize: '14px',
+                fontSize: '16px',
                 fontWeight: '700',
                 cursor: 'pointer',
                 display: 'none',
@@ -477,7 +477,7 @@ export default function CategoryPage() {
             </button>
 
             <div className="results-count" style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <p style={{ margin: 0, color: '#64748b', fontSize: '14px' }}>
+              <p style={{ margin: 0, color: '#64748b', fontSize: '16px' }}>
                 <span style={{ fontWeight: '700', color: '#1a202c' }}>{filteredProducts.length}</span> produit(s) trouvé(s)
               </p>
             </div>
@@ -520,7 +520,7 @@ export default function CategoryPage() {
                           </Link>
                           {product.brand?.name && (
                             <span className="product-badge" style={{
-                              position: 'absolute', top: '12px', left: '12px',
+                              position: 'absolute', top: (product.discount ?? 0) > 0 ? '60px' : '12px', left: '12px',
                               background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)',
                               color: 'white', padding: '6px 12px', borderRadius: '8px',
                               fontSize: '11px', fontWeight: '700',
@@ -531,7 +531,7 @@ export default function CategoryPage() {
                           )}
                           {(product.discount ?? 0) > 0 && (
                             <span className="product-discount-badge" style={{
-                              position: 'absolute', top: '12px', right: '12px',
+                              position: 'absolute', top: '12px', left: '12px',
                               background: 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)',
                               color: 'white', padding: '6px 10px', borderRadius: '8px',
                               fontSize: '12px', fontWeight: '800',
@@ -548,9 +548,9 @@ export default function CategoryPage() {
                             }}
                             className="product-favorite-btn"
                             style={{
-                              position: 'absolute', bottom: '12px', right: '12px',
+                              position: 'absolute', bottom: '12px', left: '12px',
                               width: '40px', height: '40px', borderRadius: '50%', border: 'none',
-                              background: isFavorite ? '#fee2e2' : 'white', cursor: 'pointer',
+                              background: isFavorite ? '#fee2e2' : 'rgba(255,255,255,0.9)', cursor: 'pointer',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
                               boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
                             }}
@@ -574,7 +574,7 @@ export default function CategoryPage() {
                           </div>
                           <div className="product-price-container" style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '16px', marginTop: 'auto' }}>
                             {(product.discount ?? 0) > 0 && (
-                              <span className="product-old-price" style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toFixed(3)}</span>
+                              <span className="product-old-price" style={{ fontSize: '15px', color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toFixed(3)}</span>
                             )}
                             <span className="product-price" style={{ fontSize: '20px', fontWeight: '800', color: (product.discount ?? 0) > 0 ? '#16a34a' : '#c53030' }}>{finalPrice.toFixed(3)}</span>
                             <span className="product-price-currency" style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>DT</span>
@@ -584,13 +584,13 @@ export default function CategoryPage() {
                               <button onClick={() => handleQuantityChange(product._id, -1)} className="quantity-btn" style={{
                                 width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030',
                                 borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                                fontWeight: '700', fontSize: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                               }}>-</button>
-                              <span className="quantity-value" style={{ color: '#1e293b', fontWeight: '700', minWidth: '28px', textAlign: 'center', fontSize: '14px' }}>{quantities[product._id] || 1}</span>
+                              <span className="quantity-value" style={{ color: '#1e293b', fontWeight: '700', minWidth: '28px', textAlign: 'center', fontSize: '16px' }}>{quantities[product._id] || 1}</span>
                               <button onClick={() => handleQuantityChange(product._id, 1)} className="quantity-btn" style={{
                                 width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030',
                                 borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                                fontWeight: '700', fontSize: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                               }}>+</button>
                             </div>
                             <button onClick={() => handleAddToCart(product)} disabled={(product.stock ?? 0) === 0} className="add-to-cart-btn" style={{
@@ -598,7 +598,7 @@ export default function CategoryPage() {
                               background: (product.stock ?? 0) > 0 ? 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)' : '#cbd5e1',
                               color: 'white', borderRadius: '10px', padding: '10px 15px',
                               cursor: (product.stock ?? 0) > 0 ? 'pointer' : 'not-allowed',
-                              fontSize: '13px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                              fontSize: '15px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                               boxShadow: (product.stock ?? 0) > 0 ? '0 4px 12px rgba(197, 48, 48, 0.3)' : 'none'
                             }}>
                               <i className="fas fa-shopping-cart"></i> Ajouter

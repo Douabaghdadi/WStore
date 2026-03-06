@@ -190,7 +190,7 @@ function RechercheContent() {
               <h1 style={{ fontSize: '2rem', fontWeight: '800', color: 'white', margin: 0 }}>
                 Résultats pour "{query}"
               </h1>
-              <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', margin: 0 }}>
+              <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '16px', margin: 0 }}>
                 {filteredProducts.length} produit(s) trouvé(s)
               </p>
             </div>
@@ -233,41 +233,41 @@ function RechercheContent() {
               </h5>
 
               <div style={{ marginBottom: '25px' }}>
-                <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase' }}>Catégorie</label>
-                <select style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer' }} value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                <label style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase' }}>Catégorie</label>
+                <select style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer' }} value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
                   <option value="">Toutes les catégories</option>
                   {categories.map((cat: any) => (<option key={cat._id} value={cat._id}>{cat.name}</option>))}
                 </select>
               </div>
               
               <div style={{ marginBottom: '25px' }}>
-                <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase' }}>Marque</label>
-                <select style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer' }} value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
+                <label style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase' }}>Marque</label>
+                <select style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer' }} value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
                   <option value="">Toutes les marques</option>
                   {brands.map((brand: any) => (<option key={brand._id} value={brand._id}>{brand.name}</option>))}
                 </select>
               </div>
 
               <div style={{ marginBottom: '25px' }}>
-                <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase' }}>Prix (DT)</label>
+                <label style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase' }}>Prix (DT)</label>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                  <input type="number" placeholder="Min" value={priceRange.min} onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none' }} />
-                  <input type="number" placeholder="Max" value={priceRange.max} onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none' }} />
+                  <input type="number" placeholder="Min" value={priceRange.min} onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none' }} />
+                  <input type="number" placeholder="Max" value={priceRange.max} onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })} style={{ width: '100%', padding: '12px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none' }} />
                 </div>
               </div>
 
               <div style={{ marginBottom: '25px' }}>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: showDiscountOnly ? '#fee2e2' : '#f8f9fa', borderRadius: '12px' }}>
                   <input type="checkbox" checked={showDiscountOnly} onChange={(e) => setShowDiscountOnly(e.target.checked)} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#c53030' }} />
-                  <span style={{ fontSize: '14px', color: showDiscountOnly ? '#c53030' : '#64748b', fontWeight: '600' }}>
+                  <span style={{ fontSize: '16px', color: showDiscountOnly ? '#c53030' : '#64748b', fontWeight: '600' }}>
                     <i className="fas fa-tag me-2"></i>Promotions uniquement
                   </span>
                 </label>
               </div>
 
               <div style={{ marginBottom: '25px' }}>
-                <label style={{ fontSize: '13px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase' }}>Trier par</label>
-                <select style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', outline: 'none', cursor: 'pointer' }} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                <label style={{ fontSize: '15px', fontWeight: '600', color: '#64748b', marginBottom: '10px', display: 'block', textTransform: 'uppercase' }}>Trier par</label>
+                <select style={{ width: '100%', padding: '12px 15px', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '16px', outline: 'none', cursor: 'pointer' }} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
                   <option value="">Pertinence</option>
                   <option value="price-asc">Prix croissant</option>
                   <option value="price-desc">Prix décroissant</option>
@@ -279,7 +279,7 @@ function RechercheContent() {
                   resetFilters();
                   setShowMobileFilters(false);
                 }}
-                style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                style={{ width: '100%', padding: '14px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '16px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
               >
                 <i className="fas fa-redo"></i> Réinitialiser
               </button>
@@ -300,7 +300,7 @@ function RechercheContent() {
                 color: 'white',
                 border: 'none',
                 borderRadius: '12px',
-                fontSize: '14px',
+                fontSize: '16px',
                 fontWeight: '700',
                 cursor: 'pointer',
                 display: 'none',
@@ -339,12 +339,12 @@ function RechercheContent() {
                             <img src={product.image?.startsWith('http') ? product.image : product.image ? `${API_URL}${product.image}` : '/img/product-placeholder.jpg'} alt={product.name} style={{ width: '100%', height: '280px', objectFit: 'contain', padding: '20px' }} />
                           </Link>
                           {product.brand?.name && (
-                            <span style={{ position: 'absolute', top: '12px', left: '12px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '11px', fontWeight: '700' }}>{product.brand.name}</span>
+                            <span style={{ position: 'absolute', top: (product.discount ?? 0) > 0 ? '60px' : '12px', left: '12px', background: 'linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%)', color: 'white', padding: '6px 12px', borderRadius: '8px', fontSize: '11px', fontWeight: '700' }}>{product.brand.name}</span>
                           )}
                           {(product.discount ?? 0) > 0 && (
-                            <span style={{ position: 'absolute', top: '12px', right: '12px', background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)', color: 'white', padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: '800' }}>-{product.discount}%</span>
+                            <span style={{ position: 'absolute', top: '12px', left: '12px', background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)', color: 'white', padding: '6px 10px', borderRadius: '8px', fontSize: '12px', fontWeight: '800' }}>-{product.discount}%</span>
                           )}
-                          <button onClick={(e) => { e.preventDefault(); isFavorite ? removeFavorite(product._id) : addFavorite(product._id); }} style={{ position: 'absolute', bottom: '12px', right: '12px', width: '40px', height: '40px', borderRadius: '50%', border: 'none', background: isFavorite ? '#fee2e2' : 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+                          <button onClick={(e) => { e.preventDefault(); isFavorite ? removeFavorite(product._id) : addFavorite(product._id); }} style={{ position: 'absolute', bottom: '12px', left: '12px', width: '40px', height: '40px', borderRadius: '50%', border: 'none', background: isFavorite ? '#fee2e2' : 'rgba(255,255,255,0.9)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
                             <i className={isFavorite ? 'fas fa-heart' : 'far fa-heart'} style={{ color: isFavorite ? '#dc2626' : '#64748b', fontSize: '16px' }}></i>
                           </button>
                         </div>
@@ -357,17 +357,17 @@ function RechercheContent() {
                             <span style={{ color: (product.stock ?? 0) > 0 ? '#16a34a' : '#dc2626', fontSize: '11px', fontWeight: '600' }}>{(product.stock ?? 0) > 0 ? 'En stock' : 'Rupture'}</span>
                           </div>
                           <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '16px', marginTop: 'auto' }}>
-                            {(product.discount ?? 0) > 0 && (<span style={{ fontSize: '13px', color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toFixed(3)}</span>)}
+                            {(product.discount ?? 0) > 0 && (<span style={{ fontSize: '15px', color: '#94a3b8', textDecoration: 'line-through' }}>{product.price.toFixed(3)}</span>)}
                             <span style={{ fontSize: '20px', fontWeight: '800', color: (product.discount ?? 0) > 0 ? '#16a34a' : '#c53030' }}>{finalPrice.toFixed(3)}</span>
                             <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '600' }}>DT</span>
                           </div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', background: '#f1f5f9', borderRadius: '8px', padding: '3px', flexShrink: 0 }}>
-                              <button onClick={() => handleQuantityChange(product._id, -1)} style={{ width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030', borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>-</button>
-                              <span style={{ color: '#1e293b', fontWeight: '700', minWidth: '28px', textAlign: 'center', fontSize: '14px' }}>{quantities[product._id] || 1}</span>
-                              <button onClick={() => handleQuantityChange(product._id, 1)} style={{ width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030', borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>+</button>
+                              <button onClick={() => handleQuantityChange(product._id, -1)} style={{ width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030', borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>-</button>
+                              <span style={{ color: '#1e293b', fontWeight: '700', minWidth: '28px', textAlign: 'center', fontSize: '16px' }}>{quantities[product._id] || 1}</span>
+                              <button onClick={() => handleQuantityChange(product._id, 1)} style={{ width: '28px', height: '28px', border: 'none', background: 'white', color: '#c53030', borderRadius: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>+</button>
                             </div>
-                            <button onClick={() => handleAddToCart(product)} disabled={(product.stock ?? 0) === 0} style={{ flex: 1, border: 'none', background: (product.stock ?? 0) > 0 ? 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)' : '#cbd5e1', color: 'white', borderRadius: '10px', padding: '10px 15px', cursor: (product.stock ?? 0) > 0 ? 'pointer' : 'not-allowed', fontSize: '13px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', boxShadow: (product.stock ?? 0) > 0 ? '0 4px 12px rgba(197, 48, 48, 0.3)' : 'none' }}>
+                            <button onClick={() => handleAddToCart(product)} disabled={(product.stock ?? 0) === 0} style={{ flex: 1, border: 'none', background: (product.stock ?? 0) > 0 ? 'linear-gradient(135deg, #c53030 0%, #9b2c2c 100%)' : '#cbd5e1', color: 'white', borderRadius: '10px', padding: '10px 15px', cursor: (product.stock ?? 0) > 0 ? 'pointer' : 'not-allowed', fontSize: '15px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', boxShadow: (product.stock ?? 0) > 0 ? '0 4px 12px rgba(197, 48, 48, 0.3)' : 'none' }}>
                               <i className="fas fa-shopping-cart"></i> Ajouter
                             </button>
                           </div>

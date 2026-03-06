@@ -68,7 +68,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <span style={{
             position: 'absolute',
             top: '12px',
-            right: '12px',
+            left: '12px',
             background: '#1a365d',
             color: 'white',
             padding: '6px 10px',
@@ -80,7 +80,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
         )}
 
-        {/* Favorite Button */}
+        {/* Favorite Button */
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -90,12 +90,13 @@ export default function ProductCard({ product }: ProductCardProps) {
               addFavorite(product._id);
             }
           }}
+          className="favorite-btn-mobile"
           style={{
             position: 'absolute',
-            bottom: '12px',
+            top: '10px',
             right: '12px',
-            width: '38px',
-            height: '38px',
+            width: '40px',
+            height: '40px',
             borderRadius: '50%',
             border: '1px solid rgba(255,255,255,0.5)',
             background: isFav ? '#fee2e2' : 'rgba(255,255,255,0.9)',
@@ -107,14 +108,14 @@ export default function ProductCard({ product }: ProductCardProps) {
             backdropFilter: 'blur(8px)',
             WebkitBackdropFilter: 'blur(8px)',
             transition: 'all 0.2s ease',
-            zIndex: 5
+            zIndex: 10
           }}
         >
           <i
             className={isFav ? 'fas fa-heart' : 'far fa-heart'}
             style={{
               color: isFav ? '#dc2626' : '#64748b',
-              fontSize: '14px'
+              fontSize: '16px'
             }}
           ></i>
         </button>
